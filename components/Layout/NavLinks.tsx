@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { BillboardIcon, DashboardIcon, PackageIcon, SettingsIcon, ShirtIcon } from '@/components/Icons';
 import { Link } from '@/components/Link';
@@ -9,7 +9,13 @@ import { cn } from '@/lib/utils';
 
 import { CategoryIcon } from '../Icons/CategoryIcon';
 
-export const NavLinks = ({ alignment = 'horizontal' }: { alignment: 'horizontal' | 'vertical' }) => {
+export const NavLinks = ({
+  alignment = 'horizontal',
+  onClose,
+}: {
+  alignment: 'horizontal' | 'vertical';
+  onClose?: Dispatch<SetStateAction<boolean>>;
+}) => {
   const pathname = usePathname();
   const links = [
     {
@@ -50,6 +56,7 @@ export const NavLinks = ({ alignment = 'horizontal' }: { alignment: 'horizontal'
         {links.map((link) => (
           <Link
             href={link.href}
+            onClick={() => onClose && onClose(false)}
             className={cn(
               'w-full gap-2',
               alignment === 'vertical' && 'w-full text-start',
