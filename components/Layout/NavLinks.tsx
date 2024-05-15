@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-import { DashboardIcon, PackageIcon, SettingsIcon, ShirtIcon } from '@/components/Icons';
+import { BillboardIcon, DashboardIcon, PackageIcon, SettingsIcon, ShirtIcon } from '@/components/Icons';
 import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -14,6 +14,11 @@ export const NavLinks = ({ alignment = 'horizontal' }: { alignment: 'horizontal'
       label: 'Dashboard',
       href: `/dashboard`,
       icon: DashboardIcon,
+    },
+    {
+      label: 'Billboards',
+      href: `/dashboard/billboards`,
+      icon: BillboardIcon,
     },
     {
       label: 'Products',
