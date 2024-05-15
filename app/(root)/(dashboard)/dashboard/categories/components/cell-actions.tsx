@@ -35,7 +35,7 @@ export const CellActions = ({ data }: CellActionsProps) => {
       const category = await deleteCategory(id as string);
       if (category.status === 200) {
         toast.success(category.message);
-        router.push('/dashboard/categories');
+        router.refresh();
       } else {
         toast.error(category.message);
       }

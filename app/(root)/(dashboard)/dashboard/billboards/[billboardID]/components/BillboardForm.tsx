@@ -70,6 +70,7 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
     } finally {
       setIsLoading(false);
       setIsCreated(true);
+      router.refresh();
     }
   }
 
@@ -88,6 +89,7 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
     } finally {
       setIsLoading(false);
       setOpen(false);
+      router.refresh();
     }
   }
 

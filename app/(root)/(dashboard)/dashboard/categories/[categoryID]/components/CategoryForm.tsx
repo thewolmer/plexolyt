@@ -71,6 +71,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
     } finally {
       setIsLoading(false);
       setIsCreated(true);
+      router.refresh();
     }
   }
 
@@ -89,6 +90,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
     } finally {
       setIsLoading(false);
       setOpen(false);
+      router.refresh();
     }
   }
 

@@ -35,7 +35,7 @@ export const CellActions = ({ data }: CellActionsProps) => {
       const billboard = await deleteBillboard(id as string);
       if (billboard.status === 200) {
         toast.success(billboard.message);
-        router.push('/dashboard/billboards');
+        router.refresh();
       } else {
         toast.error(billboard.message);
       }
