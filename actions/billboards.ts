@@ -109,5 +109,3 @@ export const updateBillboard = async (billboardID: string, formData: { label: st
     return { message: 'Something went wrong!', status: 500 };
   }
 };
-
-export const dynamic = 'force-dynamic';
