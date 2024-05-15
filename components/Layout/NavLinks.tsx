@@ -7,6 +7,8 @@ import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+import { CategoryIcon } from '../Icons/CategoryIcon';
+
 export const NavLinks = ({ alignment = 'horizontal' }: { alignment: 'horizontal' | 'vertical' }) => {
   const pathname = usePathname();
   const links = [
@@ -19,6 +21,11 @@ export const NavLinks = ({ alignment = 'horizontal' }: { alignment: 'horizontal'
       label: 'Billboards',
       href: `/dashboard/billboards`,
       icon: BillboardIcon,
+    },
+    {
+      label: 'Categories',
+      href: `/dashboard/categories`,
+      icon: CategoryIcon,
     },
     {
       label: 'Products',

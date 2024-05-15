@@ -1,4 +1,5 @@
 'use server';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -7,7 +8,7 @@ import db from '@/lib/db';
 export const getAllBillboards = async () => {
   try {
     const billboard = await db.billboard.findMany({});
-    return { status: 200, message: 'Billboard created successfully!', data: billboard };
+    return { status: 200, data: billboard };
   } catch (e) {
     console.log('[action:getAllBillboards]', e);
     return { message: 'Something went wrong!', status: 500 };
@@ -51,6 +52,7 @@ export const createBillboard = async (formData: { label: string; imageUrl: strin
         ...parsedData,
       },
     });
+    revalidatePath('/');
     return { status: 200, message: 'Billboard created successfully!', data: billboard };
   } catch (e) {
     console.log('[action:createBillboard]', e);
@@ -70,6 +72,7 @@ export const deleteBillboard = async (billboardID: string) => {
         id: billboardID,
       },
     });
+    revalidatePath('/');
     return { status: 200, message: 'Billboard deleted successfully!', data: billboard };
   } catch (e) {
     console.log('[action:deleteBillboard]', e);
@@ -99,6 +102,7 @@ export const updateBillboard = async (billboardID: string, formData: { label: st
         ...parsedData,
       },
     });
+    revalidatePath('/');
     return { status: 200, message: 'Billboard updated successfully!', data: billboard };
   } catch (e) {
     console.log('[action:updateBillboard]', e);
