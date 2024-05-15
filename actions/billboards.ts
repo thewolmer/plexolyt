@@ -76,7 +76,7 @@ export const deleteBillboard = async (billboardID: string) => {
     return { status: 200, message: 'Billboard deleted successfully!', data: billboard };
   } catch (e) {
     console.log('[action:deleteBillboard]', e);
-    return { message: 'Something went wrong!', status: 500 };
+    return { message: 'This billboard is related to some other entity. This cant be deleted.', status: 500 };
   }
 };
 

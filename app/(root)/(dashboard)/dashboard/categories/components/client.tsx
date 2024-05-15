@@ -20,7 +20,7 @@ export const CategoriesClient = ({ formattedCategory }: { formattedCategory: Cat
         </Link>
       </Header>
       <section className="mx-auto max-w-6xl p-10 md:py-10">
-        <DataTable searchKey="label" columns={columns} data={formattedCategory as CategoryColumn[]} />
+        <DataTable searchKey="name" columns={columns} data={formattedCategory as CategoryColumn[]} />
       </section>
     </>
   );

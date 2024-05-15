@@ -1,6 +1,6 @@
 export const revalidatePath = (path: string) => {
   console.log('Revalidating path:', path);
-  fetch('/api/revalidate', {
+  fetch(`${process.env.AUTH_TRUST_HOST}/api/revalidate`, {
     method: 'POST',
   });
 };

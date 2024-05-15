@@ -66,7 +66,6 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
         }
       }
     } catch (e) {
-      console.log(e);
       toast.error('Something went wrong while creating the billboard');
     } finally {
       setIsLoading(false);
@@ -85,7 +84,7 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
         toast.error(billboard.message);
       }
     } catch (e) {
-      console.log(e);
+      toast.error('Something went wrong while deleting the billboard');
     } finally {
       setIsLoading(false);
       setOpen(false);

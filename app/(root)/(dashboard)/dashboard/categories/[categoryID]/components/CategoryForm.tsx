@@ -67,7 +67,6 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
         }
       }
     } catch (e) {
-      console.log(e);
       toast.error('Something went wrong while creating the category');
     } finally {
       setIsLoading(false);
