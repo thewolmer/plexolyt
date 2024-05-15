@@ -1,9 +1,9 @@
 'use server';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
+import { revalidatePath } from '@/utils/Revalidate';
 
 export const getAllBillboards = async () => {
   try {
@@ -109,3 +109,5 @@ export const updateBillboard = async (billboardID: string, formData: { label: st
     return { message: 'Something went wrong!', status: 500 };
   }
 };
+
+export const dynamic = 'force-dynamic';

@@ -1,9 +1,8 @@
-'use server';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
+import { revalidatePath } from '@/utils/Revalidate';
 
 export const getAllCategories = async () => {
   try {
