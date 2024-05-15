@@ -5,6 +5,8 @@ import { auth } from '@/auth';
 import db from '@/lib/db';
 import { revalidatePath } from '@/utils/Revalidate';
 
+export const revalidate = 0;
+
 export const getAllCategories = async () => {
   try {
     const category = await db.category.findMany({

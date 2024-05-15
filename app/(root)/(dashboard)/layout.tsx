@@ -8,3 +8,5 @@ export default async function DashboardLayout({ children }: { children: React.Re
     </>
   );
 }
+
+export const dynamic = 'force-dynamic';
