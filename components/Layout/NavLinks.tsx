@@ -3,11 +3,10 @@ import { usePathname } from 'next/navigation';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { BillboardIcon, DashboardIcon, PackageIcon, SettingsIcon, ShirtIcon } from '@/components/Icons';
+import { CategoryIcon } from '@/components/Icons/CategoryIcon';
 import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
-import { CategoryIcon } from '../Icons/CategoryIcon';
 
 export const NavLinks = ({
   alignment = 'horizontal',

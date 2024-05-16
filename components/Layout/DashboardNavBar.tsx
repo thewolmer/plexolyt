@@ -2,13 +2,11 @@
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
+import { NavLinks } from '@/components/Layout/NavLinks';
+import { ThemeSwitcher } from '@/components/Layout/ThemeSwitcher';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-
-import { Button } from '../ui/button';
-
-import { NavLinks } from './NavLinks';
-import { ThemeSwitcher } from './ThemeSwitcher';
 
 export const DashboardNavBar = () => {
   const [open, setOpen] = useState(false);
