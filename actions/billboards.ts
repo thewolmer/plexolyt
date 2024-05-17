@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
+import { billboardFormSchema as formSchema } from '@/prisma/form-schema';
 import { revalidatePath } from '@/utils/Revalidate';
 
 export const getAllBillboards = async () => {
@@ -33,16 +34,12 @@ export const getBillboardByID = async (billboardID: string) => {
   }
 };
 
-export const createBillboard = async (formData: { label: string; imageUrl: string }) => {
+export const createBillboard = async (formData: z.infer<typeof formSchema>) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
   }
   try {
-    const formSchema = z.object({
-      label: z.string().min(2).max(50),
-      imageUrl: z.string().min(2),
-    });
     const parsedData = formSchema.parse(formData);
     if (parsedData instanceof Error) {
       return { message: 'Invalid form data!', status: 400 };
@@ -80,16 +77,12 @@ export const deleteBillboard = async (billboardID: string) => {
   }
 };
 
-export const updateBillboard = async (billboardID: string, formData: { label: string; imageUrl: string }) => {
+export const updateBillboard = async (billboardID: string, formData: z.infer<typeof formSchema>) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
   }
   try {
-    const formSchema = z.object({
-      label: z.string().min(2).max(50),
-      imageUrl: z.string().min(2),
-    });
     const parsedData = formSchema.parse(formData);
     if (parsedData instanceof Error) {
       return { message: 'Invalid form data!', status: 400 };

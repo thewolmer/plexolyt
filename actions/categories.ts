@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
+import { categoryFormSchema as formSchema } from '@/prisma/form-schema';
 import { revalidatePath } from '@/utils/Revalidate';
 
 export const getAllCategories = async () => {
@@ -37,16 +38,12 @@ export const getCategoryByID = async (categoryID: string) => {
   }
 };
 
-export const createCategory = async (formData: { name: string; billboardID: string }) => {
+export const createCategory = async (formData: z.infer<typeof formSchema>) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
   }
   try {
-    const formSchema = z.object({
-      name: z.string().min(2).max(50),
-      billboardID: z.string().min(2).max(50),
-    });
     const parsedData = formSchema.parse(formData);
     if (parsedData instanceof Error) {
       return { message: 'Invalid form data!', status: 400 };
@@ -85,16 +82,12 @@ export const deleteCategory = async (categoryID: string) => {
   }
 };
 
-export const updateCategory = async (categoryID: string, formData: { name: string; billboardID: string }) => {
+export const updateCategory = async (categoryID: string, formData: z.infer<typeof formSchema>) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
   }
   try {
-    const formSchema = z.object({
-      name: z.string().min(2).max(50),
-      billboardID: z.string().min(2),
-    });
     const parsedData = formSchema.parse(formData);
     if (parsedData instanceof Error) {
       return { message: 'Invalid form data!', status: 400 };
