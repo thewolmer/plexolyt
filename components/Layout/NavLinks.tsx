@@ -1,11 +1,29 @@
 'use client';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { BillboardIcon, DashboardIcon, PackageIcon, SettingsIcon, ShirtIcon } from '@/components/Icons';
+import {
+  BillboardIcon,
+  DashboardEditIcon,
+  DashboardIcon,
+  DiameterIcon,
+  PackageIcon,
+  PaintBoardIcon,
+  SettingsIcon,
+  ShirtIcon,
+  TapeMeasureIcon,
+} from '@/components/Icons';
 import { CategoryIcon } from '@/components/Icons/CategoryIcon';
 import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
 export const NavLinks = ({
@@ -16,21 +34,12 @@ export const NavLinks = ({
   onClose?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const links = [
     {
       label: 'Dashboard',
       href: `/dashboard`,
       icon: DashboardIcon,
-    },
-    {
-      label: 'Billboards',
-      href: `/dashboard/billboards`,
-      icon: BillboardIcon,
-    },
-    {
-      label: 'Categories',
-      href: `/dashboard/categories`,
-      icon: CategoryIcon,
     },
     {
       label: 'Products',
@@ -46,6 +55,34 @@ export const NavLinks = ({
       label: 'Settings',
       href: `/dashboard/settings`,
       icon: SettingsIcon,
+    },
+  ];
+
+  const attributeLinks = [
+    {
+      label: 'Billboards',
+      href: `/dashboard/billboards`,
+      icon: BillboardIcon,
+    },
+    {
+      label: 'Categories',
+      href: `/dashboard/categories`,
+      icon: CategoryIcon,
+    },
+    {
+      label: 'Colors',
+      href: `/dashboard/colors`,
+      icon: PaintBoardIcon,
+    },
+    {
+      label: 'Lengths',
+      href: `/dashboard/lengths`,
+      icon: TapeMeasureIcon,
+    },
+    {
+      label: 'Widths',
+      href: `/dashboard/widths`,
+      icon: DiameterIcon,
     },
   ];
 
@@ -71,10 +108,49 @@ export const NavLinks = ({
               <link.icon
                 className={cn('h-5 w-5', pathname === link.href ? 'text-foreground' : 'text-muted-foreground')}
               />
-            )}{' '}
+            )}
             {link.label}
           </Link>
         ))}
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={cn(
+              'w-full gap-2',
+              alignment === 'vertical' && 'w-full text-start',
+              'text-muted-foreground',
+              buttonVariants({
+                variant: 'outline',
+              }),
+            )}
+          >
+            <DashboardEditIcon className="h-5 w-5" /> Edit Store
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-32">
+            <DropdownMenuLabel>Edit Property</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {attributeLinks.map((link) => (
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push(link.href);
+                  onClose && onClose(false);
+                }}
+                className={cn(
+                  'gap-2',
+                  pathname === link.href ? 'text-foreground' : 'text-muted-foreground',
+                  pathname === link.href && 'bg-muted/50',
+                )}
+                key={link.label}
+              >
+                {link.icon && (
+                  <link.icon
+                    className={cn('h-5 w-5', pathname === link.href ? 'text-foreground' : 'text-muted-foreground')}
+                  />
+                )}{' '}
+                {link.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </ul>
     </div>
   );

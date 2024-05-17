@@ -14,3 +14,7 @@ export * from './MoreIcon';
 export * from './CopyIcon';
 export * from './UpdateIcon';
 export * from './BillboardIcon';
+export * from './TapeMeasureIcon';
+export * from './PaintBoardIcon';
+export * from './DiameterIcon';
+export * from './DashboardEditIcon';

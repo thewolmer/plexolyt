@@ -1,31 +1,31 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Billboard } from '@prisma/client';
+import { Width } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { createBillboard, deleteBillboard, updateBillboard } from '@/actions/billboards';
 import { BinIcon } from '@/components/Icons';
-import { ImageUpload } from '@/components/ImageUpload/ImageUpload';
 import { Header } from '@/components/Layout/Header';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { billboardFormSchema as formSchema } from '@/prisma/form-schema';
+import { widthFormSchema as formSchema } from '@/prisma/form-schema';
 
-interface BillboardFormProps {
-  initialValues: Billboard | null | undefined;
+import { createWidth, deleteWidth, updateWidth } from '@/actions/widths';
+
+interface WidthFormProps {
+  initialValues: Width | null | undefined;
 }
 
-export function BillboardForm({ initialValues }: BillboardFormProps) {
+export function WidthForm({ initialValues }: WidthFormProps) {
   const router = useRouter();
-  const title = initialValues ? 'Edit Billboard' : 'Create Billboard';
-  const description = initialValues ? 'Edit your billboard' : 'Create a new billboard';
+  const title = initialValues ? 'Edit Width' : 'Create Width';
+  const description = initialValues ? 'Edit your width' : 'Create a new width';
   const action = initialValues ? 'Save Changes' : 'Create';
   const [isLoading, setIsLoading] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
@@ -34,8 +34,7 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues || {
-      label: '',
-      imageUrl: '',
+      name: '',
     },
   });
 
@@ -43,22 +42,22 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
     setIsLoading(true);
     try {
       if (initialValues) {
-        const billboard = await updateBillboard(initialValues.id as string, values);
-        if (billboard.status === 200) {
-          toast.success(billboard.message);
+        const width = await updateWidth(initialValues.id as string, values);
+        if (width.status === 200) {
+          toast.success(width.message);
         } else {
-          toast.error(billboard.message);
+          toast.error(width.message);
         }
       } else {
-        const billboard = await createBillboard(values);
-        if (billboard.status === 200) {
-          toast.success(billboard.message);
+        const width = await createWidth(values);
+        if (width.status === 200) {
+          toast.success(width.message);
         } else {
-          toast.error(billboard.message);
+          toast.error(width.message);
         }
       }
     } catch (e) {
-      toast.error('Something went wrong while creating the billboard');
+      toast.error('Something went wrong while creating the width');
     } finally {
       setIsLoading(false);
       setIsCreated(true);
@@ -69,15 +68,15 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
   async function onDelete() {
     try {
       setIsLoading(true);
-      const billboard = await deleteBillboard(initialValues?.id as string);
-      if (billboard.status === 200) {
-        toast.success(billboard.message);
-        router.push('/dashboard/billboards');
+      const width = await deleteWidth(initialValues?.id as string);
+      if (width.status === 200) {
+        toast.success(width.message);
+        router.push('/dashboard/widths');
       } else {
-        toast.error(billboard.message);
+        toast.error(width.message);
       }
     } catch (e) {
-      toast.error('Something went wrong while deleting the billboard');
+      toast.error('Something went wrong while deleting the width');
     } finally {
       setIsLoading(false);
       setOpen(false);
@@ -98,35 +97,17 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=" mx-auto max-w-6xl space-y-8 p-10 md:py-10 ">
-          <FormField
-            control={form.control}
-            name="imageUrl"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Image </FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    onChange={(image) => field.onChange(image)}
-                    disabled={isLoading}
-                    initialValues={initialValues}
-                  />
-                </FormControl>
-                <FormDescription>Max Image Size 4MB</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="">
             <FormField
               control={form.control}
-              name="label"
+              name="name"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">
-                  <FormLabel>Label</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" placeholder="Label" {...field} />
+                    <Input autoComplete="off" placeholder="Name" {...field} />
                   </FormControl>
-                  <FormDescription>This will be shown below the billboard image.</FormDescription>
+                  <FormDescription>This will be shown to the users.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
