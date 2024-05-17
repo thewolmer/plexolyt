@@ -8,20 +8,20 @@ import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table';
 
-import { BillboardColumn, columns } from './columns';
+import { ProductColumn, columns } from './columns';
 
-export const BillboardClient = ({ formattedBillboards }: { formattedBillboards: BillboardColumn[] | undefined }) => {
+export const ProductClient = ({ formattedProducts }: { formattedProducts: ProductColumn[] | undefined }) => {
   const pathname = usePathname();
 
   return (
     <>
-      <Header title={`Billboards (${formattedBillboards?.length})`} description={'Manage your store billboards'}>
+      <Header title={`Products (${formattedProducts?.length})`} description={'Manage your store products'}>
         <Link href={`${pathname}/new`} className={buttonVariants({ variant: 'outline' })}>
           <PlusIcon className="mr-2 text-muted-foreground" /> Add New
         </Link>
       </Header>
       <section className="mx-auto max-w-6xl p-10 md:py-10">
-        <DataTable searchKey="label" columns={columns} data={formattedBillboards as BillboardColumn[]} />
+        <DataTable searchKey="label" columns={columns} data={formattedProducts as ProductColumn[]} />
       </section>
     </>
   );

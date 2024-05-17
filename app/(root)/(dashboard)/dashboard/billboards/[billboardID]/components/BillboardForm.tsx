@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 import { createBillboard, deleteBillboard, updateBillboard } from '@/actions/billboards';
 import { BinIcon } from '@/components/Icons';
-import { ImageUpload } from '@/components/ImageUpload/ImageUpload';
+import { BillboardImageUpload } from '@/components/ImageUpload/BillboardImageUpload';
 import { Header } from '@/components/Layout/Header';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
@@ -105,7 +105,7 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
               <FormItem className="w-full">
                 <FormLabel>Image </FormLabel>
                 <FormControl>
-                  <ImageUpload
+                  <BillboardImageUpload
                     onChange={(image) => field.onChange(image)}
                     disabled={isLoading}
                     initialValues={initialValues}

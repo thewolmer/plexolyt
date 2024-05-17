@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
 
-import { deleteBillboard } from '@/actions/billboards';
+import { deleteProduct } from '@/actions/products';
 import { BinIcon, CopyIcon, MoreIcon, UpdateIcon } from '@/components/Icons';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import {
@@ -17,10 +17,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Copy } from '@/utils/Copy';
 
-import { BillboardColumn } from './columns';
+import { ProductColumn } from './columns';
 
 interface CellActionsProps {
-  data: BillboardColumn;
+  data: ProductColumn;
 }
 export const CellActions = ({ data }: CellActionsProps) => {
   const router = useRouter();
@@ -32,12 +32,12 @@ export const CellActions = ({ data }: CellActionsProps) => {
   async function onDelete(id: string) {
     try {
       setIsLoading(true);
-      const billboard = await deleteBillboard(id as string);
-      if (billboard.status === 200) {
-        toast.success(billboard.message);
+      const product = await deleteProduct(id as string);
+      if (product.status === 200) {
+        toast.success(product.message);
         router.refresh();
       } else {
-        toast.error(billboard.message);
+        toast.error(product.message);
       }
     } catch (e) {
       console.log(e);

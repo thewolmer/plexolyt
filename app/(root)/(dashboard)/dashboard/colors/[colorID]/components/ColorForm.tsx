@@ -121,7 +121,7 @@ export function ColorForm({ initialValues }: ColorFormProps) {
                   <FormLabel>Color Hex</FormLabel>
                   <FormControl>
                     <Input
-                      style={{ borderColor: hexValue || 'transparent', borderWidth: '2px' }}
+                      style={{ borderColor: hexValue || '', borderWidth: '2px' }}
                       autoComplete="off"
                       placeholder="#000000"
                       {...field}

@@ -1,5 +1,4 @@
 'use client';
-import { Billboard } from '@prisma/client';
 import { useDropzone } from '@uploadthing/react';
 import { CheckIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
@@ -16,13 +15,11 @@ import { Button } from '../ui/button';
 
 interface ImageUploadProps {
   disabled: boolean;
-  onChange: (value: string) => void;
-  // onRemove: (value: string) => void;
-  // value: string[];
-  initialValues?: Billboard | null;
+  onChange: (value: { url: string }[]) => void;
+  initialValues?: { images: { id: string; imageUrl: string }[] } | null;
 }
 
-export const ImageUpload = ({ disabled, onChange, initialValues }: ImageUploadProps) => {
+export const ProductsImageUpload = ({ disabled, onChange, initialValues }: ImageUploadProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -38,12 +35,13 @@ export const ImageUpload = ({ disabled, onChange, initialValues }: ImageUploadPr
       };
       reader.readAsDataURL(file);
     });
-    console.log('acceptedFiles var', acceptedFiles);
   }, []);
 
-  const { startUpload, permittedFileInfo } = useUploadThing('billboardUploader', {
-    onUploadError: () => {
-      toast.error('Error uploading image');
+  const { startUpload, permittedFileInfo } = useUploadThing('productsUploader', {
+    onUploadError: (e) => {
+      toast.error(`Error uploading image (${e.code})`, {
+        description: e.message,
+      });
     },
     onClientUploadComplete: () => {
       toast.success('Image uploaded successfully');
@@ -55,9 +53,10 @@ export const ImageUpload = ({ disabled, onChange, initialValues }: ImageUploadPr
     if (!files.length) return toast.error('Please select an image');
     setUploading(true);
     try {
-      const image = await startUpload(files);
-      if (image) {
-        onChange(image[0].url);
+      const images = await startUpload(files);
+      if (images) {
+        const imageUrls = images.map((img) => ({ url: img.url }));
+        onChange(imageUrls);
       }
     } catch (e) {
       console.log('error uploading image', e);
@@ -79,9 +78,11 @@ export const ImageUpload = ({ disabled, onChange, initialValues }: ImageUploadPr
     return (
       <div className="flex w-full">
         <div className="flex flex-wrap px-10">
-          <div className="relative mb-4 mr-4 flex rounded-lg border">
-            <Image src={initialValues.imageUrl} alt="image" width={250} height={250} className="h-60 w-auto" />
-          </div>
+          {initialValues.images.map((img) => (
+            <div key={img.id} className="relative mb-4 mr-4 flex rounded-lg border">
+              <Image src={img.imageUrl} alt={img.id} width={250} height={250} className="h-60 w-auto" />
+            </div>
+          ))}
         </div>
       </div>
     );

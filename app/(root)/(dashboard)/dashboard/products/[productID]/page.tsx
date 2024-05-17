@@ -1,16 +1,32 @@
 import React from 'react';
 
-import { getBillboardByID } from '@/actions/billboards';
+import { getAllCategories } from '@/actions/categories';
+import { getAllColors } from '@/actions/colors';
+import { getAllLengths } from '@/actions/lengths';
+import { getProductByID } from '@/actions/products';
+import { getAllWidths } from '@/actions/widths';
 
-import { BillboardForm } from './components/BillboardForm';
+import { ProductForm } from './components/ProductForm';
 
-const BillboardPage = async ({ params }: { params: { billboardID: string } }) => {
-  const billboard = await getBillboardByID(params.billboardID);
+const ProductPage = async ({ params }: { params: { productID: string } }) => {
+  const [product, categories, colors, lengths, widths] = await Promise.all([
+    getProductByID({ productID: params.productID, include: { images: true } }),
+    getAllCategories(),
+    getAllColors(),
+    getAllLengths(),
+    getAllWidths(),
+  ]);
   return (
     <main>
-      <BillboardForm initialValues={billboard.data} />
+      <ProductForm
+        initialValues={product.data}
+        categories={categories.data}
+        colors={colors.data}
+        lengths={lengths.data}
+        widths={widths.data}
+      />
     </main>
   );
 };
 
-export default BillboardPage;
+export default ProductPage;

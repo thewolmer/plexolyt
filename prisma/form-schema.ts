@@ -38,3 +38,38 @@ export const widthFormSchema = z.object({
     message: 'Name must be at least 1 characters.',
   }),
 });
+
+export const productFormSchema = z.object({
+  name: z.string().min(2, {
+    message: 'Name must be at least 2 characters.',
+  }),
+  description: z
+    .string()
+    .min(2, {
+      message: 'Name must be at least 2 characters.',
+    })
+    .max(500, {
+      message: 'Description must be at most 500 characters.',
+    }),
+  price: z.string().min(1, {
+    message: 'Price must be at least 1 characters.',
+  }),
+  stock: z.string().min(1, {
+    message: 'Price must be at least 1 characters.',
+  }),
+  categoryId: z.string().min(2, {
+    message: 'Category must be selected.',
+  }),
+  colorId: z.string().min(2, {
+    message: 'Color must be selected.',
+  }),
+  lengthId: z.string().min(2, {
+    message: 'Length must be selected.',
+  }),
+  widthId: z.string().min(2, {
+    message: 'Width must be selected.',
+  }),
+  isArchived: z.boolean(),
+  isFeatured: z.boolean(),
+  images: z.object({ url: z.string() }).array(),
+});

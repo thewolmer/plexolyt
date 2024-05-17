@@ -1,24 +1,33 @@
 import { format } from 'date-fns/format';
 import React from 'react';
 
-import { getAllBillboards } from '@/actions/billboards';
+import { getAllProducts } from '@/actions/products';
+import { formatCurrency } from '@/utils/formatter';
 
-import { BillboardClient } from './components/client';
-import { BillboardColumn } from './components/columns';
+import { ProductClient } from './components/client';
+import { ProductColumn } from './components/columns';
 
-const BillboardsPage = async () => {
-  const { data } = await getAllBillboards();
-  const formattedBillboards: BillboardColumn[] | undefined = data?.map((billboard) => ({
-    id: billboard.id,
-    label: billboard.label,
-    createdAt: format(billboard.createdAt, 'MMM do, yyyy'),
+const ProductsPage = async () => {
+  const { data } = await getAllProducts({ include: { category: true, color: true, length: true, width: true } });
+  const formattedProducts: ProductColumn[] | undefined = data?.map((product) => ({
+    id: product.id,
+    name: product.name,
+    isArchived: product.isArchived,
+    isFeatured: product.isFeatured,
+    price: formatCurrency(product.price),
+    stock: product.stock,
+    category: product.category.name,
+    color: product.color.hex,
+    length: product.length.name,
+    width: product.width.name,
+    createdAt: format(product.createdAt, 'MMM do, yyyy'),
   }));
 
   return (
     <main>
-      <BillboardClient formattedBillboards={formattedBillboards} />
+      <ProductClient formattedProducts={formattedProducts} />
     </main>
   );
 };
 
-export default BillboardsPage;
+export default ProductsPage;
