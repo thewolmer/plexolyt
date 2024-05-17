@@ -19,7 +19,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { productFormSchema as formSchema } from '@/prisma/form-schema';
+import { productFormSchema as formSchema } from '@/prisma/form-schema.client';
 
 export interface ProductFormProps {
   initialValues: ProductFormValues | null | undefined;
@@ -254,7 +254,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
                     </FormControl>
                     <SelectContent>
                       {lengths?.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
+                        <SelectItem key={item.id} value={item.slug}>
                           {item.name}
                         </SelectItem>
                       ))}
@@ -279,7 +279,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
                     </FormControl>
                     <SelectContent>
                       {widths?.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
+                        <SelectItem key={item.id} value={item.slug}>
                           {item.name}
                         </SelectItem>
                       ))}

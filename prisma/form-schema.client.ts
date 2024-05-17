@@ -13,6 +13,7 @@ export const billboardFormSchema = z.object({
   label: z.string().min(2, {
     message: 'Label must be at least 2 characters.',
   }),
+
   imageUrl: z.string().min(2, {
     message: 'Upload an image for the category.',
   }),
@@ -22,9 +23,18 @@ export const categoryFormSchema = z.object({
   name: z.string().min(2, {
     message: 'Name must be at least 2 characters.',
   }),
+
   billboardID: z.string().min(2, {
     message: 'Billboard must be selected.',
   }),
+  description: z
+    .string()
+    .min(2, {
+      message: 'Description must be at least 2 characters.',
+    })
+    .max(60, {
+      message: 'Description must be at most 60 characters.',
+    }),
 });
 
 export const lengthFormSchema = z.object({

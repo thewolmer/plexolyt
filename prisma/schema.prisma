@@ -15,7 +15,8 @@ datasource db {
 
 model Billboard {
   id         String     @id @default(cuid()) @map("_id")
-  label      String
+  slug       String     @unique
+  label      String     @unique
   imageUrl   String
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
@@ -24,7 +25,9 @@ model Billboard {
 
 model Category {
   id          String    @id @default(cuid()) @map("_id")
-  name        String
+  slug        String    @unique
+  name        String    @unique
+  description String
   billboardId String
   billboard   Billboard @relation(fields: [billboardId], references: [id])
   createdAt   DateTime  @default(now())
@@ -34,7 +37,8 @@ model Category {
 
 model Color {
   id        String    @id @default(cuid()) @map("_id")
-  name      String
+  slug      String    @unique
+  name      String    @unique
   hex       String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -43,7 +47,8 @@ model Color {
 
 model Length {
   id        String    @id @default(cuid()) @map("_id")
-  name      String
+  slug      String    @unique
+  name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
@@ -51,31 +56,33 @@ model Length {
 
 model Width {
   id        String    @id @default(cuid()) @map("_id")
-  name      String
+  slug      String    @unique
+  name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
 }
 
 model Product {
-  id          String         @id @default(cuid()) @map("_id")
-  name        String
-  price       String
-  stock       String
-  description String
-  categoryId  String
-  category    Category       @relation(fields: [categoryId], references: [id])
-  colorId     String
-  color       Color          @relation(fields: [colorId], references: [id])
-  lengthId    String
-  length      Length         @relation(fields: [lengthId], references: [id])
-  widthId     String
-  width       Width          @relation(fields: [widthId], references: [id])
-  isFeatured  Boolean        @default(false)
-  isArchived  Boolean        @default(false)
-  images      ProductImage[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id           String         @id @default(cuid()) @map("_id")
+  slug         String         @unique
+  name         String         @unique
+  price        String
+  stock        String
+  description  String
+  categorySlug String
+  category     Category       @relation(fields: [categorySlug], references: [slug])
+  colorSlug    String
+  color        Color          @relation(fields: [colorSlug], references: [slug])
+  lengthSlug   String
+  length       Length         @relation(fields: [lengthSlug], references: [slug])
+  widthSlug    String
+  width        Width          @relation(fields: [widthSlug], references: [slug])
+  isFeatured   Boolean        @default(false)
+  isArchived   Boolean        @default(false)
+  images       ProductImage[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 model ProductImage {

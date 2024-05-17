@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
-import { lengthFormSchema as formSchema } from '@/prisma/form-schema';
+import { lengthFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
+import { slugify } from '@/utils/Slugify';
 
 export const getAllLengths = async () => {
   try {
@@ -47,6 +48,7 @@ export const createLength = async (formData: z.infer<typeof formSchema>) => {
     const length = await db.length.create({
       data: {
         ...parsedData,
+        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
@@ -93,6 +95,7 @@ export const updateLength = async (lengthID: string, formData: z.infer<typeof fo
       },
       data: {
         ...parsedData,
+        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');

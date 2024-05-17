@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
 
 const Providers = ({ children }: { children: ReactNode }) => (
   <>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <Toaster richColors />
       {children}
     </ThemeProvider>

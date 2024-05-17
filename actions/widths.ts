@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
-import { widthFormSchema as formSchema } from '@/prisma/form-schema';
+import { widthFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
+import { slugify } from '@/utils/Slugify';
 
 export const getAllWidths = async () => {
   try {
@@ -47,6 +48,7 @@ export const createWidth = async (formData: z.infer<typeof formSchema>) => {
     const width = await db.width.create({
       data: {
         ...parsedData,
+        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
@@ -93,6 +95,7 @@ export const updateWidth = async (widthID: string, formData: z.infer<typeof form
       },
       data: {
         ...parsedData,
+        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');

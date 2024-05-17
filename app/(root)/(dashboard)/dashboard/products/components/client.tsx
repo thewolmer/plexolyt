@@ -21,7 +21,7 @@ export const ProductClient = ({ formattedProducts }: { formattedProducts: Produc
         </Link>
       </Header>
       <section className="mx-auto max-w-6xl p-10 md:py-10">
-        <DataTable searchKey="label" columns={columns} data={formattedProducts as ProductColumn[]} />
+        <DataTable searchKey="name" columns={columns} data={formattedProducts as ProductColumn[]} />
       </section>
     </>
   );

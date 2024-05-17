@@ -1,13 +1,17 @@
 import { format } from 'date-fns/format';
 import React from 'react';
 
-import { getAllCategories } from '@/actions/categories';
+import db from '@/lib/db';
 
 import { CategoriesClient } from './components/client';
 import { CategoryColumn } from './components/columns';
 
 const CategoriesPage = async () => {
-  const { data } = await getAllCategories();
+  const data = await db.category.findMany({
+    include: {
+      billboard: true,
+    },
+  });
   const formattedCategory: CategoryColumn[] | undefined = data?.map((item) => ({
     id: item.id,
     name: item.name,

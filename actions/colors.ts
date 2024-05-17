@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
-import { colorFormSchema as formSchema } from '@/prisma/form-schema';
+import { colorFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
+import { slugify } from '@/utils/Slugify';
 
 export const getAllColors = async () => {
   try {
@@ -47,6 +48,7 @@ export const createColor = async (formData: z.infer<typeof formSchema>) => {
     const color = await db.color.create({
       data: {
         ...parsedData,
+        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
@@ -93,6 +95,7 @@ export const updateColor = async (colorID: string, formData: z.infer<typeof form
       },
       data: {
         ...parsedData,
+        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');

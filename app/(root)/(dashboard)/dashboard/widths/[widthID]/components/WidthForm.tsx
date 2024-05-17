@@ -8,15 +8,14 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import { createWidth, deleteWidth, updateWidth } from '@/actions/widths';
 import { BinIcon } from '@/components/Icons';
 import { Header } from '@/components/Layout/Header';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { widthFormSchema as formSchema } from '@/prisma/form-schema';
-
-import { createWidth, deleteWidth, updateWidth } from '@/actions/widths';
+import { widthFormSchema as formSchema } from '@/prisma/form-schema.client';
 
 interface WidthFormProps {
   initialValues: Width | null | undefined;

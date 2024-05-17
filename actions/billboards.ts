@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
-import { billboardFormSchema as formSchema } from '@/prisma/form-schema';
+import { billboardFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
+import { slugify } from '@/utils/Slugify';
 
 export const getAllBillboards = async () => {
   try {
@@ -47,6 +48,7 @@ export const createBillboard = async (formData: z.infer<typeof formSchema>) => {
     const billboard = await db.billboard.create({
       data: {
         ...parsedData,
+        slug: slugify(parsedData.label),
       },
     });
     revalidatePath('/');
@@ -93,6 +95,7 @@ export const updateBillboard = async (billboardID: string, formData: z.infer<typ
       },
       data: {
         ...parsedData,
+        slug: slugify(parsedData.label),
       },
     });
     revalidatePath('/');

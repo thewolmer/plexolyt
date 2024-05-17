@@ -16,7 +16,8 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { categoryFormSchema as formSchema } from '@/prisma/form-schema';
+import { Textarea } from '@/components/ui/textarea';
+import { categoryFormSchema as formSchema } from '@/prisma/form-schema.client';
 
 interface CategoryFormProps {
   initialValues: Category | null | undefined;
@@ -37,6 +38,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
     defaultValues: initialValues || {
       name: '',
       billboardID: '',
+      description: '',
     },
   });
 
@@ -99,7 +101,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=" mx-auto max-w-6xl space-y-8 p-10 md:py-10 ">
-          <div className="">
+          <div className="grid grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="name"
@@ -135,6 +137,22 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
                     </SelectContent>
                   </Select>
                   <FormDescription>This will be your category name.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className="md:col-span-3">
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Add a description about the category" className="" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This will be added to product description and will be shown in Google search results.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

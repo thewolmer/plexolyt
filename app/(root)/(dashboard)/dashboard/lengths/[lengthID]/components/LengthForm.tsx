@@ -15,7 +15,7 @@ import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { lengthFormSchema as formSchema } from '@/prisma/form-schema';
+import { lengthFormSchema as formSchema } from '@/prisma/form-schema.client';
 
 interface LengthFormProps {
   initialValues: Length | null | undefined;

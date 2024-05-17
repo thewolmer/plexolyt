@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 import { auth } from '@/auth';
 import db from '@/lib/db';
-import { productFormSchema as formSchema } from '@/prisma/form-schema';
+import { productFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
+import { slugify } from '@/utils/Slugify';
 
 type GetAllProductProps = {
   include: {
@@ -71,6 +72,7 @@ export const createProduct = async (formData: z.infer<typeof formSchema>) => {
     const product = await db.product.create({
       data: {
         name: formData.name,
+        slug: slugify(formData.name),
         description: formData.description,
         price: formData.price,
         stock: formData.stock,
@@ -127,6 +129,7 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
       },
       data: {
         name: formData.name,
+        slug: slugify(formData.name),
         description: formData.description,
         price: formData.price,
         stock: formData.stock,
