@@ -29,10 +29,10 @@ export const createCategory = async (formData: z.infer<typeof formSchema>) => {
     }
     const category = await db.category.create({
       data: {
+        id: slugify(parsedData.name),
         name: parsedData.name,
         description: parsedData.description,
-        billboardId: parsedData.billboardID,
-        slug: slugify(parsedData.name),
+        billboardId: parsedData.billboardId,
       },
     });
     revalidatePath('/');
@@ -43,16 +43,16 @@ export const createCategory = async (formData: z.infer<typeof formSchema>) => {
   }
 };
 
-export const deleteCategory = async (categoryID: string) => {
+export const deleteCategory = async (categoryId: string) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
   }
-  if (!categoryID) return { message: 'Invalid category ID!', status: 400 };
+  if (!categoryId) return { message: 'Invalid category ID!', status: 400 };
   try {
     const category = await db.category.delete({
       where: {
-        id: categoryID,
+        id: categoryId,
       },
     });
     revalidatePath('/');
@@ -63,7 +63,7 @@ export const deleteCategory = async (categoryID: string) => {
   }
 };
 
-export const updateCategory = async (categoryID: string, formData: z.infer<typeof formSchema>) => {
+export const updateCategory = async (categoryId: string, formData: z.infer<typeof formSchema>) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
@@ -75,11 +75,10 @@ export const updateCategory = async (categoryID: string, formData: z.infer<typeo
     }
     const category = await db.category.update({
       where: {
-        id: categoryID,
+        id: categoryId,
       },
       data: {
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');

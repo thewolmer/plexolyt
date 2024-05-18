@@ -71,8 +71,8 @@ export const createProduct = async (formData: z.infer<typeof formSchema>) => {
   try {
     const product = await db.product.create({
       data: {
+        id: slugify(formData.name),
         name: formData.name,
-        slug: slugify(formData.name),
         description: formData.description,
         price: formData.price,
         stock: formData.stock,
@@ -129,7 +129,6 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
       },
       data: {
         name: formData.name,
-        slug: slugify(formData.name),
         description: formData.description,
         price: formData.price,
         stock: formData.stock,

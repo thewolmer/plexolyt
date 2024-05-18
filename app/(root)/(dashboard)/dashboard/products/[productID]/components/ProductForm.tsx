@@ -150,6 +150,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
           <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
             <FormField
               control={form.control}
+              disabled={initialValues ? true : false}
               name="name"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">
@@ -254,7 +255,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
                     </FormControl>
                     <SelectContent>
                       {lengths?.map((item) => (
-                        <SelectItem key={item.id} value={item.slug}>
+                        <SelectItem key={item.id} value={item.id}>
                           {item.name}
                         </SelectItem>
                       ))}
@@ -279,7 +280,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
                     </FormControl>
                     <SelectContent>
                       {widths?.map((item) => (
-                        <SelectItem key={item.id} value={item.slug}>
+                        <SelectItem key={item.id} value={item.id}>
                           {item.name}
                         </SelectItem>
                       ))}

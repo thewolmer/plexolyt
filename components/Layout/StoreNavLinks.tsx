@@ -85,7 +85,7 @@ export function StoreNavLinks() {
               </li>
 
               {categories?.map((category) => (
-                <ListItem key={category.id} href={category.name} title={category.name}>
+                <ListItem key={category.id} href={`/category/${category.id}`} title={category.name}>
                   {category.description}
                 </ListItem>
               ))}

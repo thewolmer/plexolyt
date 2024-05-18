@@ -47,8 +47,8 @@ export const createBillboard = async (formData: z.infer<typeof formSchema>) => {
     }
     const billboard = await db.billboard.create({
       data: {
+        id: slugify(parsedData.label),
         ...parsedData,
-        slug: slugify(parsedData.label),
       },
     });
     revalidatePath('/');
@@ -95,7 +95,6 @@ export const updateBillboard = async (billboardID: string, formData: z.infer<typ
       },
       data: {
         ...parsedData,
-        slug: slugify(parsedData.label),
       },
     });
     revalidatePath('/');

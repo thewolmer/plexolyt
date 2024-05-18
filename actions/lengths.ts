@@ -47,8 +47,8 @@ export const createLength = async (formData: z.infer<typeof formSchema>) => {
     }
     const length = await db.length.create({
       data: {
+        id: slugify(parsedData.name),
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
@@ -95,7 +95,6 @@ export const updateLength = async (lengthID: string, formData: z.infer<typeof fo
       },
       data: {
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');

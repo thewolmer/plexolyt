@@ -24,7 +24,7 @@ export const categoryFormSchema = z.object({
     message: 'Name must be at least 2 characters.',
   }),
 
-  billboardID: z.string().min(2, {
+  billboardId: z.string().min(2, {
     message: 'Billboard must be selected.',
   }),
   description: z

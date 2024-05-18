@@ -47,8 +47,8 @@ export const createColor = async (formData: z.infer<typeof formSchema>) => {
     }
     const color = await db.color.create({
       data: {
+        id: slugify(parsedData.name),
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
@@ -95,7 +95,6 @@ export const updateColor = async (colorID: string, formData: z.infer<typeof form
       },
       data: {
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');

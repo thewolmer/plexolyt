@@ -5,19 +5,21 @@ import db from '@/lib/db';
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const categorySlug = searchParams.get('category') || undefined;
-    const colorSlug = searchParams.get('color') || undefined;
-    const lengthSlug = searchParams.get('length') || undefined;
-    const widthSlug = searchParams.get('width') || undefined;
-    const isFeatured = searchParams.get('featured') === 'true';
+    console.log(searchParams);
+    const categoryId = searchParams.get('category') || undefined;
+    const colorId = searchParams.get('color') || undefined;
+    const lengthId = searchParams.get('length') || undefined;
+    const widthId = searchParams.get('width') || undefined;
+    const isFeatured = searchParams.get('featured');
 
     const products = await db.product.findMany({
       where: {
-        categorySlug,
-        colorSlug,
-        lengthSlug,
-        widthSlug,
-        isFeatured,
+        categoryId,
+        colorId,
+        lengthId,
+        widthId,
+        isFeatured: isFeatured === 'true' ? true : undefined,
+        isArchived: false,
       },
       include: {
         category: true,

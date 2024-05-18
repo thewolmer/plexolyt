@@ -99,6 +99,7 @@ export function LengthForm({ initialValues }: LengthFormProps) {
           <div className="">
             <FormField
               control={form.control}
+              disabled={initialValues ? true : false}
               name="name"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">

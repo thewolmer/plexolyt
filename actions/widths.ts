@@ -47,8 +47,8 @@ export const createWidth = async (formData: z.infer<typeof formSchema>) => {
     }
     const width = await db.width.create({
       data: {
+        id: slugify(parsedData.name),
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
@@ -95,7 +95,6 @@ export const updateWidth = async (widthID: string, formData: z.infer<typeof form
       },
       data: {
         ...parsedData,
-        slug: slugify(parsedData.name),
       },
     });
     revalidatePath('/');
