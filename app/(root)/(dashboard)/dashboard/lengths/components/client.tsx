@@ -21,7 +21,7 @@ export const LengthClient = ({ formattedLengths }: { formattedLengths: LengthCol
         </Link>
       </Header>
       <section className="mx-auto max-w-6xl p-10 md:py-10">
-        <DataTable searchKey="label" columns={columns} data={formattedLengths as LengthColumn[]} />
+        <DataTable searchKey="name" columns={columns} data={formattedLengths as LengthColumn[]} />
       </section>
     </>
   );

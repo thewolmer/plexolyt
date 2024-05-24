@@ -1,6 +1,10 @@
+import { notFound } from 'next/navigation';
 import React from 'react';
 
+import { AddToCartButton } from '@/components/AddToCartButton';
 import { Image } from '@/components/Image';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Separator } from '@/components/ui/separator';
 import db from '@/lib/db';
 
 const page = async ({ params }: { params: { productId: string } }) => {
@@ -17,13 +21,30 @@ const page = async ({ params }: { params: { productId: string } }) => {
     },
   });
   if (!product) {
-    return null;
+    return notFound();
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center p-4">
-      <div className="mx-auto flex w-full max-w-5xl flex-col md:flex-row">
-        <div className="md:w-1/2">
+    <div className="flex min-h-[90vh] w-full items-center justify-center p-4">
+      <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-10 md:flex-row">
+        <Carousel className="w-1/2">
+          <CarouselContent>
+            {product.images.map((image) => (
+              <CarouselItem key={image.id}>
+                <Image
+                  src={image.imageUrl}
+                  alt={product.name}
+                  className="w-full rounded-md shadow-md"
+                  width={720}
+                  height={720}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        {/* <div className="md:w-1/2">
           <Image
             src={product?.images[0].imageUrl}
             alt={product.name}
@@ -31,20 +52,39 @@ const page = async ({ params }: { params: { productId: string } }) => {
             width={720}
             height={720}
           />
-        </div>
+        </div> */}
         <div className="md:w-1/2 md:pl-8">
-          <h1 className="mb-2 text-3xl font-bold">{product.name}</h1>
-          <p className="mb-4 text-xl text-gray-700">${product.category.name}</p>
-          <div className="mb-4 flex items-center">
-            <div className="flex items-center text-yellow-500">stars</div>
+          <div className="my-4 space-y-2">
+            <h1 className=" text-3xl font-bold">{product.name}</h1>
+            <p className="text-sm text-gray-700">{product.category.name}</p>
           </div>
           <p className="mb-4 text-gray-600">{product.description}</p>
-          {/* <div className="mb-4">
-            <p className="text-green-500">{inStock ? 'In stock and ready to ship' : 'Out of stock'}</p>
-          </div> */}
-          <div className="mb-4">
-            <p className="mb-2 font-semibold">Size</p>
+          <div className="my-4 space-y-1">
+            <Separator />
+
+            <div className="flex items-center">
+              <p>Color:</p>
+              <div
+                className="ml-2 flex items-center rounded-full p-2"
+                style={{ backgroundColor: product.color.hex }}
+              ></div>
+              <p className="text-md ml-1 text-gray-600">{product.color.name}</p>
+            </div>
+            <Separator />
+
+            <div className="flex items-center">
+              <p>Length:</p>
+              <p className="text-md ml-2 text-gray-600">{product.length.name}</p>
+            </div>
+            <Separator />
+
+            <div className="flex items-center">
+              <p>Width:</p>
+              <p className="text-md ml-2 text-gray-600">{product.width.name}</p>
+            </div>
+            <Separator />
           </div>
+          <AddToCartButton data={product} />
         </div>
       </div>
     </div>

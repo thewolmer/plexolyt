@@ -1,0 +1,104 @@
+'use client';
+import React from 'react';
+
+import { Image } from '@/components/Image';
+import { Separator } from '@/components/ui/separator';
+import { SVGSkeleton, Skeleton } from '@/components/ui/skeleton';
+import { useCart } from '@/hooks/use-cart';
+import { useMounted } from '@/hooks/useMounted';
+import { formatCurrency } from '@/utils/formatter';
+
+import { CheckoutForm } from './components/CheckoutForm';
+
+const CheckoutPage = () => {
+  const cart = useCart();
+  const total = cart.items.reduce((acc, item) => acc + Number(item.price) * (item.quantity || 1), 0);
+  const isMounted = useMounted();
+
+  if (!cart || cart.items.length === 0) {
+    return (
+      <main className="flex h-[90vh] flex-col items-center justify-center p-10">
+        <h1 className="text-4xl font-bold">Your cart is empty.</h1>
+        <p>Add products to cart</p>
+      </main>
+    );
+  }
+  return (
+    <main>
+      <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>
+      <Separator />
+      <section className="flex w-full justify-between gap-5">
+        <div className="w-1/2 space-y-4 p-10">
+          <h2 className="text-2xl font-bold">Order Summary</h2>
+          <Separator />
+          {isMounted ? (
+            <div className="flex flex-col gap-5">
+              {cart.items.map((item) => (
+                <div key={item.id} className="flex justify-between">
+                  <div className="flex gap-5">
+                    <Image
+                      src={item.images[0].imageUrl}
+                      alt={item.name}
+                      className="h-20 w-20 rounded-2xl border object-cover shadow-xl"
+                      height={250}
+                      width={250}
+                    />
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-lg font-bold">{item.name}</h3>
+                      <div>
+                        <p className="text-sm">
+                          Color: {item.color.name} | Length: {item.length.name} | Width: {item.width.name}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className=" text-lg font-bold">{formatCurrency(item.price)}</p>
+                    <p className="text-sm">Qty: {item.quantity}</p>
+                  </div>
+                </div>
+              ))}
+
+              <Separator />
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Total</h3>
+                <p className="text-lg font-bold">{formatCurrency(total)}</p>
+              </div>
+            </div>
+          ) : (
+            [1, 2].map((i) => (
+              <div key={i} className="flex justify-between">
+                <div className="flex gap-5">
+                  <SVGSkeleton className="h-20 w-20 rounded-2xl border object-cover shadow-xl" />
+                  <div className="flex flex-col gap-2">
+                    <h3>
+                      <Skeleton className="w-[416px] max-w-full" />
+                    </h3>
+                    <div>
+                      <div>
+                        <Skeleton className="w-[400px] max-w-full" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div>
+                    <Skeleton className="w-[72px] max-w-full" />
+                  </div>
+                  <div>
+                    <Skeleton className="w-[48px] max-w-full" />
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        <div className="w-1/2 p-10">
+          <CheckoutForm items={cart.items} />
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default CheckoutPage;

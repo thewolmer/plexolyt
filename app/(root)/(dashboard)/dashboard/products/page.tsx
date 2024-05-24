@@ -15,7 +15,7 @@ const ProductsPage = async () => {
     isArchived: product.isArchived,
     isFeatured: product.isFeatured,
     price: formatCurrency(product.price),
-    stock: product.stock,
+    stock: Number(product.stock),
     category: product.category.name,
     color: product.color.hex,
     length: product.length.name,

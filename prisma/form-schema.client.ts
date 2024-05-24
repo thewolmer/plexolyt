@@ -83,3 +83,15 @@ export const productFormSchema = z.object({
   isFeatured: z.boolean(),
   images: z.object({ url: z.string() }).array(),
 });
+
+export const CheckOutFormSchema = z.object({
+  name: z.string().min(2, { message: 'Name is required' }).max(50, { message: 'Name is too long.' }),
+  email: z.string().email({ message: 'Invalid email' }),
+  phone: z.string().min(10, { message: 'Invalid Phone Number' }).max(13, { message: 'Invalid Phone Number' }),
+  line1: z.string().min(2, { message: 'Line 1 is required' }).max(60, { message: 'Line 1 is too long.' }),
+  line2: z.string().min(2, { message: 'Line 2 is required' }).max(60, { message: 'Line 2 is too long.' }),
+  city: z.string().min(2, { message: 'City is required' }).max(60, { message: 'City is too long.' }),
+  state: z.string().min(2, { message: 'State is required' }).max(60, { message: 'State is too long.' }),
+  postal_code: z.string().min(6, { message: 'Invalid Pin Code' }).max(6, { message: 'Invalid Pin Code' }),
+  country: z.string().min(2).max(60),
+});
