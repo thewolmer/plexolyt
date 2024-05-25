@@ -1,11 +1,9 @@
 'use client';
 
+import { Cart } from '@/components/Layout/Cart';
+import { StoreNavLinks } from '@/components/Layout/StoreNavLinks';
+import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
-
-import { Link } from '../Link';
-
-import { Cart } from './Cart';
-import { StoreNavLinks } from './StoreNavLinks';
 
 export const StoreNavBar = () => (
   <>

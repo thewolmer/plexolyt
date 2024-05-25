@@ -1,8 +1,8 @@
 import React from 'react';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
-import { LocationPinIcon, MailIcon, PhoneIcon } from '../Icons';
-import { Link } from '../Link';
+import { LocationPinIcon, MailIcon, PhoneIcon } from '@/components/Icons';
+import { Link } from '@/components/Link';
 
 const Social = [
   {
@@ -24,7 +24,7 @@ const Legal = [
   },
   {
     name: 'Privacy Policy',
-    href: '/privacy',
+    href: '/privacy-policy',
   },
   {
     name: 'Refund Policy',
@@ -54,14 +54,14 @@ const Contact = [
   },
 ];
 export const Footer = () => (
-  <footer className="bg-white">
+  <footer className="">
     <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div>
           <div className="flex justify-center text-teal-600 sm:justify-start">Plexolyt</div>
 
-          <p className="mt-6 max-w-md text-center leading-relaxed text-gray-500 sm:max-w-xs sm:text-left">
-            GST No 07ABAFG3982A1ZP <br /> Manufacturer Of PVC Insulated Flexible Wire, Multi Strand Wire Aluminium Cable
+          <p className="mt-6 max-w-md text-center leading-relaxed text-muted-foreground sm:max-w-xs sm:text-left">
+            GST No 07ABAFG3982A1ZP <br /> Manufacturer Of PVC Insulated Flexible Wire, Multi Strand Wire Aluminum Cable
             Since 2023
           </p>
 
@@ -80,7 +80,7 @@ export const Footer = () => (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:col-span-2">
           <p className="hidden md:block"></p>
           <div className="text-center sm:text-left">
-            <p className="text-lg font-medium text-gray-900">Legal</p>
+            <p className="text-lg font-medium text-foreground">Legal</p>
 
             <ul className="mt-8 space-y-4 text-sm">
               {Legal.map((item) => (
@@ -94,7 +94,7 @@ export const Footer = () => (
           </div>
 
           <div className="text-center sm:text-left">
-            <p className="text-lg font-medium text-gray-900">Contact</p>
+            <p className="text-lg font-medium text-foreground">Contact</p>
             <ul className="mt-8 space-y-4 text-sm">
               {Contact.map((item) => (
                 <li key={item.name}>
@@ -102,7 +102,7 @@ export const Footer = () => (
                     className="flex flex-col items-center justify-center gap-1.5 md:flex-row md:items-start "
                     href={item.href}
                   >
-                    <item.icon className="size-5 shrink-0 text-gray-900" />
+                    <item.icon className="size-5 shrink-0 text-foreground" />
                     <span className="flex-1 text-gray-700">{item.name}</span>
                   </Link>
                 </li>
@@ -114,7 +114,7 @@ export const Footer = () => (
 
       <div className="mt-12 border-t border-gray-100 pt-6">
         <div className="text-center sm:flex sm:justify-between sm:text-left">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             <span className="block sm:inline"></span>
 
             <Link className="inline-block  transition hover:text-teal-600/75" href="https://wolmer.me/">
@@ -122,7 +122,7 @@ export const Footer = () => (
             </Link>
           </p>
 
-          <p className="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
+          <p className="mt-4 text-sm text-muted-foreground sm:order-first sm:mt-0">
             &copy; 2024 Plexolyt, All rights reserved.
           </p>
         </div>

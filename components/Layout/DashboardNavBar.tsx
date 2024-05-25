@@ -2,11 +2,14 @@
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
+import { SignOutIcon } from '@/components/Icons';
 import { NavLinks } from '@/components/Layout/NavLinks';
 import { ThemeSwitcher } from '@/components/Layout/ThemeSwitcher';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+
+import { Link } from '../Link';
 
 export const DashboardNavBar = () => {
   const [open, setOpen] = useState(false);
@@ -18,7 +21,9 @@ export const DashboardNavBar = () => {
           <NavLinks alignment="horizontal" />
           <div className="ml-auto flex items-center space-x-4">
             <ThemeSwitcher />
-            <Button size={'icon'}>out</Button>
+            <Link className={buttonVariants({ variant: 'secondary', size: 'icon' })} href="/api/auth/signout">
+              <SignOutIcon />
+            </Link>
           </div>
         </div>
       </nav>

@@ -4,6 +4,7 @@ import React from 'react';
 
 import { CartIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
   Sheet,
@@ -17,8 +18,6 @@ import {
 import { useCart } from '@/hooks/use-cart';
 import { useMounted } from '@/hooks/useMounted';
 import { formatCurrency } from '@/utils/formatter';
-
-import { Button } from '../ui/button';
 
 export const Cart = () => {
   const cart = useCart();

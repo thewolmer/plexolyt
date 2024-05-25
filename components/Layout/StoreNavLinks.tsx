@@ -14,6 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 export function StoreNavLinks() {
@@ -38,7 +39,7 @@ export function StoreNavLinks() {
                 <NavigationMenuLink asChild>
                   <Link
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-green-400 bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
+                    href="/#featured"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium">Best Selling</div>
                     <p className="text-sm leading-tight text-muted-foreground">
@@ -47,6 +48,18 @@ export function StoreNavLinks() {
                   </Link>
                 </NavigationMenuLink>
               </li>
+              {!categories && (
+                <>
+                  {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} className="flex h-11  items-center justify-center p-3 py-8" />
+                  ))}
+                </>
+              )}
+              {categories?.length === 0 && (
+                <>
+                  <p className="text-center">No categories.</p>
+                </>
+              )}
 
               {categories?.map((category) => (
                 <ListItem key={category.id} href={`/category/${category.id}`} title={category.name}>
@@ -79,6 +92,7 @@ export function StoreNavLinks() {
 }
 
 const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
+  // eslint-disable-next-line react/prop-types
   ({ className, title, children, ...props }, ref) => (
     <li>
       <Link
