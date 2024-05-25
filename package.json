@@ -10,7 +10,8 @@
     "commit": "git-cz",
     "release": "commit-and-tag-version",
     "push": "git push --follow-tags origin main",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:email": "email dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -24,6 +25,8 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@react-email/components": "0.0.19",
+    "@react-email/tailwind": "0.0.18",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tanstack/react-table": "^8.17.3",
     "@uploadthing/react": "^6.5.4",
@@ -40,7 +43,9 @@
     "prisma": "^5.13.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-email": "2.1.4",
     "react-hook-form": "^7.51.4",
+    "resend": "^3.2.0",
     "sonner": "^1.4.41",
     "stripe": "^15.7.0",
     "tailwind-merge": "^2.3.0",

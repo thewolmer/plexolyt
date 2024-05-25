@@ -1,7 +1,9 @@
 'use client';
+import { Product } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
+// import { getCheckoutProducts } from '@/actions/products.client';
 import { Image } from '@/components/Image';
 import { Separator } from '@/components/ui/separator';
 import { SVGSkeleton, Skeleton } from '@/components/ui/skeleton';
@@ -19,6 +21,15 @@ const CheckoutPage = () => {
   const isMounted = useMounted();
   const success = searchParams.get('success');
   const failed = searchParams.get('failed');
+  // const [products, setProducts] = useState<Product[]>([]);
+
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const products = await getCheckoutProducts(cart.items);
+  //     setProducts(products as Product[]);
+  //   };
+  //   fetchProducts();
+  // }, [cart]);
 
   if (success === '1') {
     if (isMounted) {

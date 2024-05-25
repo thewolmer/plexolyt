@@ -1,3 +1,4 @@
+import { CartItem } from '@/hooks/use-cart';
 import db from '@/lib/db';
 
 interface QueryProps {
@@ -38,7 +39,24 @@ export async function QueryProducts({ category, color, length, width, featured }
     });
     return { data: products, status: 200 };
   } catch (e) {
-    console.log('[GET /api/v1/products]', e);
+    console.log('[GET : QueryProducts]', e);
     return { message: 'Couldnt fetch products data.', status: 500 };
+  }
+}
+
+export async function getCheckoutProducts(items: CartItem[]) {
+  try {
+    const products = await db.product.findMany({
+      where: {
+        id: {
+          in: items.map((item) => item.id),
+        },
+      },
+    });
+
+    return products;
+  } catch (e) {
+    console.log('[GET : getCheckoutProducts]', e);
+    return { message: 'Couldnt fetch checkout products data.', status: 500 };
   }
 }
