@@ -119,7 +119,6 @@ export function BillboardForm({ initialValues }: BillboardFormProps) {
           <div className="">
             <FormField
               control={form.control}
-              disabled={initialValues ? true : false}
               name="label"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">

@@ -104,7 +104,6 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
           <div className="grid grid-cols-2 gap-6">
             <FormField
               control={form.control}
-              disabled={initialValues ? true : false}
               name="name"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">

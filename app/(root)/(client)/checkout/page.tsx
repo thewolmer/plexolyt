@@ -1,5 +1,4 @@
 'use client';
-import { Product } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 

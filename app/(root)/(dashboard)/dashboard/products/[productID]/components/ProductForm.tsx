@@ -150,7 +150,6 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
           <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
             <FormField
               control={form.control}
-              disabled={initialValues ? true : false}
               name="name"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">
