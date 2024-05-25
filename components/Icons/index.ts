@@ -20,3 +20,5 @@ export * from './DiameterIcon';
 export * from './DashboardEditIcon';
 export * from './CartIcon';
 export * from './LocationPinIcon';
+export * from './PhoneIcon';
+export * from './MailIcon';

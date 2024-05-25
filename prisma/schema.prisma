@@ -13,6 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  SHIPPED
+  CANCELLED
+  DELIVERED
+}
+
 model Billboard {
   id         String     @id @map("_id")
   label      String     @unique
@@ -105,6 +114,7 @@ model Order {
   orderItems     OrderItem[]
   payment_status String      @default("unpaid")
   amount         Int         @default(0)
+  order_status   OrderStatus @default(PENDING)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 }

@@ -95,3 +95,7 @@ export const CheckOutFormSchema = z.object({
   postal_code: z.string().min(6, { message: 'Invalid Pin Code' }).max(6, { message: 'Invalid Pin Code' }),
   country: z.string().min(2).max(60),
 });
+
+export const UpdateOrderStatusFormSchema = z.object({
+  order_status: z.enum(['PENDING', 'CONFIRMED', 'PREPARING', 'SHIPPED', 'CANCELLED', 'DELIVERED']),
+});

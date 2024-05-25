@@ -47,6 +47,7 @@ export async function POST(req: Request) {
       payment_status: paymentStatus,
       stripeId,
       amount: total,
+      order_status: 'CONFIRMED',
     },
   });
 

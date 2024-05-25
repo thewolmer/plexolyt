@@ -56,6 +56,7 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
         postal_code: values.postal_code,
         country: values.country,
         amount: 0,
+        order_status: 'PENDING',
         orderItems: {
           create: cartItems.map((item) => ({
             product: {
@@ -73,8 +74,8 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
       line_items,
       mode: 'payment',
       payment_method_types: ['card'],
-      success_url: `${process.env.AUTH_TRUST_HOST}/success`,
-      cancel_url: `${process.env.AUTH_TRUST_HOST}`,
+      success_url: `${process.env.AUTH_TRUST_HOST}/checkout?success=1`,
+      cancel_url: `${process.env.AUTH_TRUST_HOST}/checkout?failed=1`,
       phone_number_collection: {
         enabled: true,
       },

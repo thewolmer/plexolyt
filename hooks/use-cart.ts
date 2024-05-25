@@ -1,3 +1,4 @@
+'use client';
 import { Color, Length, Product, ProductImage, Width } from 'prisma/prisma-client';
 import { toast } from 'sonner';
 import { create } from 'zustand';
@@ -19,7 +20,6 @@ interface CartStore {
   calculateItemTotal: (id: string) => number;
   totalAmount: () => number;
 }
-
 export const useCart = create(
   persist<CartStore>(
     (set, get) => ({
@@ -28,9 +28,12 @@ export const useCart = create(
         const currentItems = get().items;
         const existingItem = currentItems.find((i) => i.id === item.id);
         const quantity = item.quantity || 1;
+
         if (existingItem) {
-          existingItem.quantity! += quantity;
-          set({ items: [...currentItems] });
+          const updatedItems = currentItems.map((i) =>
+            i.id === item.id ? { ...i, quantity: i.quantity! + quantity } : i,
+          );
+          set({ items: updatedItems });
           toast.info('Item quantity updated');
         } else {
           const newItem: CartItem = { ...item, quantity };
@@ -45,7 +48,7 @@ export const useCart = create(
         toast.success('Item removed from cart');
       },
       clearCart: () => {
-        set({ items: [] });
+        localStorage.removeItem('plexolyt-cart');
         toast.success('Cart cleared');
       },
       calculateItemTotal: (id: string) => {
@@ -58,7 +61,6 @@ export const useCart = create(
         return items.reduce((total, item) => total + Number(item.price) * (item.quantity || 1), 0);
       },
     }),
-
     {
       name: 'plexolyt-cart',
       storage: createJSONStorage(() => localStorage),

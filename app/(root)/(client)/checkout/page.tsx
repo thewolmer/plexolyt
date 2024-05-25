@@ -1,4 +1,5 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { Image } from '@/components/Image';
@@ -11,9 +12,36 @@ import { formatCurrency } from '@/utils/formatter';
 import { CheckoutForm } from './components/CheckoutForm';
 
 const CheckoutPage = () => {
+  const searchParams = useSearchParams();
+
   const cart = useCart();
   const total = cart.items.reduce((acc, item) => acc + Number(item.price) * (item.quantity || 1), 0);
   const isMounted = useMounted();
+  const success = searchParams.get('success');
+  const failed = searchParams.get('failed');
+
+  if (success === '1') {
+    if (isMounted) {
+      cart.clearCart();
+    }
+    return (
+      <main className="flex h-[90vh] flex-col items-center justify-center p-10">
+        <h1 className="text-center text-4xl font-bold">Thank you for your order.</h1>
+        <p className="text-center">
+          Your order has been placed successfully, You will receive a confirmation email shortly.
+        </p>
+      </main>
+    );
+  }
+
+  if (failed === '1') {
+    return (
+      <main className="flex h-[90vh] flex-col items-center justify-center p-10">
+        <h1 className="text-center text-4xl font-bold text-destructive">Order failed.</h1>
+        <p className="text-center">Something went wrong while placing the order, Please try again.</p>
+      </main>
+    );
+  }
 
   if (!cart || cart.items.length === 0) {
     return (
@@ -23,6 +51,7 @@ const CheckoutPage = () => {
       </main>
     );
   }
+
   return (
     <main>
       <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>

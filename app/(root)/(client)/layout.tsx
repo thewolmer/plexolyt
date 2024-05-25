@@ -1,3 +1,4 @@
+import { Footer } from '@/components/Layout/Footer';
 import { StoreNavBar } from '@/components/Layout/StoreNavBar';
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
@@ -5,6 +6,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
     <>
       <StoreNavBar />
       {children}
+      <Footer />
     </>
   );
 }

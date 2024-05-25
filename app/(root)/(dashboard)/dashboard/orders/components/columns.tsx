@@ -1,11 +1,12 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
 import { CellActions } from './cell-actions';
+import { OrderStatusBadge } from './OrderStatusBadge';
 
 export type OrderColumn = {
   id: string;
@@ -17,6 +18,7 @@ export type OrderColumn = {
   amount: number;
   createdAt: string;
   updatedAt: string;
+  order_status: string;
 };
 export const columns: ColumnDef<OrderColumn>[] = [
   {
@@ -29,11 +31,22 @@ export const columns: ColumnDef<OrderColumn>[] = [
   },
   {
     accessorKey: 'amount',
-    header: 'Amount',
+    header: ({ column }) => (
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        Amount
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
-    accessorKey: 'payment_status',
-    header: 'Status',
+    accessorKey: 'order_status',
+    header: ({ column }) => (
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        Status
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => <OrderStatusBadge order_status={row.original.order_status} />,
   },
   {
     accessorKey: 'createdAt',
