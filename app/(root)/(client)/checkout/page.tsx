@@ -66,8 +66,8 @@ const CheckoutPage = () => {
     <main>
       <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>
       <Separator />
-      <section className="flex w-full justify-between gap-5">
-        <div className="w-1/2 space-y-4 p-10">
+      <section className="flex w-full flex-col gap-5 md:flex-row md:justify-between">
+        <div className="space-y-4 p-10 md:w-1/2">
           <h2 className="text-2xl font-bold">Order Summary</h2>
           <Separator />
           {isMounted ? (
@@ -132,7 +132,7 @@ const CheckoutPage = () => {
             ))
           )}
         </div>
-        <div className="w-1/2 p-10">
+        <div className="p-10 md:w-1/2">
           <CheckoutForm items={cart.items} />
         </div>
       </section>
