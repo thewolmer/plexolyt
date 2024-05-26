@@ -28,11 +28,11 @@ export const AddToCartButton = ({ data }: { data: CartItem }) => {
     setQuantity(quantity + 1);
   };
   return (
-    <>
-      <div className="flex items-end justify-end px-10 pt-5">
+    <div className="mx-auto flex w-full items-center justify-center">
+      <div className="flex justify-center px-10 pt-5 md:items-end md:justify-end">
         <p className="ml-2 text-2xl font-extrabold text-gray-600">{formatCurrency(Number(data?.price) * quantity)}</p>
       </div>
-      <div className="my-8 flex justify-between">
+      <div className="mx-auto my-8 flex flex-col-reverse gap-2 md:flex-row md:justify-between">
         <div className="flex items-center gap-2">
           <Button variant={'outline'} size={'icon'} onClick={onQuantityRemove}>
             <Minus />
@@ -42,10 +42,10 @@ export const AddToCartButton = ({ data }: { data: CartItem }) => {
             <Plus />
           </Button>
         </div>
-        <Button onClick={handleAddToCart} className="w-1/2 rounded-full">
+        <Button onClick={handleAddToCart} className="rounded-full md:w-1/2">
           Add to Cart
         </Button>
       </div>
-    </>
+    </div>
   );
 };

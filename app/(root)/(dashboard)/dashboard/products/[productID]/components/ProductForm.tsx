@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { createProduct, deleteProduct, updateProduct } from '@/actions/products';
 import { BinIcon } from '@/components/Icons';
 import { ProductsImageUpload } from '@/components/ImageUpload/ProductsImageUpload';
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';

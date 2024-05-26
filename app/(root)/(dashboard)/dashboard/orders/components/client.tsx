@@ -1,6 +1,6 @@
 'use client';
 
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 
 import { OrderColumn, columns } from './columns';
 import { OrdersDataTable } from './OrdersDataTable';

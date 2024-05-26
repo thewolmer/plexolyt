@@ -19,7 +19,7 @@ export const ProductCard = ({ product }: { product: Props }) => (
       <Image
         src={product.images[0].imageUrl as string}
         alt={product.id as string}
-        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+        className="h-80  w-80 object-cover"
         width={300}
         height={300}
       />

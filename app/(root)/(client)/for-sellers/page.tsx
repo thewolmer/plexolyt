@@ -2,7 +2,7 @@ import { Mail, PhoneCall } from 'lucide-react';
 import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 
 const ForSellersPage = () => (
   <main>

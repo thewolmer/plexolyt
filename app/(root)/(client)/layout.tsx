@@ -1,5 +1,4 @@
-import { Footer } from '@/components/Layout/Footer';
-import { StoreNavBar } from '@/components/Layout/StoreNavBar';
+import { Footer, StoreNavBar } from '@/components/Layout';
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
   return (

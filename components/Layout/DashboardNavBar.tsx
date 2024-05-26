@@ -3,7 +3,7 @@ import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
 import { SignOutIcon } from '@/components/Icons';
-import { NavLinks } from '@/components/Layout/NavLinks';
+import { DashboardNavLinks } from '@/components/Layout/DashboardNavLinks';
 import { ThemeSwitcher } from '@/components/Layout/ThemeSwitcher';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -18,7 +18,7 @@ export const DashboardNavBar = () => {
       <nav className="hidden border-b md:block">
         <div className="flex h-16  items-center px-4">
           Plexolyt Dashboard
-          <NavLinks alignment="horizontal" />
+          <DashboardNavLinks alignment="horizontal" />
           <div className="ml-auto flex items-center space-x-4">
             <ThemeSwitcher />
             <Link className={buttonVariants({ variant: 'secondary', size: 'icon' })} href="/api/auth/signout">
@@ -37,7 +37,7 @@ export const DashboardNavBar = () => {
               <SheetHeader className="flex  h-full items-center ">
                 <SheetTitle></SheetTitle>
                 <SheetDescription>
-                  <NavLinks alignment="vertical" onClose={setOpen} />
+                  <DashboardNavLinks alignment="vertical" onClose={setOpen} />
                 </SheetDescription>
               </SheetHeader>
               <Separator orientation="horizontal" className="mb-10" />

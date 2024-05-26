@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { createBillboard, deleteBillboard, updateBillboard } from '@/actions/billboards';
 import { BinIcon } from '@/components/Icons';
 import { BillboardImageUpload } from '@/components/ImageUpload/BillboardImageUpload';
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';

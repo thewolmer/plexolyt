@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 import { createColor, deleteColor, updateColor } from '@/actions/colors';
 import { BinIcon } from '@/components/Icons';
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 import { Link } from '@/components/Link';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';

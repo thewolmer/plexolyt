@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 
 import { PlusIcon } from '@/components/Icons';
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table';

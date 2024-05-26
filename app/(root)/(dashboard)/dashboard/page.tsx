@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { auth } from '@/auth';
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 
 const DashboardPage = async () => {
   const session = await auth();

@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 import { createWidth, deleteWidth, updateWidth } from '@/actions/widths';
 import { BinIcon } from '@/components/Icons';
-import { Header } from '@/components/Layout/Header';
+import { Header } from '@/components/Layout';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';

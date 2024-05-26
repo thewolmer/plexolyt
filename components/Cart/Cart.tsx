@@ -4,7 +4,7 @@ import React from 'react';
 
 import { CartIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
   Sheet,
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/sheet';
 import { useCart } from '@/hooks/use-cart';
 import { useMounted } from '@/hooks/useMounted';
+import { cn } from '@/lib/utils';
 import { formatCurrency } from '@/utils/formatter';
 
 export const Cart = () => {
@@ -28,11 +29,9 @@ export const Cart = () => {
   if (!isMounted) return null;
   return (
     <Sheet>
-      <SheetTrigger>
-        <div className="flex rounded-2xl border bg-card p-2 ">
-          <CartIcon />
-          <div className="p-0.5">{cart.items.length}</div>
-        </div>
+      <SheetTrigger className={cn('flex', buttonVariants({ variant: 'outline', size: 'icon' }))}>
+        <CartIcon className="size-5" />
+        {cart.items.length !== 0 && <div className="">{cart.items.length}</div>}
       </SheetTrigger>
 
       <SheetContent>
@@ -60,7 +59,7 @@ export const Cart = () => {
                     alt={item.name as string}
                     width={75}
                     height={75}
-                    className="rounded-2xl object-center"
+                    className="h-20 w-20 rounded-2xl object-cover"
                   />
                 </div>
               </div>
