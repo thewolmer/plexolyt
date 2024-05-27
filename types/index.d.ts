@@ -4,7 +4,12 @@ export type SiteConfig = {
   url: string;
   ogImage: string;
   twitterHandle: string;
+  location: string;
   links: {
     twitter: string;
+    facebook: string;
+    instagram: string;
+    whatsapp: string;
+    phone: string;
   };
 };

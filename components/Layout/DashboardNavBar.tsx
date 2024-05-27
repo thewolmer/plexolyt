@@ -5,11 +5,10 @@ import { useState } from 'react';
 import { SignOutIcon } from '@/components/Icons';
 import { DashboardNavLinks } from '@/components/Layout/DashboardNavLinks';
 import { ThemeSwitcher } from '@/components/Layout/ThemeSwitcher';
+import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-
-import { Link } from '../Link';
 
 export const DashboardNavBar = () => {
   const [open, setOpen] = useState(false);

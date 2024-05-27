@@ -1,19 +1,26 @@
 import React from 'react';
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 import { LocationPinIcon, MailIcon, PhoneIcon } from '@/components/Icons';
+import { Image } from '@/components/Image';
 import { Link } from '@/components/Link';
+import { siteConfig } from '@/config/site';
 
 const Social = [
   {
     name: 'Instagram',
-    href: '#',
+    href: siteConfig.links.instagram,
     icon: FaInstagram,
   },
   {
     name: 'WhatsApp',
-    href: '#',
+    href: siteConfig.links.whatsapp,
     icon: FaWhatsapp,
+  },
+  {
+    name: 'Facebook',
+    href: siteConfig.links.facebook,
+    icon: FaFacebook,
   },
 ];
 
@@ -43,12 +50,12 @@ const Contact = [
     icon: MailIcon,
   },
   {
-    name: '+91 9667848238',
-    href: 'tel:+919667848238',
+    name: siteConfig.links.phone,
+    href: `tel:${siteConfig.links.phone}`,
     icon: PhoneIcon,
   },
   {
-    name: 'Gf Friends Colony, 1/429/13 Gf, Plot No-341 Industrial Area, Gali No-1, Shahdara, New Delhi-110095, Delhi, India',
+    name: siteConfig.location,
     href: '#',
     icon: LocationPinIcon,
   },
@@ -58,7 +65,14 @@ export const Footer = () => (
     <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div>
-          <div className="flex justify-center text-teal-600 sm:justify-start">Plexolyt</div>
+          <Image
+            src="/images/logo/logo.jpg"
+            height={60}
+            width={60}
+            alt="logo"
+            className="mx-auto rounded-full md:mx-0"
+          />
+          <div className="mt-1 flex justify-center sm:justify-start">Plexolyt</div>
 
           <p className="mt-6 max-w-md text-center leading-relaxed text-muted-foreground sm:max-w-xs sm:text-left">
             GST No 07ABAFG3982A1ZP <br /> Manufacturer Of PVC Insulated Flexible Wire, Multi Strand Wire Aluminum Cable

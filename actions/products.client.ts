@@ -3,27 +3,33 @@ import db from '@/lib/db';
 
 interface QueryProps {
   category?: string;
-  color?: string;
-  length?: string;
-  width?: string;
+  color?: string[];
+  length?: string[];
+  width?: string[];
   featured?: string;
 }
 
 export async function QueryProducts({ category, color, length, width, featured }: QueryProps) {
   try {
     const categoryId = category || undefined;
-    const colorId = color || undefined;
-    const lengthId = length || undefined;
-    const widthId = width || undefined;
-    const isFeatured = featured;
+    const colorIds = color?.filter((c) => c !== undefined) || [];
+    const lengthIds = length?.filter((l) => l !== undefined) || [];
+    const widthIds = width?.filter((w) => w !== undefined) || [];
+    const isFeatured = featured === 'true' ? true : undefined;
 
     const products = await db.product.findMany({
       where: {
         categoryId,
-        colorId,
-        lengthId,
-        widthId,
-        isFeatured: isFeatured === 'true' ? true : undefined,
+        colorId: {
+          in: colorIds.length ? colorIds : undefined,
+        },
+        lengthId: {
+          in: lengthIds.length ? lengthIds : undefined,
+        },
+        widthId: {
+          in: widthIds.length ? widthIds : undefined,
+        },
+        isFeatured: isFeatured !== undefined ? isFeatured : undefined,
         isArchived: false,
       },
       include: {
@@ -37,6 +43,7 @@ export async function QueryProducts({ category, color, length, width, featured }
         createdAt: 'desc',
       },
     });
+
     return { data: products, status: 200 };
   } catch (e) {
     console.log('[GET : QueryProducts]', e);

@@ -18,7 +18,7 @@ export const generateSeo = ({ title, description, url, image }: Props): Metadata
     description,
     siteName: siteConfig.name,
     url,
-    locale: 'en_GB',
+    locale: 'en_IN',
     type: 'website',
     images: [
       {

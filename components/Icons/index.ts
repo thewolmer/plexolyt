@@ -22,3 +22,4 @@ export * from './CartIcon';
 export * from './LocationPinIcon';
 export * from './PhoneIcon';
 export * from './MailIcon';
+export * from './FilterIcon';
