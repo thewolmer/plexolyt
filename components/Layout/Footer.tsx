@@ -99,7 +99,7 @@ export const Footer = () => (
             <ul className="mt-8 space-y-4 text-sm">
               {Legal.map((item) => (
                 <li key={item.name}>
-                  <Link className="text-gray-700 transition hover:text-gray-700/75" href={item.href}>
+                  <Link className="text-muted-foreground transition hover:text-muted-foreground/75" href={item.href}>
                     {item.name}
                   </Link>
                 </li>
@@ -117,7 +117,7 @@ export const Footer = () => (
                     href={item.href}
                   >
                     <item.icon className="size-5 shrink-0 text-foreground" />
-                    <span className="flex-1 text-gray-700">{item.name}</span>
+                    <span className="flex-1 text-muted-foreground">{item.name}</span>
                   </Link>
                 </li>
               ))}

@@ -30,7 +30,7 @@ export const AddToCartButton = ({ data }: { data: CartItem }) => {
   return (
     <div className="mx-auto flex w-full items-center justify-center">
       <div className="flex justify-center px-10 pt-5 md:items-end md:justify-end">
-        <p className="ml-2 text-2xl font-extrabold text-gray-600">{formatCurrency(Number(data?.price) * quantity)}</p>
+        <p className="ml-2 text-2xl font-extrabold ">{formatCurrency(Number(data?.price) * quantity)}</p>
       </div>
       <div className="mx-auto my-8 flex flex-col-reverse gap-2 md:flex-row md:justify-between">
         <div className="flex items-center gap-2">

@@ -3,18 +3,18 @@ import db from '@/lib/db';
 
 interface QueryProps {
   category?: string;
-  color?: string[];
-  length?: string[];
-  width?: string[];
+  colors?: string[];
+  lengths?: string[];
+  widths?: string[];
   featured?: string;
 }
 
-export async function QueryProducts({ category, color, length, width, featured }: QueryProps) {
+export async function QueryProducts({ category, colors, lengths, widths, featured }: QueryProps) {
   try {
     const categoryId = category || undefined;
-    const colorIds = color?.filter((c) => c !== undefined) || [];
-    const lengthIds = length?.filter((l) => l !== undefined) || [];
-    const widthIds = width?.filter((w) => w !== undefined) || [];
+    const colorIds = colors?.filter((c) => c !== undefined) || [];
+    const lengthIds = lengths?.filter((l) => l !== undefined) || [];
+    const widthIds = widths?.filter((w) => w !== undefined) || [];
     const isFeatured = featured === 'true' ? true : undefined;
 
     const products = await db.product.findMany({
@@ -43,6 +43,7 @@ export async function QueryProducts({ category, color, length, width, featured }
         createdAt: 'desc',
       },
     });
+    if (products.length === 0) return { message: 'No products found.', status: 404 };
 
     return { data: products, status: 200 };
   } catch (e) {

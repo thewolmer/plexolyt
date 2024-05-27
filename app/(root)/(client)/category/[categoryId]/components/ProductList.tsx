@@ -12,15 +12,15 @@ export default async function ProductList({ id, searchParams }: Props) {
   const lengths = searchParamsToArray(searchParams.length);
   const widths = searchParamsToArray(searchParams.width);
 
-  const products = await QueryProducts({ category: id, color: colors, length: lengths, width: widths });
+  const products = await QueryProducts({ category: id, colors, lengths, widths });
 
-  if (products.data?.length === 0)
+  if (products.status === 400)
     return (
       <div>
-        <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-24 md:py-16 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto w-full  max-w-2xl px-4 py-6 sm:px-6 sm:py-24 md:py-16 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight ">Products </h2>
           <div className="flex h-96 items-center justify-center">
-            <p>No products found</p>
+            <p className="text-center">No products found</p>
           </div>
         </div>
       </div>

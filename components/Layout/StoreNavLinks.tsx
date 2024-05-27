@@ -55,12 +55,6 @@ export function StoreNavLinks() {
                   ))}
                 </>
               )}
-              {categories?.length === 0 && (
-                <>
-                  <p className="text-center">No categories.</p>
-                </>
-              )}
-
               {categories?.map((category) => (
                 <ListItem key={category.id} href={`/category/${category.id}`} title={category.name}>
                   {category.description}
