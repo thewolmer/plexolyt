@@ -42,6 +42,11 @@ export const lengthFormSchema = z.object({
     message: 'Name must be at least 1 characters.',
   }),
 });
+export const gaugeFormSchema = z.object({
+  name: z.string().min(1, {
+    message: 'Name must be at least 1 characters.',
+  }),
+});
 
 export const widthFormSchema = z.object({
   name: z.string().min(1, {
@@ -78,6 +83,9 @@ export const productFormSchema = z.object({
   }),
   widthId: z.string().min(2, {
     message: 'Width must be selected.',
+  }),
+  gaugeId: z.string().min(2, {
+    message: 'Gauge must be selected.',
   }),
   isArchived: z.boolean(),
   isFeatured: z.boolean(),

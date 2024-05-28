@@ -1,5 +1,5 @@
 'use client';
-import { Color, Length, Width } from '@prisma/client';
+import { Color, Gauge, Length, Width } from '@prisma/client';
 import { FilterIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import qs from 'query-string';
@@ -26,14 +26,15 @@ interface Props {
   colors?: Color[];
   lengths?: Length[];
   widths?: Width[];
+  gauges?: Gauge[];
 }
 
-export const FiltersClient = ({ colors, lengths, widths }: Props) => {
+export const FiltersClient = ({ colors, lengths, widths, gauges }: Props) => {
   const searchParams = useSearchParams();
   const { isMobile } = useMediaQuery();
   const updateSearchParams = useUpdateSearchParams();
-  const accordionValues = [colors, lengths, widths];
-  const accordionLabels = ['color', 'length', 'width'];
+  const accordionValues = [colors, lengths, widths, gauges];
+  const accordionLabels = ['color', 'length', 'width', 'Gauge'];
   const current = qs.parse(searchParams.toString());
 
   if (!isMobile) {
@@ -59,7 +60,7 @@ export const FiltersClient = ({ colors, lengths, widths }: Props) => {
                         }
                         variant={'outline'}
                         onPressedChange={() =>
-                          updateSearchParams(accordionLabels[index] as 'color' | 'length' | 'width', item.id)
+                          updateSearchParams(accordionLabels[index] as 'color' | 'length' | 'width' | 'gauge', item.id)
                         }
                       >
                         {item.name}
@@ -106,7 +107,10 @@ export const FiltersClient = ({ colors, lengths, widths }: Props) => {
                             }
                             variant={'outline'}
                             onPressedChange={() =>
-                              updateSearchParams(accordionLabels[index] as 'color' | 'length' | 'width', item.id)
+                              updateSearchParams(
+                                accordionLabels[index] as 'color' | 'length' | 'width' | 'gauge',
+                                item.id,
+                              )
                             }
                           >
                             {item.name}

@@ -8,7 +8,9 @@ import { ProductClient } from './components/client';
 import { ProductColumn } from './components/columns';
 
 const ProductsPage = async () => {
-  const { data } = await getAllProducts({ include: { category: true, color: true, length: true, width: true } });
+  const { data } = await getAllProducts({
+    include: { category: true, color: true, length: true, width: true, gauge: true },
+  });
   const formattedProducts: ProductColumn[] | undefined = data?.map((product) => ({
     id: product.id,
     name: product.name,
@@ -20,6 +22,7 @@ const ProductsPage = async () => {
     color: product.color.hex,
     length: product.length.name,
     width: product.width.name,
+    gauge: product.gauge.name,
     createdAt: format(product.createdAt, 'MMM do, yyyy'),
   }));
 

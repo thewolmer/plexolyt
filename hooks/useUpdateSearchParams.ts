@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'query-string';
 
-type Key = 'color' | 'length' | 'width';
+type Key = 'color' | 'length' | 'width' | 'gauge';
 
 export const useUpdateSearchParams = () => {
   const router = useRouter();

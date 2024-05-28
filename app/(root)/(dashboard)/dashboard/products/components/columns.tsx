@@ -14,6 +14,7 @@ export type ProductColumn = {
   category: string;
   color: string;
   length: string;
+  gauge: string;
   width: string;
   isFeatured: boolean;
   isArchived: boolean;
@@ -42,6 +43,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'length',
     header: 'Length',
+  },
+  {
+    accessorKey: 'gauge',
+    header: 'Gauge',
   },
 
   {

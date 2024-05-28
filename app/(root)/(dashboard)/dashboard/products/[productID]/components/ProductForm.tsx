@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Color, Length, Product, ProductImage, Width } from '@prisma/client';
+import { Category, Color, Gauge, Length, Product, ProductImage, Width } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,6 +27,7 @@ export interface ProductFormProps {
   colors: Color[] | null | undefined;
   lengths: Length[] | null | undefined;
   widths: Width[] | null | undefined;
+  gauges: Gauge[] | null | undefined;
 }
 interface ProductFormValues extends Omit<Product, 'price' | 'stock'> {
   price: string;
@@ -34,7 +35,7 @@ interface ProductFormValues extends Omit<Product, 'price' | 'stock'> {
   images: ProductImage[];
 }
 
-export function ProductForm({ initialValues, categories, colors, lengths, widths }: ProductFormProps) {
+export function ProductForm({ initialValues, categories, colors, lengths, widths, gauges }: ProductFormProps) {
   const router = useRouter();
   const title = initialValues ? 'Edit Product' : 'Create Product';
   const description = initialValues ? 'Edit your product' : 'Create a new product';
@@ -58,6 +59,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
           categoryId: '',
           colorId: '',
           lengthId: '',
+          gaugeId: '',
           widthId: '',
           isArchived: false,
           isFeatured: false,
@@ -286,6 +288,31 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
                     </SelectContent>
                   </Select>
                   <FormDescription>This will be products Width.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="gaugeId"
+              render={({ field }) => (
+                <FormItem className="md:max-w-md">
+                  <FormLabel>Gauge</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a Width" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {gauges?.map((item) => (
+                        <SelectItem key={item.id} value={item.id}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>This will be products Gauge.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

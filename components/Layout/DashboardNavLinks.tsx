@@ -84,6 +84,11 @@ export const DashboardNavLinks = ({
       href: `/dashboard/widths`,
       icon: DiameterIcon,
     },
+    {
+      label: 'Gauge',
+      href: `/dashboard/gauges`,
+      icon: DiameterIcon,
+    },
   ];
 
   return (

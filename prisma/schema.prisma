@@ -59,6 +59,14 @@ model Length {
   products  Product[]
 }
 
+model Gauge {
+  id        String    @id @map("_id")
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
 model Width {
   id String @id @map("_id")
 
@@ -80,6 +88,8 @@ model Product {
   color       Color          @relation(fields: [colorId], references: [id], onUpdate: Cascade)
   lengthId    String
   length      Length         @relation(fields: [lengthId], references: [id], onUpdate: Cascade)
+  gaugeId     String
+  gauge       Gauge          @relation(fields: [gaugeId], references: [id], onUpdate: Cascade)
   widthId     String
   width       Width          @relation(fields: [widthId], references: [id], onUpdate: Cascade)
   isFeatured  Boolean        @default(false)

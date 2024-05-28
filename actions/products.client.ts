@@ -6,15 +6,17 @@ interface QueryProps {
   colors?: string[];
   lengths?: string[];
   widths?: string[];
+  gauges?: string[];
   featured?: string;
 }
 
-export async function QueryProducts({ category, colors, lengths, widths, featured }: QueryProps) {
+export async function QueryProducts({ category, colors, lengths, widths, gauges, featured }: QueryProps) {
   try {
     const categoryId = category || undefined;
     const colorIds = colors?.filter((c) => c !== undefined) || [];
     const lengthIds = lengths?.filter((l) => l !== undefined) || [];
     const widthIds = widths?.filter((w) => w !== undefined) || [];
+    const gaugeIds = gauges?.filter((w) => w !== undefined) || [];
     const isFeatured = featured === 'true' ? true : undefined;
 
     const products = await db.product.findMany({
@@ -28,6 +30,9 @@ export async function QueryProducts({ category, colors, lengths, widths, feature
         },
         widthId: {
           in: widthIds.length ? widthIds : undefined,
+        },
+        gaugeId: {
+          in: gaugeIds.length ? gaugeIds : undefined,
         },
         isFeatured: isFeatured !== undefined ? isFeatured : undefined,
         isArchived: false,

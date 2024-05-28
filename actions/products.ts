@@ -14,6 +14,7 @@ type GetAllProductProps = {
     length?: boolean;
     width?: boolean;
     images?: boolean;
+    gauge?: boolean;
   };
 };
 
@@ -80,6 +81,7 @@ export const createProduct = async (formData: z.infer<typeof formSchema>) => {
         colorId: formData.colorId,
         lengthId: formData.lengthId,
         widthId: formData.widthId,
+        gaugeId: formData.gaugeId,
         isArchived: formData.isArchived,
         isFeatured: formData.isFeatured,
         images: {
@@ -136,6 +138,7 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
         colorId: formData.colorId,
         lengthId: formData.lengthId,
         widthId: formData.widthId,
+        gaugeId: formData.gaugeId,
         isArchived: formData.isArchived,
         isFeatured: formData.isFeatured,
       },
