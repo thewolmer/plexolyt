@@ -135,7 +135,7 @@ export const DashboardNavLinks = ({
           >
             <DashboardEditIcon className="h-5 w-5" /> Edit Store
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-32">
+          <DropdownMenuContent className="w-40">
             <DropdownMenuLabel>Edit Property</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {attributeLinks.map((link) => (
