@@ -50,7 +50,11 @@ export const DashboardNavBar = () => {
             </SheetContent>
           </Sheet>
 
-          <div className="ml-auto flex items-center space-x-4">{/* <UserButton afterSignOutUrl="/" /> */} icon</div>
+          <div className="ml-auto flex items-center space-x-4">
+            <Link className={buttonVariants({ variant: 'secondary', size: 'icon' })} href="/api/auth/signout">
+              <SignOutIcon />
+            </Link>
+          </div>
         </div>
       </nav>
     </>
