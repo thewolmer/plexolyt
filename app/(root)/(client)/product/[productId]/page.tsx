@@ -34,7 +34,7 @@ const page = async ({ params }: { params: { productId: string } }) => {
                 <Image
                   src={image.imageUrl}
                   alt={product.name}
-                  className="h-full w-full rounded-md object-cover shadow-md"
+                  className="h-[50vh] w-full rounded-md object-cover shadow-md md:h-[60vh]"
                   width={720}
                   height={720}
                 />
@@ -57,7 +57,7 @@ const page = async ({ params }: { params: { productId: string } }) => {
           <div>
             <p className="text-sm text-muted-foreground">{product.category.name}</p>
             <h1 className="text-3xl font-bold">{product.name}</h1>
-            <p className="text-muted-foreground">{product.description}</p>
+            <p className="text-pretty text-muted-foreground">{product.description}</p>
           </div>
           <div className=" space-y-1">
             <Separator />

@@ -13,7 +13,7 @@ interface Props {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 const CategoryPage = async ({ params, searchParams }: Props) => (
-  <div>
+  <div className="min-h-screen">
     <Billboard id={params.categoryId} />
     <div className="flex flex-col md:flex-row">
       <Suspense
