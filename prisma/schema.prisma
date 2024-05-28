@@ -42,6 +42,14 @@ model Category {
   products    Product[]
 }
 
+model SubCategory {
+  id        String    @id @map("_id")
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
 model Color {
   id        String    @id @map("_id")
   name      String    @unique
@@ -77,27 +85,29 @@ model Width {
 }
 
 model Product {
-  id          String         @id @map("_id")
-  name        String         @unique
-  price       String
-  stock       String
-  description String
-  categoryId  String
-  category    Category       @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
-  colorId     String
-  color       Color          @relation(fields: [colorId], references: [id], onUpdate: Cascade)
-  lengthId    String
-  length      Length         @relation(fields: [lengthId], references: [id], onUpdate: Cascade)
-  gaugeId     String
-  gauge       Gauge          @relation(fields: [gaugeId], references: [id], onUpdate: Cascade)
-  widthId     String
-  width       Width          @relation(fields: [widthId], references: [id], onUpdate: Cascade)
-  isFeatured  Boolean        @default(false)
-  isArchived  Boolean        @default(false)
-  images      ProductImage[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  orderItems  OrderItem[]
+  id            String         @id @map("_id")
+  name          String         @unique
+  price         String
+  stock         String
+  description   String
+  categoryId    String
+  category      Category       @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
+  subCategoryId String
+  subCategory   SubCategory    @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
+  colorId       String
+  color         Color          @relation(fields: [colorId], references: [id], onUpdate: Cascade)
+  lengthId      String
+  length        Length         @relation(fields: [lengthId], references: [id], onUpdate: Cascade)
+  gaugeId       String
+  gauge         Gauge          @relation(fields: [gaugeId], references: [id], onUpdate: Cascade)
+  widthId       String
+  width         Width          @relation(fields: [widthId], references: [id], onUpdate: Cascade)
+  isFeatured    Boolean        @default(false)
+  isArchived    Boolean        @default(false)
+  images        ProductImage[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orderItems    OrderItem[]
 }
 
 model ProductImage {

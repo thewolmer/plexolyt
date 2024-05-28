@@ -10,6 +10,7 @@ import { slugify } from '@/utils/Slugify';
 type GetAllProductProps = {
   include: {
     category?: boolean;
+    subCategory?: boolean;
     color?: boolean;
     length?: boolean;
     width?: boolean;
@@ -36,6 +37,7 @@ interface GetProductsByIdProps {
   productID: string;
   include?: {
     category?: boolean;
+    subCategory?: boolean;
     color?: boolean;
     length?: boolean;
     width?: boolean;
@@ -78,6 +80,7 @@ export const createProduct = async (formData: z.infer<typeof formSchema>) => {
         price: formData.price,
         stock: formData.stock,
         categoryId: formData.categoryId,
+        subCategoryId: formData.subCategoryId,
         colorId: formData.colorId,
         lengthId: formData.lengthId,
         widthId: formData.widthId,
@@ -135,6 +138,7 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
         price: formData.price,
         stock: formData.stock,
         categoryId: formData.categoryId,
+        subCategoryId: formData.subCategoryId,
         colorId: formData.colorId,
         lengthId: formData.lengthId,
         widthId: formData.widthId,

@@ -70,6 +70,11 @@ export const DashboardNavLinks = ({
       icon: CategoryIcon,
     },
     {
+      label: 'Sub Categories',
+      href: `/dashboard/subcategories`,
+      icon: CategoryIcon,
+    },
+    {
       label: 'Colors',
       href: `/dashboard/colors`,
       icon: PaintBoardIcon,

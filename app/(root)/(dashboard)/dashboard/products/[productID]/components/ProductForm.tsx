@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Color, Gauge, Length, Product, ProductImage, Width } from '@prisma/client';
+import { Category, Color, Gauge, Length, Product, ProductImage, SubCategory, Width } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -24,6 +24,7 @@ import { productFormSchema as formSchema } from '@/prisma/form-schema.client';
 export interface ProductFormProps {
   initialValues: ProductFormValues | null | undefined;
   categories: Category[] | null | undefined;
+  subcategories: SubCategory[] | null | undefined;
   colors: Color[] | null | undefined;
   lengths: Length[] | null | undefined;
   widths: Width[] | null | undefined;
@@ -35,7 +36,15 @@ interface ProductFormValues extends Omit<Product, 'price' | 'stock'> {
   images: ProductImage[];
 }
 
-export function ProductForm({ initialValues, categories, colors, lengths, widths, gauges }: ProductFormProps) {
+export function ProductForm({
+  initialValues,
+  categories,
+  subcategories,
+  colors,
+  lengths,
+  widths,
+  gauges,
+}: ProductFormProps) {
   const router = useRouter();
   const title = initialValues ? 'Edit Product' : 'Create Product';
   const description = initialValues ? 'Edit your product' : 'Create a new product';
@@ -57,6 +66,7 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
           price: '0',
           stock: '0',
           categoryId: '',
+          subCategoryId: '',
           colorId: '',
           lengthId: '',
           gaugeId: '',
@@ -206,6 +216,31 @@ export function ProductForm({ initialValues, categories, colors, lengths, widths
                     </FormControl>
                     <SelectContent>
                       {categories?.map((item) => (
+                        <SelectItem key={item.id} value={item.id}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>The products will be shown under this category.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="subCategoryId"
+              render={({ field }) => (
+                <FormItem className="md:max-w-md">
+                  <FormLabel>Sub Category</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a Sub Category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {subcategories?.map((item) => (
                         <SelectItem key={item.id} value={item.id}>
                           {item.name}
                         </SelectItem>

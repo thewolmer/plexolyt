@@ -37,6 +37,11 @@ export const categoryFormSchema = z.object({
     }),
 });
 
+export const subcategoryFormSchema = z.object({
+  name: z.string().min(1, {
+    message: 'Name must be at least 1 characters.',
+  }),
+});
 export const lengthFormSchema = z.object({
   name: z.string().min(1, {
     message: 'Name must be at least 1 characters.',
@@ -74,6 +79,9 @@ export const productFormSchema = z.object({
   }),
   categoryId: z.string().min(2, {
     message: 'Category must be selected.',
+  }),
+  subCategoryId: z.string().min(2, {
+    message: 'Sub Category must be selected.',
   }),
   colorId: z.string().min(2, {
     message: 'Color must be selected.',
