@@ -1,8 +1,9 @@
+'use server';
 export const getCommits = async () => {
   try {
     const response = await fetch('https://api.github.com/repos/thewolmer/plexolyt/commits', {
       headers: {
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       },
     });
     const data = await response.json();
