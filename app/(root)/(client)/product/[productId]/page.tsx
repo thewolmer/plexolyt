@@ -18,6 +18,7 @@ const page = async ({ params }: { params: { productId: string } }) => {
       length: true,
       width: true,
       images: true,
+      gauge: true,
     },
   });
   if (!product) {
@@ -82,6 +83,12 @@ const page = async ({ params }: { params: { productId: string } }) => {
             <div className="flex items-center">
               <p className="text-muted-foreground">Width:</p>
               <p className="text-md ml-2 ">{product.width.name}</p>
+            </div>
+            <Separator />
+
+            <div className="flex items-center">
+              <p className="text-muted-foreground">Gauge:</p>
+              <p className="text-md ml-2 ">{product.gauge.name}</p>
             </div>
             <Separator />
           </div>

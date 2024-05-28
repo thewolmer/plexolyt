@@ -1,5 +1,5 @@
 'use client';
-import { Color, Length, Product, ProductImage, Width } from 'prisma/prisma-client';
+import { Color, Gauge, Length, Product, ProductImage, Width } from 'prisma/prisma-client';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -10,6 +10,7 @@ export interface CartItem extends Product {
   color: Color;
   length: Length;
   width: Width;
+  gauge: Gauge;
 }
 
 interface CartStore {
