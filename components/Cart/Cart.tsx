@@ -4,17 +4,10 @@ import React from 'react';
 
 import { CartIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
+import { Link } from '@/components/Link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useCart } from '@/hooks/use-cart';
 import { useMounted } from '@/hooks/useMounted';
 import { cn } from '@/lib/utils';
@@ -37,7 +30,7 @@ export const Cart = () => {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Cart</SheetTitle>
-          <SheetDescription>hola</SheetDescription>
+          {/* <SheetDescription>hola</SheetDescription> */}
         </SheetHeader>
         <div className="my-6 space-y-4">
           <Separator />
@@ -52,7 +45,7 @@ export const Cart = () => {
               >
                 <X size={'15px'} />
               </div>
-              <div className="flex items-center justify-center">
+              <Link href={`/product/${item.id}`} className="flex items-center justify-center">
                 <div className="w-24 rounded-2xl">
                   <Image
                     src={item.images[0].imageUrl as string}
@@ -62,7 +55,7 @@ export const Cart = () => {
                     className="h-20 w-20 rounded-2xl object-cover"
                   />
                 </div>
-              </div>
+              </Link>
               <div className="flex justify-between">
                 <div>
                   <h3 className="text-sm font-bold">{item.name}</h3>

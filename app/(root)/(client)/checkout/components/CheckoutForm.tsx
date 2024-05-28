@@ -188,7 +188,11 @@ export const CheckoutForm = ({ items }: CheckoutFormProps) => {
           />
         </div>
         <div className="flex w-full justify-center">
-          <Button type="submit" disabled={loading} className="flex w-full items-center justify-center">
+          <Button
+            type="submit"
+            disabled={loading || !items || items.length === 0}
+            className="flex w-full items-center justify-center"
+          >
             {loading ? <LoadingSpinner /> : 'Checkout'}
           </Button>
         </div>

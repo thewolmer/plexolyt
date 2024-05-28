@@ -31,13 +31,15 @@ const page = async ({ params }: { params: { productId: string } }) => {
           <CarouselContent>
             {product.images.map((image) => (
               <CarouselItem key={image.id}>
-                <Image
-                  src={image.imageUrl}
-                  alt={product.name}
-                  className="h-[50vh] w-full rounded-md object-cover shadow-md md:h-[60vh]"
-                  width={720}
-                  height={720}
-                />
+                <div className="aspect-1">
+                  <Image
+                    src={image.imageUrl}
+                    alt={product.name}
+                    className="h-[50vh] w-full rounded-md object-cover shadow-md md:h-[60vh]"
+                    width={720}
+                    height={720}
+                  />
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>

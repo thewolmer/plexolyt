@@ -1,5 +1,6 @@
 import { LocationPinIcon } from '@/components/Icons';
 
+import BrowseCategories from './components/BrowseCategories';
 import { Featured } from './components/Featured';
 
 export default function SetupPage() {
@@ -15,6 +16,7 @@ export default function SetupPage() {
           </p>
         </div>
       </section>
+      <BrowseCategories />
       <Featured />
     </main>
   );

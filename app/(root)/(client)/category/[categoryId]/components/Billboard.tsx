@@ -26,8 +26,13 @@ export const Billboard = async ({ id }: { id: string }) => {
           fill
           className="absolute"
         ></Image>
-        <div className="relative z-0 flex h-full w-full flex-col items-center justify-center gap-y-8 text-center">
-          <div className="max-w-xs text-3xl font-bold sm:max-w-xl sm:text-5xl lg:text-6xl">{data?.description}</div>
+        <div className="relative z-0 flex h-full w-full flex-col items-center justify-center gap-y-8 text-center ">
+          <div
+            className="max-w-xs text-3xl font-bold sm:max-w-xl sm:text-5xl lg:text-6xl"
+            style={{ mixBlendMode: 'difference' }}
+          >
+            {data?.description}
+          </div>
         </div>
       </div>
     </div>

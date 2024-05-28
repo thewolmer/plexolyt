@@ -53,15 +53,6 @@ const CheckoutPage = () => {
     );
   }
 
-  if (!cart || cart.items.length === 0) {
-    return (
-      <main className="flex h-[90vh] flex-col items-center justify-center p-10">
-        <h1 className="text-4xl font-bold">Your cart is empty.</h1>
-        <p>Add products to cart</p>
-      </main>
-    );
-  }
-
   return (
     <main>
       <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>

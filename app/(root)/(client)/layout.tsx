@@ -4,7 +4,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   return (
     <>
       <StoreNavBar />
-      {children}
+      <main className="min-h-screen">{children}</main>
       <Footer />
     </>
   );
