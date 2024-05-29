@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+const optionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  disable: z.boolean().optional(),
+});
+
 export const colorFormSchema = z.object({
   name: z.string().min(2, {
     message: 'Name must be at least 2 characters.',
@@ -66,38 +72,61 @@ export const productFormSchema = z.object({
   description: z
     .string()
     .min(2, {
-      message: 'Name must be at least 2 characters.',
+      message: 'Description must be at least 2 characters.',
     })
     .max(500, {
       message: 'Description must be at most 500 characters.',
     }),
-  price: z.string().min(1, {
-    message: 'Price must be at least 1 characters.',
-  }),
-  stock: z.string().min(1, {
-    message: 'Price must be at least 1 characters.',
-  }),
+  price: z.union([z.string(), z.number().positive()]).refine(
+    (value) => {
+      if (typeof value === 'string') {
+        const intValue = parseInt(value);
+        return !isNaN(intValue);
+      }
+      return true;
+    },
+    {
+      message: 'Price must be a valid integer or string representation of an integer.',
+      path: ['price'],
+    },
+  ),
+  stock: z.union([z.string(), z.number().nonnegative()]).refine(
+    (value) => {
+      if (typeof value === 'string') {
+        const intValue = parseInt(value);
+        return !isNaN(intValue);
+      }
+      return true;
+    },
+    {
+      message: 'Stock must be a valid integer or string representation of an integer.',
+      path: ['stock'],
+    },
+  ),
   categoryId: z.string().min(2, {
     message: 'Category must be selected.',
   }),
   subCategoryId: z.string().min(2, {
     message: 'Sub Category must be selected.',
   }),
-  colorId: z.string().min(2, {
-    message: 'Color must be selected.',
+  colorIds: z.array(optionSchema).min(1, {
+    message: 'At least one Color must be selected.',
   }),
-  lengthId: z.string().min(2, {
-    message: 'Length must be selected.',
+
+  lengthIds: z.array(optionSchema).min(1, {
+    message: 'At least one Length must be selected.',
   }),
-  widthId: z.string().min(2, {
-    message: 'Width must be selected.',
+  widthIds: z.array(optionSchema).min(1, {
+    message: 'At least one Width must be selected.',
   }),
-  gaugeId: z.string().min(2, {
-    message: 'Gauge must be selected.',
+  gaugeIds: z.array(optionSchema).min(1, {
+    message: 'At least one Gauge must be selected.',
   }),
   isArchived: z.boolean(),
   isFeatured: z.boolean(),
-  images: z.object({ url: z.string() }).array(),
+  images: z.object({ url: z.string() }).array().min(1, {
+    message: 'At least one Image must be provided.',
+  }),
 });
 
 export const CheckOutFormSchema = z.object({

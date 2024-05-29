@@ -3,7 +3,7 @@ export const getCommits = async () => {
   try {
     const response = await fetch('https://api.github.com/repos/thewolmer/plexolyt/commits', {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       },
     });
     const data = await response.json();

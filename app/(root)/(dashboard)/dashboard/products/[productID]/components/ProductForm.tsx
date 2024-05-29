@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Color, Gauge, Length, Product, ProductImage, SubCategory, Width } from '@prisma/client';
+import { Category, Color, Gauge, Length, SubCategory, Width } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,23 +17,21 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import MultipleSelector, { Option } from '@/components/ui/multi-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { productFormSchema as formSchema } from '@/prisma/form-schema.client';
 
+import { ProductWithPayLoad } from '@/types/product/ProductWithPayload';
+
 export interface ProductFormProps {
-  initialValues: ProductFormValues | null | undefined;
+  initialValues: ProductWithPayLoad | null | undefined;
   categories: Category[] | null | undefined;
   subcategories: SubCategory[] | null | undefined;
   colors: Color[] | null | undefined;
   lengths: Length[] | null | undefined;
   widths: Width[] | null | undefined;
   gauges: Gauge[] | null | undefined;
-}
-interface ProductFormValues extends Omit<Product, 'price' | 'stock'> {
-  price: string;
-  stock: string;
-  images: ProductImage[];
 }
 
 export function ProductForm({
@@ -59,6 +57,13 @@ export function ProductForm({
       ? {
           ...initialValues,
           images: initialValues.images.map((image) => ({ url: image?.imageUrl })),
+          colorIds: initialValues.productColors.map((color) => ({ label: color.color.name, value: color.colorId })),
+          lengthIds: initialValues.productLengths.map((length) => ({
+            label: length.length.name,
+            value: length.lengthId,
+          })),
+          widthIds: initialValues.productWidths.map((width) => ({ label: width.width.name, value: width.widthId })),
+          gaugeIds: initialValues.productGauges.map((gauge) => ({ label: gauge.gauge.name, value: gauge.gaugeId })),
         }
       : {
           name: '',
@@ -67,10 +72,10 @@ export function ProductForm({
           stock: '0',
           categoryId: '',
           subCategoryId: '',
-          colorId: '',
-          lengthId: '',
-          gaugeId: '',
-          widthId: '',
+          colorIds: [],
+          lengthIds: [],
+          gaugeIds: [],
+          widthIds: [],
           isArchived: false,
           isFeatured: false,
           description: '',
@@ -254,100 +259,80 @@ export function ProductForm({
             />
             <FormField
               control={form.control}
-              name="colorId"
+              name="colorIds"
               render={({ field }) => (
-                <FormItem className="md:max-w-md">
-                  <FormLabel>Color</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a Color" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {colors?.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>This will be products color.</FormDescription>
+                <FormItem>
+                  <FormLabel>Colors</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      defaultOptions={colors?.map((color) => ({ value: color.id, label: color.name })) as Option[]}
+                      placeholder="Select Colors"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-muted-foreground">no results found.</p>
+                      }
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="lengthId"
+              name="lengthIds"
               render={({ field }) => (
-                <FormItem className="md:max-w-md">
-                  <FormLabel>Length</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a Length" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {lengths?.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>This will be products Length.</FormDescription>
+                <FormItem>
+                  <FormLabel>Lengths</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      defaultOptions={lengths?.map((length) => ({ value: length.id, label: length.name })) as Option[]}
+                      placeholder="Select Lengths"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-muted-foreground">no results found.</p>
+                      }
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="widthId"
+              name="widthIds"
               render={({ field }) => (
-                <FormItem className="md:max-w-md">
-                  <FormLabel>Width</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a Width" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {widths?.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>This will be products Width.</FormDescription>
+                <FormItem>
+                  <FormLabel>Widths</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      defaultOptions={widths?.map((width) => ({ value: width.id, label: width.name })) as Option[]}
+                      placeholder="Select Widths"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-muted-foreground">no results found.</p>
+                      }
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="gaugeId"
+              name="gaugeIds"
               render={({ field }) => (
-                <FormItem className="md:max-w-md">
-                  <FormLabel>Gauge</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a Width" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {gauges?.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>This will be products Gauge.</FormDescription>
+                <FormItem>
+                  <FormLabel>Gauges</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      defaultOptions={gauges?.map((gauge) => ({ value: gauge.id, label: gauge.name })) as Option[]}
+                      placeholder="Select Gauges"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-muted-foreground">no results found.</p>
+                      }
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -399,7 +384,7 @@ export function ProductForm({
               )}
             />
           </div>
-          <Button disabled={isLoading || isCreated} type="submit">
+          <Button disabled={isLoading} type="submit">
             {action}
           </Button>
         </form>

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -36,7 +30,7 @@ model Category {
   name        String    @unique
   description String
   billboardId String
-  billboard   Billboard @relation(fields: [billboardId], references: [id], onUpdate: Cascade)
+  billboard   Billboard @relation(fields: [billboardId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   products    Product[]
@@ -51,63 +45,62 @@ model SubCategory {
 }
 
 model Color {
-  id        String    @id @map("_id")
-  name      String    @unique
-  hex       String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id            String         @id @map("_id")
+  name          String         @unique
+  hex           String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  productColors ProductColor[]
+  orderItems    OrderItem[]
 }
 
 model Length {
-  id        String    @id @map("_id")
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id             String          @id @map("_id")
+  name           String          @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  productLengths ProductLength[]
+  orderItems     OrderItem[]
 }
 
 model Gauge {
-  id        String    @id @map("_id")
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id            String         @id @map("_id")
+  name          String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  productGauges ProductGauge[]
+  orderItems    OrderItem[]
 }
 
 model Width {
-  id String @id @map("_id")
-
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id            String         @id @map("_id")
+  name          String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  productWidths ProductWidth[]
+  orderItems    OrderItem[]
 }
 
 model Product {
-  id            String         @id @map("_id")
-  name          String         @unique
-  price         String
-  stock         String
-  description   String
-  categoryId    String
-  category      Category       @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
-  subCategoryId String
-  subCategory   SubCategory    @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
-  colorId       String
-  color         Color          @relation(fields: [colorId], references: [id], onUpdate: Cascade)
-  lengthId      String
-  length        Length         @relation(fields: [lengthId], references: [id], onUpdate: Cascade)
-  gaugeId       String
-  gauge         Gauge          @relation(fields: [gaugeId], references: [id], onUpdate: Cascade)
-  widthId       String
-  width         Width          @relation(fields: [widthId], references: [id], onUpdate: Cascade)
-  isFeatured    Boolean        @default(false)
-  isArchived    Boolean        @default(false)
-  images        ProductImage[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  orderItems    OrderItem[]
+  id             String          @id @map("_id")
+  name           String          @unique
+  price          Int
+  stock          Int
+  description    String
+  categoryId     String
+  category       Category        @relation(fields: [categoryId], references: [id])
+  subCategoryId  String
+  subCategory    SubCategory     @relation(fields: [subCategoryId], references: [id])
+  isFeatured     Boolean         @default(false)
+  isArchived     Boolean         @default(false)
+  images         ProductImage[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  orderItems     OrderItem[]
+  productColors  ProductColor[]
+  productLengths ProductLength[]
+  productGauges  ProductGauge[]
+  productWidths  ProductWidth[]
 }
 
 model ProductImage {
@@ -144,8 +137,58 @@ model OrderItem {
   orderId   String
   order     Order    @relation(fields: [orderId], references: [id])
   productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
+  colorId   String
+  lengthId  String
+  gaugeId   String
+  widthId   String
+  color     Color    @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  length    Length   @relation(fields: [lengthId], references: [id], onDelete: Cascade)
+  gauge     Gauge    @relation(fields: [gaugeId], references: [id], onDelete: Cascade)
+  width     Width    @relation(fields: [widthId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Join tables for many-to-many relations
+
+model ProductColor {
+  id        String  @id @default(cuid()) @map("_id")
+  productId String
+  colorId   String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color     Color   @relation(fields: [colorId], references: [id])
+
+  @@unique([productId, colorId])
+}
+
+model ProductLength {
+  id        String  @id @default(cuid()) @map("_id")
+  productId String
+  lengthId  String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  length    Length  @relation(fields: [lengthId], references: [id])
+
+  @@unique([productId, lengthId])
+}
+
+model ProductGauge {
+  id        String  @id @default(cuid()) @map("_id")
+  productId String
+  gaugeId   String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  gauge     Gauge   @relation(fields: [gaugeId], references: [id])
+
+  @@unique([productId, gaugeId])
+}
+
+model ProductWidth {
+  id        String  @id @default(cuid()) @map("_id")
+  productId String
+  widthId   String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  width     Width   @relation(fields: [widthId], references: [id])
+
+  @@unique([productId, widthId])
 }

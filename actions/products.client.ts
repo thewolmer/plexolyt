@@ -16,44 +16,96 @@ export async function QueryProducts({ category, colors, lengths, widths, gauges,
     const colorIds = colors?.filter((c) => c !== undefined) || [];
     const lengthIds = lengths?.filter((l) => l !== undefined) || [];
     const widthIds = widths?.filter((w) => w !== undefined) || [];
-    const gaugeIds = gauges?.filter((w) => w !== undefined) || [];
+    const gaugeIds = gauges?.filter((g) => g !== undefined) || [];
     const isFeatured = featured === 'true' ? true : undefined;
 
     const products = await db.product.findMany({
       where: {
         categoryId,
-        colorId: {
-          in: colorIds.length ? colorIds : undefined,
-        },
-        lengthId: {
-          in: lengthIds.length ? lengthIds : undefined,
-        },
-        widthId: {
-          in: widthIds.length ? widthIds : undefined,
-        },
-        gaugeId: {
-          in: gaugeIds.length ? gaugeIds : undefined,
-        },
         isFeatured: isFeatured !== undefined ? isFeatured : undefined,
         isArchived: false,
+        AND: [
+          colorIds.length
+            ? {
+                productColors: {
+                  some: {
+                    colorId: {
+                      in: colorIds,
+                    },
+                  },
+                },
+              }
+            : {},
+          lengthIds.length
+            ? {
+                productLengths: {
+                  some: {
+                    lengthId: {
+                      in: lengthIds,
+                    },
+                  },
+                },
+              }
+            : {},
+          widthIds.length
+            ? {
+                productWidths: {
+                  some: {
+                    widthId: {
+                      in: widthIds,
+                    },
+                  },
+                },
+              }
+            : {},
+          gaugeIds.length
+            ? {
+                productGauges: {
+                  some: {
+                    gaugeId: {
+                      in: gaugeIds,
+                    },
+                  },
+                },
+              }
+            : {},
+        ],
       },
       include: {
         category: true,
-        color: true,
-        length: true,
-        width: true,
+        productColors: {
+          include: {
+            color: true,
+          },
+        },
+        productLengths: {
+          include: {
+            length: true,
+          },
+        },
+        productWidths: {
+          include: {
+            width: true,
+          },
+        },
+        productGauges: {
+          include: {
+            gauge: true,
+          },
+        },
         images: true,
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
+
     if (products.length === 0) return { message: 'No products found.', status: 404 };
 
     return { data: products, status: 200 };
   } catch (e) {
     console.log('[GET : QueryProducts]', e);
-    return { message: 'Couldnt fetch products data.', status: 500 };
+    return { message: "Couldn't fetch products data.", status: 500 };
   }
 }
 
@@ -70,6 +122,6 @@ export async function getCheckoutProducts(items: CartItem[]) {
     return products;
   } catch (e) {
     console.log('[GET : getCheckoutProducts]', e);
-    return { message: 'Couldnt fetch checkout products data.', status: 500 };
+    return { message: "Couldn't fetch checkout products data.", status: 500 };
   }
 }

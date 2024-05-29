@@ -7,23 +7,33 @@ import { productFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-type GetAllProductProps = {
-  include: {
-    category?: boolean;
-    subCategory?: boolean;
-    color?: boolean;
-    length?: boolean;
-    width?: boolean;
-    images?: boolean;
-    gauge?: boolean;
-  };
-};
-
-export const getAllProducts = async ({ include }: GetAllProductProps) => {
+export const getAllProducts = async () => {
   try {
     const product = await db.product.findMany({
       include: {
-        ...include,
+        category: true,
+        subCategory: true,
+        productColors: {
+          include: {
+            color: true,
+          },
+        },
+        productLengths: {
+          include: {
+            length: true,
+          },
+        },
+        productWidths: {
+          include: {
+            width: true,
+          },
+        },
+        productGauges: {
+          include: {
+            gauge: true,
+          },
+        },
+        images: true,
       },
     });
     return { status: 200, data: product };
@@ -35,17 +45,9 @@ export const getAllProducts = async ({ include }: GetAllProductProps) => {
 
 interface GetProductsByIdProps {
   productID: string;
-  include?: {
-    category?: boolean;
-    subCategory?: boolean;
-    color?: boolean;
-    length?: boolean;
-    width?: boolean;
-    images?: boolean;
-  };
 }
 
-export const getProductByID = async ({ productID, include }: GetProductsByIdProps) => {
+export const getProductByID = async ({ productID }: GetProductsByIdProps) => {
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
@@ -56,44 +58,111 @@ export const getProductByID = async ({ productID, include }: GetProductsByIdProp
         id: productID,
       },
       include: {
-        ...include,
+        category: true,
+        subCategory: true,
+        productColors: {
+          include: {
+            color: true,
+          },
+        },
+        productLengths: {
+          include: {
+            length: true,
+          },
+        },
+        productWidths: {
+          include: {
+            width: true,
+          },
+        },
+        productGauges: {
+          include: {
+            gauge: true,
+          },
+        },
+        images: true,
       },
     });
-    return { status: 200, message: 'Product created successfully!', data: product };
+    return { status: 200, message: 'Product retrieved successfully!', data: product };
   } catch (e) {
-    console.log('[action:getAllProductByID]', e);
+    console.log('[action:getProductByID]', e);
     return { message: 'Something went wrong!', status: 500 };
   }
 };
 
 export const createProduct = async (formData: z.infer<typeof formSchema>) => {
+  console.log('TYpe of price and stock', typeof formData.price, typeof formData.stock);
   const session = await auth();
   if (!session) {
     return { message: 'Unauthorized!', status: 401 };
   }
   try {
+    // Parse and validate form data
+    const parsedData = formSchema.parse(formData);
+    if (parsedData instanceof Error) {
+      return { message: 'Invalid form data!', status: 400 };
+    }
+
+    // Create product
     const product = await db.product.create({
       data: {
-        id: slugify(formData.name),
-        name: formData.name,
-        description: formData.description,
-        price: formData.price,
-        stock: formData.stock,
-        categoryId: formData.categoryId,
-        subCategoryId: formData.subCategoryId,
-        colorId: formData.colorId,
-        lengthId: formData.lengthId,
-        widthId: formData.widthId,
-        gaugeId: formData.gaugeId,
-        isArchived: formData.isArchived,
-        isFeatured: formData.isFeatured,
+        id: slugify(parsedData.name),
+        name: parsedData.name,
+        description: parsedData.description,
+        price: Number(parsedData.price),
+        stock: Number(parsedData.stock),
+        categoryId: parsedData.categoryId,
+        subCategoryId: parsedData.subCategoryId,
+        isArchived: parsedData.isArchived,
+        isFeatured: parsedData.isFeatured,
         images: {
           createMany: {
-            data: [...formData.images.map((image) => ({ imageUrl: image.url }))],
+            data: parsedData.images.map((image) => ({ imageUrl: image.url })),
           },
         },
       },
     });
+
+    // Create product-color relationships
+    if (parsedData.colorIds && parsedData.colorIds.length > 0) {
+      await db.productColor.createMany({
+        data: parsedData.colorIds.map((color) => ({
+          productId: product.id,
+          colorId: color.value,
+        })),
+      });
+    }
+
+    // Create product-length relationships
+    if (parsedData.lengthIds && parsedData.lengthIds.length > 0) {
+      await db.productLength.createMany({
+        data: parsedData.lengthIds.map((length) => ({
+          productId: product.id,
+          lengthId: length.value,
+        })),
+      });
+    }
+
+    // Create product-width relationships
+    if (parsedData.widthIds && parsedData.widthIds.length > 0) {
+      await db.productWidth.createMany({
+        data: parsedData.widthIds.map((width) => ({
+          productId: product.id,
+          widthId: width.value,
+        })),
+      });
+    }
+
+    // Create product-gauge relationships
+    if (parsedData.gaugeIds && parsedData.gaugeIds.length > 0) {
+      await db.productGauge.createMany({
+        data: parsedData.gaugeIds.map((gauge) => ({
+          productId: product.id,
+          gaugeId: gauge.value,
+        })),
+      });
+    }
+
     revalidatePath('/');
     return { status: 200, message: 'Product created successfully!', data: product };
   } catch (e) {
@@ -135,16 +204,32 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
       data: {
         name: formData.name,
         description: formData.description,
-        price: formData.price,
-        stock: formData.stock,
+        price: formData.price as number,
+        stock: formData.stock as number,
         categoryId: formData.categoryId,
         subCategoryId: formData.subCategoryId,
-        colorId: formData.colorId,
-        lengthId: formData.lengthId,
-        widthId: formData.widthId,
-        gaugeId: formData.gaugeId,
         isArchived: formData.isArchived,
         isFeatured: formData.isFeatured,
+        productColors: {
+          deleteMany: {}, // Delete existing relations
+          create: formData.colorIds.map((color) => ({ colorId: color.value })),
+        },
+        productLengths: {
+          deleteMany: {},
+          create: formData.lengthIds.map((length) => ({ lengthId: length.value })),
+        },
+        productWidths: {
+          deleteMany: {},
+          create: formData.widthIds.map((width) => ({ widthId: width.value })),
+        },
+        productGauges: {
+          deleteMany: {},
+          create: formData.gaugeIds.map((gauge) => ({ gaugeId: gauge.value })),
+        },
+        images: {
+          deleteMany: {}, // Delete existing images
+          create: formData.images.map((image) => ({ imageUrl: image.url })), // Create new images
+        },
       },
     });
     revalidatePath('/');

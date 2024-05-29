@@ -12,7 +12,9 @@ import { ProductForm } from './components/ProductForm';
 
 const ProductPage = async ({ params }: { params: { productID: string } }) => {
   const [product, categories, subcategories, colors, lengths, widths, gauges] = await Promise.all([
-    getProductByID({ productID: params.productID, include: { images: true } }),
+    getProductByID({
+      productID: params.productID,
+    }),
     getAllCategories(),
     getAllSubCategories(),
     getAllColors(),

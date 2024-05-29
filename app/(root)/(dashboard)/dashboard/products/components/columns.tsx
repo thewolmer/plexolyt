@@ -2,6 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
+import { Badge } from '@/components/ui/badge';
+
 import { CellActions } from './cell-actions';
 
 // This type is used to define the shape of our data.
@@ -12,10 +14,10 @@ export type ProductColumn = {
   price: string;
   stock: number;
   category: string;
-  color: string;
-  length: string;
-  gauge: string;
-  width: string;
+  colors: string[];
+  lengths: string[];
+  gauges: string[];
+  widths: string[];
   isFeatured: boolean;
   isArchived: boolean;
   createdAt: string;
@@ -30,24 +32,13 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: 'category',
     header: 'Category',
   },
-  {
-    accessorKey: 'color',
-    header: 'Color',
-    cell: ({ row }) => <div style={{ backgroundColor: row.original.color }} className="size-5 rounded-full" />,
-  },
-
-  {
-    accessorKey: 'width',
-    header: 'Width',
-  },
-  {
-    accessorKey: 'length',
-    header: 'Length',
-  },
-  {
-    accessorKey: 'gauge',
-    header: 'Gauge',
-  },
+  // {
+  //   accessorKey: 'color',
+  //   header: 'Color',
+  //   cell: ({ row }) => {
+  //     row.original.colors.map((color, index) => <Badge key={index}> {color}</Badge>);
+  //   },
+  // },
 
   {
     accessorKey: 'isFeatured',
@@ -57,7 +48,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: 'isArchived',
     header: 'Archived?',
   },
-
   {
     accessorKey: 'stock',
     header: 'Stock',
