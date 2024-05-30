@@ -77,8 +77,8 @@ const CheckoutPage = () => {
                       <h3 className="text-lg font-bold">{item.name}</h3>
                       <div>
                         <p className="text-sm">
-                          Color: {item.color.name} | Length: {item.length.name} | Width: {item.width.name} | Gauge:
-                          {item.gauge.name}
+                          Color: {item.color?.name} | Length: {item.length?.name} | Width: {item.length?.name} | Gauge:
+                          {item.gauge?.name}
                         </p>
                       </div>
                     </div>

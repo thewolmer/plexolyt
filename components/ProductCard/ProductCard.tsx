@@ -1,19 +1,12 @@
-import { Category, Color, Length, Product, ProductImage, Width } from '@prisma/client';
 import React from 'react';
 
 import { Image } from '@/components/Image';
 import { Link } from '@/components/Link';
 import { formatCurrency } from '@/utils/formatter';
 
-interface Props extends Product {
-  color: Color;
-  images: ProductImage[];
-  width: Width;
-  length: Length;
-  category: Category;
-}
+import { ProductWithPayLoad } from '@/types/product/ProductWithPayload';
 
-export const ProductCard = ({ product }: { product: Props }) => (
+export const ProductCard = ({ product }: { product: ProductWithPayLoad }) => (
   <div className="group relative rounded-2xl border shadow-xl ring-primary transition-all duration-150 hover:ring-2">
     <div className="aspect-1 w-full overflow-hidden rounded-t-xl group-hover:opacity-75 ">
       <Image
@@ -37,18 +30,27 @@ export const ProductCard = ({ product }: { product: Props }) => (
             {product.category.name} <span className="mx-1 text-border">|</span>
           </div>
 
-          <div
-            className={`h-2 w-2 rounded-full text-muted-foreground`}
-            style={{ backgroundColor: product.color.hex }}
-          ></div>
-          <div className="flex items-center justify-center text-muted-foreground">{product.color.name}</div>
-        </div>
-        <div className="mt-1 flex flex-col gap-1 text-xs text-muted-foreground md:flex-row md:items-center">
-          <div className="flex items-center md:justify-center">
-            Length: {product.length.name} <span className="mx-1 text-border">|</span>
+          <div>
+            <div className="flex items-center justify-center text-muted-foreground">
+              {product.productColors.map((item) => (
+                <div
+                  key={item.id}
+                  className={`h-2 w-2 rounded-full text-muted-foreground`}
+                  style={{ backgroundColor: item.color.hex }}
+                ></div>
+              ))}
+            </div>
           </div>
-          <div className="flex items-center md:justify-center">Width: {product.width.name}</div>
         </div>
+        {/* <div className="mt-1 flex flex-col gap-1 text-xs text-muted-foreground md:flex-row md:items-center">
+          <div>
+            <div className="flex items-center justify-center text-muted-foreground">
+              {product.productLengths.map((item) => (
+                <span key={item.id}>{item.length.name}</span>
+              ))}
+            </div>
+          </div>
+        </div> */}
       </div>
       <div className="text-start text-sm font-medium">{formatCurrency(product.price)}</div>
     </div>

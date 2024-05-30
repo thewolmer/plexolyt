@@ -19,7 +19,6 @@ export const billboardFormSchema = z.object({
   label: z.string().min(2, {
     message: 'Label must be at least 2 characters.',
   }),
-
   imageUrl: z.string().min(2, {
     message: 'Upload an image for the category.',
   }),
@@ -41,6 +40,9 @@ export const categoryFormSchema = z.object({
     .max(60, {
       message: 'Description must be at most 60 characters.',
     }),
+  textColor: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
+    message: 'Invalid Hex Code. Please enter a valid hex code. check from https://tailwindcolor.com/',
+  }),
 });
 
 export const subcategoryFormSchema = z.object({

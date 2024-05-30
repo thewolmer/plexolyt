@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { createProduct, deleteProduct, updateProduct } from '@/actions/products';
-import { BinIcon } from '@/components/Icons';
+import { BinIcon, LoadingSpinner } from '@/components/Icons';
 import { ProductsImageUpload } from '@/components/ImageUpload/ProductsImageUpload';
 import { Header } from '@/components/Layout';
 import { AlertModal } from '@/components/Modals/alert-modal';
@@ -384,8 +384,8 @@ export function ProductForm({
               )}
             />
           </div>
-          <Button disabled={isLoading} type="submit">
-            {action}
+          <Button disabled={isLoading || isCreated} type="submit">
+            {isLoading ? <LoadingSpinner /> : <>{action} </>}
           </Button>
         </form>
       </Form>

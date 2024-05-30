@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { createCategory, deleteCategory, updateCategory } from '@/actions/categories';
 import { BinIcon } from '@/components/Icons';
 import { Header } from '@/components/Layout';
+import { Link } from '@/components/Link';
 import { AlertModal } from '@/components/Modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -31,6 +32,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
   const action = initialValues ? 'Save Changes' : 'Create';
   const [isLoading, setIsLoading] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
+  const [hexValue, setHexValue] = useState(initialValues?.textColor || '');
   const [isOpen, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,6 +41,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
       name: '',
       billboardId: '',
       description: '',
+      textColor: '',
     },
   });
 
@@ -152,6 +155,34 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
                   </FormControl>
                   <FormDescription>
                     This will be added to product description and will be shown in Google search results.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="textColor"
+              render={({ field }) => (
+                <FormItem className="md:max-w-md">
+                  <FormLabel>Color Hex</FormLabel>
+                  <FormControl>
+                    <Input
+                      style={{ borderColor: hexValue || '', borderWidth: '2px' }}
+                      autoComplete="off"
+                      placeholder="#000000"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setHexValue(e.target.value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    The Color must be in Hex. Click and copy paste from{' '}
+                    <Link className="underline underline-offset-2" href="https://tailwindcolor.com/">
+                      here.
+                    </Link>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

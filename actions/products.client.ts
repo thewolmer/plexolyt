@@ -73,6 +73,7 @@ export async function QueryProducts({ category, colors, lengths, widths, gauges,
       },
       include: {
         category: true,
+        subCategory: true,
         productColors: {
           include: {
             color: true,
@@ -123,5 +124,54 @@ export async function getCheckoutProducts(items: CartItem[]) {
   } catch (e) {
     console.log('[GET : getCheckoutProducts]', e);
     return { message: "Couldn't fetch checkout products data.", status: 500 };
+  }
+}
+
+export async function getRelatedProducts(categoryId: string, currentProductId: string) {
+  try {
+    const relatedProducts = await db.product.findMany({
+      where: {
+        categoryId,
+        isArchived: false,
+        id: {
+          not: currentProductId,
+        },
+      },
+      include: {
+        category: true,
+        subCategory: true,
+        productColors: {
+          include: {
+            color: true,
+          },
+        },
+        productLengths: {
+          include: {
+            length: true,
+          },
+        },
+        productWidths: {
+          include: {
+            width: true,
+          },
+        },
+        productGauges: {
+          include: {
+            gauge: true,
+          },
+        },
+        images: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    if (relatedProducts.length === 0) return { message: 'No related products found.', status: 404 };
+
+    return { data: relatedProducts, status: 200 };
+  } catch (e) {
+    console.log('[GET : getRelatedProducts]', e);
+    return { message: "Couldn't fetch related products data.", status: 500 };
   }
 }
