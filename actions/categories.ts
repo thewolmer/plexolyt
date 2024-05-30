@@ -44,6 +44,7 @@ export const createCategory = async (formData: z.infer<typeof formSchema>) => {
         name: parsedData.name,
         description: parsedData.description,
         billboardId: parsedData.billboardId,
+        textColor: parsedData.textColor,
       },
     });
     revalidatePath('/');

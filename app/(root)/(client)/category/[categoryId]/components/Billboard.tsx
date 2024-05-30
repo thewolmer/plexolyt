@@ -29,7 +29,7 @@ export const Billboard = async ({ id }: { id: string }) => {
         <div className="relative z-0 flex h-full w-full flex-col items-center justify-center gap-y-8 text-center ">
           <div
             className="max-w-xs text-3xl font-bold sm:max-w-xl sm:text-5xl lg:text-6xl"
-            style={{ mixBlendMode: 'difference' }}
+            style={{ color: data.textColor }}
           >
             {data?.description}
           </div>
