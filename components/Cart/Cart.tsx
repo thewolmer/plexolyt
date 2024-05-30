@@ -40,7 +40,7 @@ export const Cart = () => {
             <div key={item.id} className=" relative flex rounded-xl border p-6">
               <div
                 role="button"
-                onClick={() => cart.removeItem(item.id)}
+                onClick={() => cart.removeItem(item)}
                 className="shadow-4xl absolute -right-2 top-0 rounded-full border bg-card p-2"
               >
                 <X size={'15px'} />
@@ -59,14 +59,23 @@ export const Cart = () => {
               <div className="flex justify-between">
                 <div>
                   <h3 className="text-sm font-bold">{item.name}</h3>
-                  <p className="text-xs ">{item.color.name}</p>
                   <p className="text-xs">
-                    Color: {item.color.name} | Length: {item.length.name} | Width: {item.width.name}
+                    {item.category.name} | {item.subCategory.name}
                   </p>
-                  <p className="mt-1 text-xs">
-                    {formatCurrency(item.price)} x {item.quantity} =
-                    <span className="font-bold">{formatCurrency(cart.calculateItemTotal(item.id))}</span>
-                  </p>
+                  <div className="text-muted-foreground">
+                    <p className="text-xs">Color: {item.color?.name}</p>
+                    <p className="text-xs">Length: {item.length?.name}</p>
+                    <p className="text-xs">Width: {item.width?.name}</p>
+                    <p className="text-xs">Gauge: {item.gauge?.name}</p>
+                    <p className="mt-1 flex flex-col text-xs">
+                      <span>
+                        {formatCurrency(item.price)} x {item.quantity}
+                      </span>
+                      <span className="font-bold text-foreground">
+                        {formatCurrency(cart.calculateItemTotal(item.id))}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

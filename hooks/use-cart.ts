@@ -1,22 +1,23 @@
 'use client';
-import { Color, Gauge, Length, Product, ProductImage, Width } from 'prisma/prisma-client';
+import { Color, Gauge, Length, Width } from 'prisma/prisma-client';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-export interface CartItem extends Product {
+import { ProductWithPayLoad } from '@/types/product/ProductWithPayload';
+
+export interface CartItem extends ProductWithPayLoad {
   quantity?: number;
-  images: ProductImage[];
-  color: Color;
-  length: Length;
-  width: Width;
-  gauge: Gauge;
+  color?: Color;
+  length?: Length;
+  width?: Width;
+  gauge?: Gauge;
 }
 
 interface CartStore {
   items: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (id: string) => void;
+  removeItem: (item: CartItem) => void;
   clearCart: () => void;
   calculateItemTotal: (id: string) => number;
   totalAmount: () => number;
@@ -27,7 +28,14 @@ export const useCart = create(
       items: [],
       addItem: (item: CartItem) => {
         const currentItems = get().items;
-        const existingItem = currentItems.find((i) => i.id === item.id);
+        const existingItem = currentItems.find(
+          (i) =>
+            i.id === item.id &&
+            i.length === item.length &&
+            i.color === item.color &&
+            i.width === item.width &&
+            i.gauge === item.gauge,
+        );
         const quantity = item.quantity || 1;
 
         if (existingItem) {
@@ -42,9 +50,16 @@ export const useCart = create(
           toast.success('Item added to cart');
         }
       },
-      removeItem: (id: string) => {
+      removeItem: (item: CartItem) => {
         const currentItems = get().items;
-        const newItems = currentItems.filter((i) => i.id !== id);
+        const newItems = currentItems.filter(
+          (i) =>
+            i.id !== item.id ||
+            i.color !== item.color ||
+            i.length !== item.length ||
+            i.width !== item.width ||
+            i.gauge !== item.gauge,
+        );
         set({ items: newItems });
         toast.success('Item removed from cart');
       },
