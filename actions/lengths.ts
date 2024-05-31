@@ -1,4 +1,5 @@
 'use server';
+import { unstable_cache as cache } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -7,15 +8,21 @@ import { lengthFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-export const getAllLengths = async () => {
-  try {
-    const length = await db.length.findMany({});
-    return { status: 200, data: length };
-  } catch (e) {
-    console.log('[action:getAllLengths]', e);
-    return { message: 'Something went wrong!', status: 500 };
-  }
-};
+export const getAllLengths = cache(
+  async () => {
+    try {
+      const length = await db.length.findMany({});
+      return { status: 200, data: length };
+    } catch (e) {
+      console.log('[action:getAllLengths]', e);
+      return { message: 'Something went wrong!', status: 500 };
+    }
+  },
+  ['getAll Lengths'],
+  {
+    revalidate: 3600,
+  },
+);
 
 export const getLengthByID = async (lengthID: string) => {
   const session = await auth();

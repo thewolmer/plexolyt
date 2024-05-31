@@ -1,4 +1,5 @@
 'use server';
+import { unstable_cache as cache } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -7,15 +8,21 @@ import { subcategoryFormSchema as formSchema } from '@/prisma/form-schema.client
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-export const getAllSubCategories = async () => {
-  try {
-    const subcategory = await db.subCategory.findMany({});
-    return { status: 200, data: subcategory };
-  } catch (e) {
-    console.log('[action:getAllSubCategorys]', e);
-    return { message: 'Something went wrong!', status: 500 };
-  }
-};
+export const getAllSubCategories = cache(
+  async () => {
+    try {
+      const subcategory = await db.subCategory.findMany({});
+      return { status: 200, data: subcategory };
+    } catch (e) {
+      console.log('[action:getAllSubCategorys]', e);
+      return { message: 'Something went wrong!', status: 500 };
+    }
+  },
+  ['getAllSubCategories'],
+  {
+    revalidate: 3600,
+  },
+);
 
 export const getSubCategoryByID = async (subcategoryID: string) => {
   const session = await auth();

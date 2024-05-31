@@ -1,4 +1,5 @@
 'use server';
+import { unstable_cache as cache } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -7,15 +8,22 @@ import { colorFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-export const getAllColors = async () => {
-  try {
-    const color = await db.color.findMany({});
-    return { status: 200, data: color };
-  } catch (e) {
-    console.log('[action:getAllColors]', e);
-    return { message: 'Something went wrong!', status: 500 };
-  }
-};
+export const getAllColors = cache(
+  async () => {
+    try {
+      const color = await db.color.findMany({});
+      return { status: 200, data: color };
+    } catch (e) {
+      console.log('[action:getAllColors]', e);
+      return { message: 'Something went wrong!', status: 500 };
+    }
+  },
+
+  ['getAllColors'],
+  {
+    revalidate: 3600,
+  },
+);
 
 export const getColorByID = async (colorID: string) => {
   const session = await auth();

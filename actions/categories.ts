@@ -24,7 +24,33 @@ export const getAllCategories = cache(
   },
   ['getAllCategories'],
   {
-    revalidate: 120,
+    revalidate: 3600,
+  },
+);
+
+export const getCategoryById = cache(
+  async (categoryId: string) => {
+    try {
+      const category = await db.category.findUnique({
+        where: {
+          id: categoryId,
+        },
+        include: {
+          billboard: true,
+        },
+      });
+      if (!category) {
+        return { message: 'Category not found!', status: 404 };
+      }
+      return { status: 200, data: category };
+    } catch (e) {
+      console.log('[action:getCategoryById]', e);
+      return { message: 'Something went wrong!', status: 500 };
+    }
+  },
+  ['getCategoryById'],
+  {
+    revalidate: 3600,
   },
 );
 

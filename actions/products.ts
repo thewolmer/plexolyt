@@ -1,4 +1,5 @@
 'use server';
+import { unstable_cache as cache } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -7,41 +8,48 @@ import { productFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-export const getAllProducts = async () => {
-  try {
-    const product = await db.product.findMany({
-      include: {
-        category: true,
-        subCategory: true,
-        productColors: {
-          include: {
-            color: true,
+export const getAllProducts = cache(
+  async () => {
+    try {
+      const product = await db.product.findMany({
+        include: {
+          category: true,
+          subCategory: true,
+          productColors: {
+            include: {
+              color: true,
+            },
           },
-        },
-        productLengths: {
-          include: {
-            length: true,
+          productLengths: {
+            include: {
+              length: true,
+            },
           },
-        },
-        productWidths: {
-          include: {
-            width: true,
+          productWidths: {
+            include: {
+              width: true,
+            },
           },
-        },
-        productGauges: {
-          include: {
-            gauge: true,
+          productGauges: {
+            include: {
+              gauge: true,
+            },
           },
+          images: true,
         },
-        images: true,
-      },
-    });
-    return { status: 200, data: product };
-  } catch (e) {
-    console.log('[action:getAllProducts]', e);
-    return { message: 'Something went wrong!', status: 500 };
-  }
-};
+      });
+      return { status: 200, data: product };
+    } catch (e) {
+      console.log('[action:getAllProducts]', e);
+      return { message: 'Something went wrong!', status: 500 };
+    }
+  },
+
+  ['getAllProducts'],
+  {
+    revalidate: 3600,
+  },
+);
 
 interface GetProductsByIdProps {
   productID: string;
