@@ -1,3 +1,4 @@
+import { unstable_cache as cache } from 'next/cache';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react';
 
@@ -19,7 +20,17 @@ interface ProductPageProps {
 
 const page = async ({ params, searchParams }: ProductPageProps) => {
   const { productId } = params;
-  const data = await getProductById(productId);
+
+  const fetchProduct = cache(
+    async () => {
+      const response = await getProductById(productId);
+      return response;
+    },
+    ['getProductsById:', productId],
+    { revalidate: 3600 },
+  );
+
+  const data = await fetchProduct();
   if (data?.status !== 200 || !data?.data) {
     return notFound();
   }
