@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react';
 
-import { LoadingSpinner } from '@/components/Icons';
+import { getProductById } from '@/actions/products.client';
 import { Image } from '@/components/Image';
+import { RelatedProductsLoader } from '@/components/Loaders';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
-import db from '@/lib/db';
 
 import { ProductActions } from './components/ProductActions';
 import { RelatedProducts } from './components/RelatedCarousel';
@@ -18,39 +18,12 @@ interface ProductPageProps {
 }
 
 const page = async ({ params, searchParams }: ProductPageProps) => {
-  const product = await db.product.findUnique({
-    where: {
-      id: params.productId,
-    },
-    include: {
-      category: true,
-      subCategory: true,
-      productColors: {
-        include: {
-          color: true,
-        },
-      },
-      productLengths: {
-        include: {
-          length: true,
-        },
-      },
-      productWidths: {
-        include: {
-          width: true,
-        },
-      },
-      productGauges: {
-        include: {
-          gauge: true,
-        },
-      },
-      images: true,
-    },
-  });
-  if (!product) {
+  const { productId } = params;
+  const data = await getProductById(productId);
+  if (data?.status !== 200 || !data?.data) {
     return notFound();
   }
+  const product = data.data;
 
   return (
     <div className="flex   w-full flex-col items-center justify-center p-4">
@@ -97,13 +70,7 @@ const page = async ({ params, searchParams }: ProductPageProps) => {
       </div>
       <section id="related-product" className="min-h-[20vh] w-full max-w-6xl">
         <h2 className="mb-6 text-start text-2xl font-bold tracking-tight">You may also like </h2>
-        <Suspense
-          fallback={
-            <div className="flex h-full w-full items-center justify-center">
-              <LoadingSpinner />
-            </div>
-          }
-        >
+        <Suspense fallback={<RelatedProductsLoader />}>
           <RelatedProducts categoryId={product.categoryId} currentProductId={product.id} />
         </Suspense>
       </section>

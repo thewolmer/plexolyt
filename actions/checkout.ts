@@ -38,7 +38,7 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
           product_data: {
             name: checkoutProducts.name,
           },
-          unit_amount: Number(checkoutProducts.price) * 100,
+          unit_amount: checkoutProducts.price * 100,
         },
         quantity: checkoutProducts.quantity || 1,
       });
@@ -65,6 +65,26 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
               },
             },
             quantity: item.quantity!,
+            color: {
+              connect: {
+                id: item.color?.id,
+              },
+            },
+            length: {
+              connect: {
+                id: item.length?.id,
+              },
+            },
+            width: {
+              connect: {
+                id: item.width?.id,
+              },
+            },
+            gauge: {
+              connect: {
+                id: item.gauge?.id,
+              },
+            },
           })),
         },
       },

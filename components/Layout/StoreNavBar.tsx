@@ -18,7 +18,7 @@ export const StoreNavBar = () => (
       </div>
       <div className="flex items-center gap-2">
         <Link
-          href="/for-wholesellers"
+          href="/for-wholesaler"
           className={buttonVariants({ size: 'sm', variant: 'outline', className: 'text-xs md:text-base' })}
         >
           For Wholesaler

@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-import { OrderConfirmationEmail } from '@/actions/emails';
+// import { OrderConfirmationEmail } from '@/actions/emails';
 import db from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   const line_items = session.line_items?.data;
   console.log('line_items', line_items);
 
-  const order = await db.order.update({
+  await db.order.update({
     where: {
       id,
     },
@@ -52,19 +52,11 @@ export async function POST(req: Request) {
     },
   });
 
-  await OrderConfirmationEmail({ orderId: order.id });
+  // TODO: FIX EMAIL CONFIRMATION
+  // await OrderConfirmationEmail({ orderId: order.id });
 
   // TODO: LOGIC TO UPDATE PRODUCT QUANTITY
-  //   const productIds = order.orderItems.map((item) => item.product.id);
-
-  //   await db.product.updateMany({
-  //     where: {
-  //       id: {
-  //         in: productIds,
-  //       },
-  //     },
-
-  //   });
+  // const productIds = order.orderItems.map((item) => item.product.id);
 
   return new NextResponse(null, { status: 200 });
 }

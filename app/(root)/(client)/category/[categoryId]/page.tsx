@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 
-import { LoadingSpinner } from '@/components/Icons';
+import { ProductListLoader } from '@/components/Loaders';
+import { FiltersLoader } from '@/components/Loaders/FiltersLoader';
 
 import { Billboard } from './components/Billboard';
 import { Filters } from './components/Filters';
@@ -13,25 +14,13 @@ interface Props {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 const CategoryPage = async ({ params, searchParams }: Props) => (
-  <div className="min-h-screen">
+  <div className="min-h-screen w-full">
     <Billboard id={params.categoryId} />
     <div className="flex flex-col md:flex-row">
-      <Suspense
-        fallback={
-          <div className="h-full w-full">
-            <LoadingSpinner />
-          </div>
-        }
-      >
+      <Suspense fallback={<FiltersLoader />}>
         <Filters />
       </Suspense>
-      <Suspense
-        fallback={
-          <div className="h-full w-full">
-            <LoadingSpinner />
-          </div>
-        }
-      >
+      <Suspense fallback={<ProductListLoader />}>
         <ProductList id={params.categoryId} searchParams={searchParams} />
       </Suspense>
     </div>

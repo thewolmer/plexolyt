@@ -1,4 +1,5 @@
-import Link from 'next/link';
+'use client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { AddToCartButton } from '@/components/Cart';
 import { buttonVariants } from '@/components/ui/button';
@@ -12,23 +13,39 @@ interface ProductActionsProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export const ProductActions = ({ product, searchParams }: ProductActionsProps) => {
-  const selectedColor = searchParams.color || product.productColors[0].color.id;
+export const ProductActions = ({ product }: ProductActionsProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const selectedLength = searchParams.length || product.productLengths[0].length.id;
+  const selectedColor = searchParams.get('color') || product.productColors[0].color.id;
+  const selectedLength = searchParams.get('length') || product.productLengths[0].length.id;
+  const selectedWidth = searchParams.get('width') || product.productWidths[0].width.id;
+  const selectedGauge = searchParams.get('gauge') || product.productGauges[0].gauge.id;
 
-  const selectedWidth = searchParams.width || product.productWidths[0].width.id;
+  const updateUrlParams = (param: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(param, value);
 
-  const selectedGauge = searchParams.gauge || product.productGauges[0].gauge.id;
+    const newUrl = `${pathname}?${params.toString()}`;
+
+    // // Update the URL without reloading the page or fetching data
+    // window.history.pushState({}, '', newUrl);
+
+    // Update the router state without causing a reload
+    router.push(newUrl, {
+      scroll: false,
+    });
+  };
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span>Color:</span>
         {product.productColors.map((item) => (
-          <Link
+          <button
             key={item.id}
-            href={`?color=${item.color.id}&length=${selectedLength}&width=${selectedWidth}&gauge=${selectedGauge}`}
+            onClick={() => updateUrlParams('color', item.color.id)}
             className={cn(
               buttonVariants({
                 variant: selectedColor === item.color.id ? 'default' : 'outline',
@@ -41,16 +58,16 @@ export const ProductActions = ({ product, searchParams }: ProductActionsProps) =
             <div className="h-5 w-5 rounded-full" style={{ backgroundColor: item.color.hex }}></div>
             <span>{item.color.name}</span>
             <span className="sr-only">{item.color.name}</span>
-          </Link>
+          </button>
         ))}
       </div>
       <Separator />
       <div className="flex items-center gap-2">
         <span>Length:</span>
         {product.productLengths.map((item) => (
-          <Link
+          <button
             key={item.id}
-            href={`?color=${selectedColor}&length=${item.length.id}&width=${selectedWidth}&gauge=${selectedGauge}`}
+            onClick={() => updateUrlParams('length', item.length.id)}
             className={cn(
               buttonVariants({
                 variant: selectedLength === item.length.id ? 'default' : 'outline',
@@ -61,16 +78,16 @@ export const ProductActions = ({ product, searchParams }: ProductActionsProps) =
             )}
           >
             <span>{item.length.name}</span>
-          </Link>
+          </button>
         ))}
       </div>
       <Separator />
       <div className="flex items-center gap-2">
         <span>Width:</span>
         {product.productWidths.map((item) => (
-          <Link
+          <button
             key={item.id}
-            href={`?color=${selectedColor}&length=${selectedLength}&width=${item.width.id}&gauge=${selectedGauge}`}
+            onClick={() => updateUrlParams('width', item.width.id)}
             className={cn(
               buttonVariants({
                 variant: selectedWidth === item.width.id ? 'default' : 'outline',
@@ -81,16 +98,16 @@ export const ProductActions = ({ product, searchParams }: ProductActionsProps) =
             )}
           >
             <span>{item.width.name}</span>
-          </Link>
+          </button>
         ))}
       </div>
       <Separator />
       <div className="flex items-center gap-2">
         <span>Gauge:</span>
         {product.productGauges.map((item) => (
-          <Link
+          <button
             key={item.id}
-            href={`?color=${selectedColor}&length=${selectedLength}&width=${selectedWidth}&gauge=${item.gauge.id}`}
+            onClick={() => updateUrlParams('gauge', item.gauge.id)}
             className={cn(
               buttonVariants({
                 variant: selectedGauge === item.gauge.id ? 'default' : 'outline',
@@ -101,7 +118,7 @@ export const ProductActions = ({ product, searchParams }: ProductActionsProps) =
             )}
           >
             <span>{item.gauge.name}</span>
-          </Link>
+          </button>
         ))}
       </div>
       <Separator />
