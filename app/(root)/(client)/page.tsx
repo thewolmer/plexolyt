@@ -1,5 +1,3 @@
-import { LocationPinIcon } from '@/components/Icons';
-
 import BrowseCategories from './components/BrowseCategories';
 import { Featured } from './components/Featured';
 
@@ -10,10 +8,7 @@ export default function SetupPage() {
       <section className="mx-auto flex h-[50vh] max-w-3xl flex-col items-center justify-center gap-2 px-10 md:px-5">
         <h1 className="text-center text-4xl font-bold md:text-6xl">Plexolyt Cables</h1>
         <div className="text-center text-base ">
-          <p>Manufacturer Of PVC Insulated Flexible Wire, Multi Strand Wire Aluminum Cable Since 2023</p>
-          <p className="flex items-center  justify-center gap-2">
-            <LocationPinIcon className="size-5" /> New Delhi, Delhi.
-          </p>
+          <p>Manufacturer Of PVC Insulated Wires and Cable Since 2023</p>
         </div>
       </section>
       <BrowseCategories />

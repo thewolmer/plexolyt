@@ -75,8 +75,7 @@ export const Footer = () => (
           <div className="mt-1 flex justify-center sm:justify-start">Plexolyt</div>
 
           <p className="mt-6 max-w-md text-center leading-relaxed text-muted-foreground sm:max-w-xs sm:text-left">
-            GST No 07ABAFG3982A1ZP <br /> Manufacturer Of PVC Insulated Flexible Wire, Multi Strand Wire Aluminum Cable
-            Since 2023
+            Manufacturer Of PVC Insulated Wire and Cables Since 2023
           </p>
 
           <ul className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
