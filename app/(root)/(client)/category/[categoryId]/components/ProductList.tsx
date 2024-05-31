@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default async function ProductList({ id, searchParams }: Props) {
-  const subCategories = searchParamsToArray(searchParams.subCategory);
+  const subCategories = searchParamsToArray(searchParams.type);
   const colors = searchParamsToArray(searchParams.color);
   const lengths = searchParamsToArray(searchParams.length);
   const widths = searchParamsToArray(searchParams.width);
