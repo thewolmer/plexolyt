@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -57,6 +58,7 @@ export const createGauge = async (formData: z.infer<typeof formSchema>) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Gauge created successfully!', data: gauge };
   } catch (e) {
     console.log('[action:createGauge]', e);
@@ -77,6 +79,7 @@ export const deleteGauge = async (gaugeID: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Gauge deleted successfully!', data: gauge };
   } catch (e) {
     console.log('[action:deleteGauge]', e);
@@ -103,6 +106,7 @@ export const updateGauge = async (gaugeID: string, formData: z.infer<typeof form
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Gauge updated successfully!', data: gauge };
   } catch (e) {
     console.log('[action:updateGauge]', e);

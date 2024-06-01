@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -65,6 +66,7 @@ export const createCategory = async (formData: z.infer<typeof formSchema>) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('categories');
     return { status: 200, message: 'Category created successfully!', data: category };
   } catch (e) {
     console.log('[action:createCategory]', e);
@@ -85,6 +87,7 @@ export const deleteCategory = async (categoryId: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('categories');
     return { status: 200, message: 'Category deleted successfully!', data: category };
   } catch (e) {
     console.log('[action:deleteCategory]', e);
@@ -111,6 +114,7 @@ export const updateCategory = async (categoryId: string, formData: z.infer<typeo
       },
     });
     revalidatePath('/');
+    revalidateTag('categories');
     return { status: 200, message: 'Category updated successfully!', data: category };
   } catch (e) {
     console.log('[action:updateCategory]', e);

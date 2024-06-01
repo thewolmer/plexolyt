@@ -1,5 +1,5 @@
 'use server';
-import { unstable_cache as cache } from 'next/cache';
+import { unstable_cache as cache, revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -59,6 +59,7 @@ export const createSubCategory = async (formData: z.infer<typeof formSchema>) =>
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'SubCategory created successfully!', data: subcategory };
   } catch (e) {
     console.log('[action:createSubCategory]', e);
@@ -79,6 +80,7 @@ export const deleteSubCategory = async (subcategoryID: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'SubCategory deleted successfully!', data: subcategory };
   } catch (e) {
     console.log('[action:deleteSubCategory]', e);
@@ -105,6 +107,7 @@ export const updateSubCategory = async (subcategoryID: string, formData: z.infer
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'SubCategory updated successfully!', data: subcategory };
   } catch (e) {
     console.log('[action:updateSubCategory]', e);

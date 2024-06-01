@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -164,6 +165,7 @@ export const createProduct = async (formData: z.infer<typeof formSchema>) => {
       });
     }
 
+    revalidateTag('products');
     revalidatePath('/');
     return { status: 200, message: 'Product created successfully!', data: product };
   } catch (e) {
@@ -184,6 +186,7 @@ export const deleteProduct = async (productID: string) => {
         id: productID,
       },
     });
+    revalidateTag('products');
     revalidatePath('/');
     return { status: 200, message: 'Product deleted successfully!', data: product };
   } catch (e) {
@@ -205,8 +208,8 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
       data: {
         name: formData.name,
         description: formData.description,
-        price: formData.price as number,
-        stock: formData.stock as number,
+        price: Number(formData.price),
+        stock: Number(formData.stock),
         categoryId: formData.categoryId,
         subCategoryId: formData.subCategoryId,
         isArchived: formData.isArchived,
@@ -234,6 +237,7 @@ export const updateProduct = async (productID: string, formData: z.infer<typeof 
       },
     });
     revalidatePath('/');
+    revalidateTag('products');
     return { status: 200, message: 'Product updated successfully!', data: product };
   } catch (e) {
     console.log('[action:updateProduct]', e);

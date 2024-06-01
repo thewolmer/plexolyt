@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -57,6 +58,7 @@ export const createLength = async (formData: z.infer<typeof formSchema>) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Length created successfully!', data: length };
   } catch (e) {
     console.log('[action:createLength]', e);

@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -57,6 +58,7 @@ export const createColor = async (formData: z.infer<typeof formSchema>) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Color created successfully!', data: color };
   } catch (e) {
     console.log('[action:createColor]', e);
@@ -77,6 +79,7 @@ export const deleteColor = async (colorID: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Color deleted successfully!', data: color };
   } catch (e) {
     console.log('[action:deleteColor]', e);
@@ -103,6 +106,7 @@ export const updateColor = async (colorID: string, formData: z.infer<typeof form
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Color updated successfully!', data: color };
   } catch (e) {
     console.log('[action:updateColor]', e);

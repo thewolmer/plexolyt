@@ -1,4 +1,5 @@
 'use server';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -56,6 +57,7 @@ export const createBillboard = async (formData: z.infer<typeof formSchema>) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('categories');
     return { status: 200, message: 'Billboard created successfully!', data: billboard };
   } catch (e) {
     console.log('[action:createBillboard]', e);
@@ -76,6 +78,7 @@ export const deleteBillboard = async (billboardID: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('categories');
     return { status: 200, message: 'Billboard deleted successfully!', data: billboard };
   } catch (e) {
     console.log('[action:deleteBillboard]', e);
@@ -102,6 +105,7 @@ export const updateBillboard = async (billboardID: string, formData: z.infer<typ
       },
     });
     revalidatePath('/');
+    revalidateTag('categories');
     return { status: 200, message: 'Billboard updated successfully!', data: billboard };
   } catch (e) {
     console.log('[action:updateBillboard]', e);
