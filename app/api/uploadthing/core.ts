@@ -8,7 +8,7 @@ const f = createUploadthing();
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
-  billboardUploader: f({ image: { maxFileSize: '2MB', maxFileCount: 1 } })
+  billboardUploader: f({ image: { maxFileSize: '4MB', maxFileCount: 1 } })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
@@ -29,7 +29,7 @@ export const ourFileRouter = {
     }),
 
   // Define as many FileRoutes as you like, each with a unique routeSlug
-  productsUploader: f({ image: { maxFileSize: '2MB', maxFileCount: 5 } })
+  productsUploader: f({ image: { maxFileSize: '4MB', maxFileCount: 5 } })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
