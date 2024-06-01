@@ -1,5 +1,5 @@
 'use server';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Get } from '@/lib/helper';
 
 import {
@@ -10,37 +10,25 @@ import {
   WidthsResponse,
 } from '@/types/entities';
 
-export const GetAllColors = async (): Promise<ColorsResponse> => {
-  const data = await Get(`/api/colors`, {
-    tags: ['colors'],
-  });
-  return await data.json();
+const handleGetRequest = async (url: string, tags: string[]): Promise<any> => {
+  try {
+    const data = await Get(url, { tags });
+    return await data.json();
+  } catch (e: any) {
+    return {
+      statusCode: 500,
+      message: e.message,
+    };
+  }
 };
 
-export const GetAllLengths = async (): Promise<LengthsResponse> => {
-  const data = await Get(`/api/lengths`, {
-    tags: ['lengths'],
-  });
-  return await data.json();
-};
+export const GetAllColors = async (): Promise<ColorsResponse> => handleGetRequest('/api/colors', ['colors']);
 
-export const GetAllWidths = async (): Promise<WidthsResponse> => {
-  const data = await Get(`/api/widths`, {
-    tags: ['widths'],
-  });
-  return await data.json();
-};
+export const GetAllLengths = async (): Promise<LengthsResponse> => handleGetRequest('/api/lengths', ['lengths']);
 
-export const GetAllGauges = async (): Promise<GaugesResponse> => {
-  const data = await Get(`/api/gauges`, {
-    tags: ['gauges'],
-  });
-  return await data.json();
-};
+export const GetAllWidths = async (): Promise<WidthsResponse> => handleGetRequest('/api/widths', ['widths']);
 
-export const GetAllSubCategories = async (): Promise<SubCategoriesResponse> => {
-  const data = await Get(`/api/subcategories`, {
-    tags: ['subcategories'],
-  });
-  return await data.json();
-};
+export const GetAllGauges = async (): Promise<GaugesResponse> => handleGetRequest('/api/gauges', ['gauges']);
+
+export const GetAllSubCategories = async (): Promise<SubCategoriesResponse> =>
+  handleGetRequest('/api/subcategories', ['subcategories']);

@@ -5,7 +5,7 @@ import { GetFeaturedProducts } from '@/lib/PlexolytAPI/products';
 
 export const Featured = async () => {
   const data = await GetFeaturedProducts();
-  if (data.status !== 200) {
+  if (data.status !== 200 || !data.data) {
     return (
       <section id="featured">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">

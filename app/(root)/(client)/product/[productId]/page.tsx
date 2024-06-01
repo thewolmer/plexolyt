@@ -21,7 +21,7 @@ const page = async ({ params, searchParams }: ProductPageProps) => {
   const { productId } = params;
 
   const data = await GetProductById({ productId });
-  if (data.status === 404) {
+  if (data.status === 404 || !data.data) {
     return notFound();
   }
   if (data.status === 500) {

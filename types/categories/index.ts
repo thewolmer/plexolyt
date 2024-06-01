@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 
 export interface AllCategoriesResponse {
   status: number;
-  data: Prisma.CategoryGetPayload<{
+  data?: Prisma.CategoryGetPayload<{
     include: {
       billboard: true;
     };
@@ -12,7 +12,7 @@ export interface AllCategoriesResponse {
 
 export interface CategoryById {
   status: number;
-  data: Prisma.CategoryGetPayload<{
+  data?: Prisma.CategoryGetPayload<{
     include: {
       billboard: true;
     };

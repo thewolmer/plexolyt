@@ -6,7 +6,7 @@ import { GetCategoryById } from '@/lib/PlexolytAPI/categories';
 
 export const Billboard = async ({ id }: { id: string }) => {
   const data = await GetCategoryById({ categoryId: id });
-  if (data.status !== 200) return notFound();
+  if (data.status !== 200 || !data.data) return notFound();
   const category = data.data;
   const { billboard } = data.data;
 

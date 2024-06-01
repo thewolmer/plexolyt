@@ -6,7 +6,7 @@ import { GetAllCategories } from '@/lib/PlexolytAPI/categories';
 
 const BrowseCategories = async () => {
   const categories = await GetAllCategories();
-  if (categories.status !== 200) {
+  if (categories.status !== 200 || !categories.data) {
     <section className="body-font">
       <div className="container mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight ">Explore Categories</h2>

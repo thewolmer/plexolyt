@@ -1,5 +1,5 @@
 'use server';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Get } from '@/lib/helper';
 
 import { ProductResponse, ProductsResponse } from '@/types/product';
@@ -9,12 +9,16 @@ interface ProductByCategoryProps {
 }
 
 export const GetProductsByCategory = async (props: ProductByCategoryProps): Promise<ProductsResponse> => {
-  const category = props.categoryId;
-  const data = await Get(`/api/products/`, {
-    tags: ['products'],
-    searchParams: { category },
-  });
-  return await data.json();
+  try {
+    const category = props.categoryId;
+    const data = await Get(`/api/products/`, {
+      tags: ['products'],
+      searchParams: { category },
+    });
+    return await data.json();
+  } catch (e: any) {
+    return { status: 500, message: e.message };
+  }
 };
 
 interface ProductByIdProps {
@@ -22,11 +26,15 @@ interface ProductByIdProps {
 }
 
 export const GetProductById = async (props: ProductByIdProps): Promise<ProductResponse> => {
-  const id = props.productId;
-  const data = await Get(`/api/products/${id}`, {
-    tags: ['products'],
-  });
-  return await data.json();
+  try {
+    const id = props.productId;
+    const data = await Get(`/api/products/${id}`, {
+      tags: ['products'],
+    });
+    return await data.json();
+  } catch (e: any) {
+    return { status: 500, message: e.message };
+  }
 };
 
 interface RelatedProductsProps {
@@ -35,19 +43,27 @@ interface RelatedProductsProps {
 }
 
 export const GetRelatedProducts = async (props: RelatedProductsProps): Promise<ProductsResponse> => {
-  const product = props.productId;
-  const category = props.categoryId;
-  const data = await Get(`/api/products/related`, {
-    searchParams: { product, category },
-    tags: ['products'],
-  });
-  return await data.json();
+  try {
+    const product = props.productId;
+    const category = props.categoryId;
+    const data = await Get(`/api/products/related`, {
+      searchParams: { product, category },
+      tags: ['products'],
+    });
+    return await data.json();
+  } catch (e: any) {
+    return { status: 500, message: e.message };
+  }
 };
 
 export const GetFeaturedProducts = async (): Promise<ProductsResponse> => {
-  const data = await Get(`/api/products`, {
-    tags: ['products'],
-    searchParams: { featured: 'true' },
-  });
-  return await data.json();
+  try {
+    const data = await Get(`/api/products`, {
+      tags: ['products'],
+      searchParams: { featured: 'true' },
+    });
+    return await data.json();
+  } catch (e: any) {
+    return { status: 500, message: e.message };
+  }
 };

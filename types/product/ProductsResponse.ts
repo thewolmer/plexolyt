@@ -2,6 +2,6 @@ import { ProductWithPayLoad } from './ProductWithPayload';
 
 export interface ProductsResponse {
   status: number;
-  data: ProductWithPayLoad[];
+  data?: ProductWithPayLoad[];
   message?: string;
 }

@@ -1,31 +1,31 @@
 import { Color, Gauge, Length, SubCategory, Width } from '@prisma/client';
 
 export interface ColorsResponse {
-  data: Color[];
+  data?: Color[];
   status: number;
   message?: string;
 }
 
 export interface LengthsResponse {
-  data: Length[];
+  data?: Length[];
   status: number;
   message?: string;
 }
 
 export interface WidthsResponse {
-  data: Width[];
+  data?: Width[];
   status: number;
   message?: string;
 }
 
 export interface GaugesResponse {
-  data: Gauge[];
+  data?: Gauge[];
   status: number;
   message?: string;
 }
 
 export interface SubCategoriesResponse {
-  data: SubCategory[];
+  data?: SubCategory[];
   status: number;
   message?: string;
 }
