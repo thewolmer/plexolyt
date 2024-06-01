@@ -1,6 +1,6 @@
 // const headers = { 'X-Api-Key': env.ARMOBOT_API_KEY as string, 'Content-Type': 'application/json' };
 
-const baseUrl = process.env.AUTH_TRUST_HOST;
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 interface Props {
   tags?: string[];
   revalidate?: number;
