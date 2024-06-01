@@ -1,4 +1,3 @@
-import { format } from 'date-fns/format';
 import React from 'react';
 
 import { getAllColors } from '@/actions/colors';
@@ -12,7 +11,7 @@ const ColorsPage = async () => {
     id: color.id,
     name: color.name,
     hex: color.hex,
-    createdAt: format(color.createdAt, 'MMM do, yyyy'),
+    updatedAt: color.updatedAt,
   }));
 
   return (

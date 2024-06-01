@@ -1,5 +1,5 @@
 'use server';
-import { unstable_cache as cache } from 'next/cache';
+
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -8,51 +8,42 @@ import { categoryFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-export const getAllCategories = cache(
-  async () => {
-    try {
-      const category = await db.category.findMany({
-        include: {
-          billboard: true,
-        },
-      });
-      return { status: 200, data: category };
-    } catch (e) {
-      console.log('[action:getAllCategories]', e);
-      return { message: 'Something went wrong!', status: 500 };
-    }
-  },
-  ['getAllCategories'],
-  {
-    revalidate: 3600,
-  },
-);
+export const getAllCategories = async () => {
+  try {
+    const category = await db.category.findMany({
+      include: {
+        billboard: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return { status: 200, data: category };
+  } catch (e) {
+    console.log('[action:getAllCategories]', e);
+    return { message: 'Something went wrong!', status: 500 };
+  }
+};
 
-export const getCategoryById = cache(
-  async (categoryId: string) => {
-    try {
-      const category = await db.category.findUnique({
-        where: {
-          id: categoryId,
-        },
-        include: {
-          billboard: true,
-        },
-      });
-      if (!category) {
-        return { message: 'Category not found!', status: 404 };
-      }
-      return { status: 200, data: category };
-    } catch (e) {
-      console.log('[action:getCategoryById]', e);
-      return { message: 'Something went wrong!', status: 500 };
+export const getCategoryById = async (categoryId: string) => {
+  try {
+    const category = await db.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+      include: {
+        billboard: true,
+      },
+    });
+    if (!category) {
+      return { message: 'Category not found!', status: 404 };
     }
-  },
-  ['getCategoryById'],
-  {
-    revalidate: 3600,
-  },
-);
+    return { status: 200, data: category };
+  } catch (e) {
+    console.log('[action:getCategoryById]', e);
+    return { message: 'Something went wrong!', status: 500 };
+  }
+};
 
 export const createCategory = async (formData: z.infer<typeof formSchema>) => {
   const session = await auth();

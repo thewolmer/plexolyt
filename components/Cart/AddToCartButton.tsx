@@ -57,7 +57,7 @@ export const AddToCartButton = ({ data }: { data: CartItem }) => {
   };
   return (
     <div className="mx-auto flex w-full items-center justify-center">
-      <div className="flex justify-center px-10 pt-5 md:items-end md:justify-end">
+      <div className="flex justify-center px-10 pt-5 tabular-nums md:items-end md:justify-end">
         <p className="ml-2 text-2xl font-extrabold ">{formatCurrency(Number(data?.price) * quantity)}</p>
       </div>
       <div className="mx-auto my-8 flex flex-col-reverse gap-2 md:flex-row md:justify-between">
@@ -65,7 +65,9 @@ export const AddToCartButton = ({ data }: { data: CartItem }) => {
           <Button variant={'outline'} size={'icon'} onClick={onQuantityRemove}>
             <Minus />
           </Button>
-          <Button variant={'secondary'}>{quantity}</Button>
+          <Button variant={'secondary'} className="tabular-nums">
+            {quantity}
+          </Button>
           <Button variant={'outline'} size={'icon'} onClick={onQuantityAdd}>
             <Plus />
           </Button>

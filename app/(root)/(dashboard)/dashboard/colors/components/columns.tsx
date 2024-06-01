@@ -3,6 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { cn } from '@/lib/utils';
+import { formatRelatedDate } from '@/utils/formatter';
 
 import { CellActions } from './cell-actions';
 
@@ -10,7 +11,7 @@ export type ColorColumn = {
   id: string;
   name: string;
   hex: string;
-  createdAt: string;
+  updatedAt: Date;
 };
 
 export const columns: ColumnDef<ColorColumn>[] = [
@@ -26,11 +27,12 @@ export const columns: ColumnDef<ColorColumn>[] = [
   {
     accessorKey: 'color',
     header: 'Color',
-    cell: ({ row }) => <div className={cn('size-4 rounded-full')} style={{ background: row.original.hex }} />,
+    cell: ({ row }) => <div className={cn('size-4 rounded-full border')} style={{ background: row.original.hex }} />,
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Date',
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ row }) => formatRelatedDate(row.original.updatedAt),
   },
   {
     id: 'actions',

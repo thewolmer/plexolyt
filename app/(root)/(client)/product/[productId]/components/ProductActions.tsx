@@ -40,7 +40,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span>Color:</span>
         {product.productColors.map((item) => (
           <button
@@ -62,7 +62,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
         ))}
       </div>
       <Separator />
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span>Length:</span>
         {product.productLengths.map((item) => (
           <button
@@ -82,7 +82,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
         ))}
       </div>
       <Separator />
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span>Width:</span>
         {product.productWidths.map((item) => (
           <button
@@ -102,7 +102,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
         ))}
       </div>
       <Separator />
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span>Gauge:</span>
         {product.productGauges.map((item) => (
           <button

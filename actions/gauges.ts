@@ -1,5 +1,5 @@
 'use server';
-import { unstable_cache as cache } from 'next/cache';
+
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -8,22 +8,19 @@ import { gaugeFormSchema as formSchema } from '@/prisma/form-schema.client';
 import { revalidatePath } from '@/utils/Revalidate';
 import { slugify } from '@/utils/Slugify';
 
-export const getAllGauges = cache(
-  async () => {
-    try {
-      const gauge = await db.gauge.findMany({});
-      return { status: 200, data: gauge };
-    } catch (e) {
-      console.log('[action:getAllGauges]', e);
-      return { message: 'Something went wrong!', status: 500 };
-    }
-  },
-
-  ['getAllGauges'],
-  {
-    revalidate: 3600,
-  },
-);
+export const getAllGauges = async () => {
+  try {
+    const gauge = await db.gauge.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return { status: 200, data: gauge };
+  } catch (e) {
+    console.log('[action:getAllGauges]', e);
+    return { message: 'Something went wrong!', status: 500 };
+  }
+};
 
 export const getGaugeByID = async (gaugeID: string) => {
   const session = await auth();

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { getAllColors } from '@/actions/colors';
-import { getAllGauges } from '@/actions/gauges';
-import { getAllLengths } from '@/actions/lengths';
-import { getAllSubCategories } from '@/actions/subcategories';
-import { getAllWidths } from '@/actions/widths';
+import { getAllColors } from '@/actions/colors.client';
+import { getAllGauges } from '@/actions/gauges.client';
+import { getAllLengths } from '@/actions/lengths.client';
+import { getAllSubCategories } from '@/actions/subcategories.client';
+import { getAllWidths } from '@/actions/widths.client';
 
 import { FiltersClient } from './FiltersClient';
 

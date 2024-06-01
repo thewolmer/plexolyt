@@ -9,7 +9,11 @@ import { slugify } from '@/utils/Slugify';
 
 export const getAllWidths = async () => {
   try {
-    const width = await db.width.findMany({});
+    const width = await db.width.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
     return { status: 200, data: width };
   } catch (e) {
     console.log('[action:getAllWidths]', e);

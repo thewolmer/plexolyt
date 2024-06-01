@@ -2,7 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { Badge } from '@/components/ui/badge';
+import { ToolTip } from '@/components/ui/ToolTip';
+import { formatRelatedDate } from '@/utils/formatter';
 
 import { CellActions } from './cell-actions';
 
@@ -14,13 +15,14 @@ export type ProductColumn = {
   price: string;
   stock: number;
   category: string;
+  subCategory: string;
   colors: string[];
   lengths: string[];
   gauges: string[];
   widths: string[];
   isFeatured: boolean;
   isArchived: boolean;
-  createdAt: string;
+  updatedAt: Date;
 };
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -32,13 +34,33 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: 'category',
     header: 'Category',
   },
-  // {
-  //   accessorKey: 'color',
-  //   header: 'Color',
-  //   cell: ({ row }) => {
-  //     row.original.colors.map((color, index) => <Badge key={index}> {color}</Badge>);
-  //   },
-  // },
+  {
+    accessorKey: 'color',
+    header: 'Color',
+    cell: ({ row }) => {
+      const colors = row.original.colors.map((color) => (
+        <ToolTip key={color} content={color}>
+          <div className="h-4 w-4 rounded-full" style={{ backgroundColor: color }} />
+        </ToolTip>
+      ));
+      return <div className="flex flex-wrap gap-1">{colors}</div>;
+    },
+  },
+  {
+    accessorKey: 'length',
+    header: 'Length',
+    cell: ({ row }) => <ToolTip content={row.original.lengths.join(', ')}>{row.original.lengths.length}</ToolTip>,
+  },
+  {
+    accessorKey: 'width',
+    header: 'Width',
+    cell: ({ row }) => <ToolTip content={row.original.widths.join(', ')}>{row.original.widths.length}</ToolTip>,
+  },
+  {
+    accessorKey: 'gauge',
+    header: 'Gauge',
+    cell: ({ row }) => <ToolTip content={row.original.gauges.join(', ')}>{row.original.gauges.length}</ToolTip>,
+  },
 
   {
     accessorKey: 'isFeatured',
@@ -59,6 +81,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Date',
+    cell: ({ row }) => formatRelatedDate(row.original.updatedAt),
   },
   {
     id: 'actions',

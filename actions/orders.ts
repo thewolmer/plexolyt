@@ -22,6 +22,9 @@ export const getOrderByID = async ({ orderID }: { orderID: string }) => {
           },
         },
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
     return { status: 200, data: order };
   } catch (e) {

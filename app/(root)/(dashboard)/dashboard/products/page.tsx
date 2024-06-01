@@ -1,4 +1,3 @@
-import { format } from 'date-fns/format';
 import React from 'react';
 
 import { getAllProducts } from '@/actions/products';
@@ -17,11 +16,12 @@ const ProductsPage = async () => {
     price: formatCurrency(product.price),
     stock: Number(product.stock),
     category: product.category.name,
+    subCategory: product.subCategory.name,
     colors: product.productColors.map((item) => item.color.hex),
     lengths: product.productLengths.map((item) => item.length.name),
     widths: product.productWidths.map((item) => item.width.name),
     gauges: product.productGauges.map((item) => item.gauge.name),
-    createdAt: format(product.createdAt, 'MMM do, yyyy'),
+    updatedAt: product.updatedAt,
   }));
 
   return (

@@ -4,8 +4,7 @@ import { Category } from '@prisma/client';
 import Link from 'next/link';
 import * as React from 'react';
 
-// Add the missing import for InternalLinkProps
-import { getAllCategories } from '@/actions/categories';
+import { getAllCategories } from '@/actions/categories.client';
 import {
   NavigationMenu,
   NavigationMenuContent,

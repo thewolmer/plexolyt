@@ -2,6 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
+import { formatRelatedDate } from '@/utils/formatter';
+
 import { CellActions } from './cell-actions';
 
 // This type is used to define the shape of our data.
@@ -9,7 +11,7 @@ import { CellActions } from './cell-actions';
 export type BillboardColumn = {
   id: string;
   label: string;
-  createdAt: string;
+  updatedAt: Date;
 };
 
 export const columns: ColumnDef<BillboardColumn>[] = [
@@ -18,8 +20,9 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     header: 'Label',
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Date',
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ row }) => formatRelatedDate(row.original.updatedAt),
   },
   {
     id: 'actions',

@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { createCategory, deleteCategory, updateCategory } from '@/actions/categories';
-import { BinIcon } from '@/components/Icons';
+import { BinIcon, LoadingSpinner } from '@/components/Icons';
 import { Header } from '@/components/Layout';
 import { Link } from '@/components/Link';
 import { AlertModal } from '@/components/Modals/alert-modal';
@@ -139,7 +139,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>This will be your category name.</FormDescription>
+                  <FormDescription>This billboard will be shown in this category.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -154,7 +154,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
                     <Textarea placeholder="Add a description about the category" className="" {...field} />
                   </FormControl>
                   <FormDescription>
-                    This will be added to product description and will be shown in Google search results.
+                    This will be added to category description and will be shown in Google search results.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -165,7 +165,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
               name="textColor"
               render={({ field }) => (
                 <FormItem className="md:max-w-md">
-                  <FormLabel>Color Hex</FormLabel>
+                  <FormLabel>Text Color</FormLabel>
                   <FormControl>
                     <Input
                       style={{ borderColor: hexValue || '', borderWidth: '2px' }}
@@ -190,7 +190,7 @@ export function CategoryForm({ initialValues, billboards }: CategoryFormProps) {
             />
           </div>
           <Button disabled={isLoading || isCreated} type="submit">
-            {action}
+            {isLoading ? <LoadingSpinner /> : action}
           </Button>
         </form>
       </Form>

@@ -1,4 +1,3 @@
-import { format } from 'date-fns/format';
 import React from 'react';
 
 import { getAllGauges } from '@/actions/gauges';
@@ -11,7 +10,7 @@ const GaugesPage = async () => {
   const formattedGauges: GaugeColumn[] | undefined = data?.map((gauge) => ({
     id: gauge.id,
     name: gauge.name,
-    createdAt: format(gauge.createdAt, 'MMM do, yyyy'),
+    updatedAt: gauge.updatedAt,
   }));
 
   return (

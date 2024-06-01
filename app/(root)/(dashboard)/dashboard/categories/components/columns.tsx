@@ -2,6 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
+import { formatRelatedDate } from '@/utils/formatter';
+
 import { CellActions } from './cell-actions';
 
 // This type is used to define the shape of our data.
@@ -10,7 +12,8 @@ export type CategoryColumn = {
   id: string;
   name: string;
   billboardLabel: string;
-  createdAt: string;
+  textColor: string;
+  updatedAt: Date;
 };
 
 export const columns: ColumnDef<CategoryColumn>[] = [
@@ -24,9 +27,14 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     cell: ({ row }) => row.original.billboardLabel,
   },
   {
-    accessorKey: 'CreatedAt',
-    header: 'Date',
-    cell: ({ row }) => row.original.createdAt,
+    accessorKey: 'textColor',
+    header: 'Text Color',
+    cell: ({ row }) => <div className="h-3 w-3 rounded-full" style={{ background: row.original.textColor }}></div>,
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ row }) => formatRelatedDate(row.original.updatedAt),
   },
   {
     id: 'actions',

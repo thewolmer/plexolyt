@@ -1,4 +1,3 @@
-import { format } from 'date-fns/format';
 import React from 'react';
 
 import { getAllLengths } from '@/actions/lengths';
@@ -11,7 +10,7 @@ const LengthsPage = async () => {
   const formattedLengths: LengthColumn[] | undefined = data?.map((length) => ({
     id: length.id,
     name: length.name,
-    createdAt: format(length.createdAt, 'MMM do, yyyy'),
+    updatedAt: length.updatedAt,
   }));
 
   return (

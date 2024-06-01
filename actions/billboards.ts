@@ -9,7 +9,11 @@ import { slugify } from '@/utils/Slugify';
 
 export const getAllBillboards = async () => {
   try {
-    const billboard = await db.billboard.findMany({});
+    const billboard = await db.billboard.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
     return { status: 200, data: billboard };
   } catch (e) {
     console.log('[action:getAllBillboards]', e);

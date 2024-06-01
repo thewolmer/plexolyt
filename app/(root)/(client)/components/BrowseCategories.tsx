@@ -1,4 +1,4 @@
-import { getAllCategories } from '@/actions/categories';
+import { getAllCategories } from '@/actions/categories.client';
 import { Image } from '@/components/Image';
 import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';

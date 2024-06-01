@@ -1,4 +1,6 @@
-import { format } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
+
+import { ToolTip } from '@/components/ui/ToolTip';
 
 export const formatCurrency = (value: number | string) =>
   new Intl.NumberFormat('en-IN', {
@@ -21,3 +23,9 @@ export const formatDate = (date: string | Date) => {
   // Format the date
   return format(datetime, 'PPpp');
 };
+
+export const formatRelatedDate = (date: Date) => (
+  <ToolTip content={format(date, 'PPpp')}>
+    <span className="capitalize">{formatDistance(date, new Date(), { addSuffix: true })}</span>
+  </ToolTip>
+);

@@ -1,4 +1,3 @@
-import { format } from 'date-fns/format';
 import React from 'react';
 
 import db from '@/lib/db';
@@ -16,8 +15,10 @@ const CategoriesPage = async () => {
     id: item.id,
     name: item.name,
     billboardLabel: item.billboard.label,
-    createdAt: format(item.createdAt, 'MMM do, yyyy'),
+    textColor: item.textColor,
+    updatedAt: item.updatedAt,
   }));
+  console.log(formattedCategory);
 
   return (
     <main>
