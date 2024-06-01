@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { getRelatedProducts } from '@/actions/products.client';
 import { ProductCard } from '@/components/ProductCard';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { GetRelatedProducts } from '@/lib/PlexolytAPI/products';
 
 interface Props {
   categoryId: string;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const RelatedProducts = async ({ categoryId, currentProductId }: Props) => {
-  const featuredProducts = await getRelatedProducts(categoryId, currentProductId);
+  const featuredProducts = await GetRelatedProducts({ categoryId, productId: currentProductId });
   if (!featuredProducts || featuredProducts.data?.length === 0)
     return <div className="text-center">No related products found</div>;
   return (

@@ -10,7 +10,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   }, [error]);
 
   return (
-    <div className="grid h-screen place-content-center  px-4">
+    <div className="grid min-h-screen place-content-center  px-4">
       <div className="text-center">
         <h1 className="text-9xl font-black text-destructive/50">500</h1>
         <p className="text-2xl font-bold tracking-tight  sm:text-4xl">Uh-oh!</p>

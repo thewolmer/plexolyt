@@ -1,8 +1,5 @@
-import { unstable_cache as cache } from 'next/cache';
-import { notFound } from 'next/navigation';
-
-import { getProductsByCategory } from '@/actions/products.client';
 import { ProductCard } from '@/components/ProductCard';
+import { GetProductsByCategory } from '@/lib/PlexolytAPI/products';
 import { filterProducts } from '@/utils/filterProducts';
 import { searchParamsToArray } from '@/utils/searchParamToArray';
 
@@ -18,20 +15,14 @@ export default async function ProductList({ id, searchParams }: Props) {
   const widths = searchParamsToArray(searchParams.width);
   const gauges = searchParamsToArray(searchParams.gauge);
 
-  const fetchProducts = cache(
-    async () => {
-      const response = await getProductsByCategory(id);
-      return response;
-    },
-    ['getProductsByCategory:', id],
-    { revalidate: 3600 },
-  );
-  const productsResponse = await fetchProducts();
-  const products = productsResponse.data;
-  if (products?.length === 0) return notFound();
+  const products = await GetProductsByCategory({ categoryId: id });
+
+  if (products.status === 500) {
+    throw new Error('Internal Server Error');
+  }
 
   const filters = { subCategories, colors, lengths, widths, gauges };
-  const filteredProducts = filterProducts(products!, filters);
+  const filteredProducts = filterProducts(products.data, filters);
 
   if (filteredProducts?.length === 0 || !filteredProducts || !products) {
     return (

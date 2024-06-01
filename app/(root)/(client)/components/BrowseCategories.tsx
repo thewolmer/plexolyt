@@ -1,11 +1,21 @@
-import { getAllCategories } from '@/actions/categories.client';
 import { Image } from '@/components/Image';
 import { Link } from '@/components/Link';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { GetAllCategories } from '@/lib/PlexolytAPI/categories';
 
 const BrowseCategories = async () => {
-  const categories = await getAllCategories();
+  const categories = await GetAllCategories();
+  if (categories.status !== 200) {
+    <section className="body-font">
+      <div className="container mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight ">Explore Categories</h2>
+        <div className="-m-4 mt-6 flex items-center justify-center">
+          <p className="text-destructive">An error occurred while loading categories</p>
+        </div>
+      </div>
+    </section>;
+  }
 
   return (
     <section className="body-font">

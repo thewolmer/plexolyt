@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
 import React from 'react';
 
-import { getCategoryById } from '@/actions/categories';
 import { Image } from '@/components/Image';
+import { GetCategoryById } from '@/lib/PlexolytAPI/categories';
 
 export const Billboard = async ({ id }: { id: string }) => {
-  const data = await getCategoryById(id);
-  if (!data.data || data.status !== 200) return notFound();
+  const data = await GetCategoryById({ categoryId: id });
+  if (data.status !== 200) return notFound();
   const category = data.data;
   const { billboard } = data.data;
 

@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { getAllColors } from '@/actions/colors.client';
-import { getAllGauges } from '@/actions/gauges.client';
-import { getAllLengths } from '@/actions/lengths.client';
-import { getAllSubCategories } from '@/actions/subcategories.client';
-import { getAllWidths } from '@/actions/widths.client';
+import {
+  GetAllColors,
+  GetAllGauges,
+  GetAllLengths,
+  GetAllSubCategories,
+  GetAllWidths,
+} from '@/lib/PlexolytAPI/entities';
 
 import { FiltersClient } from './FiltersClient';
 
 export const Filters = async () => {
   const [subCategories, colors, lengths, widths, gauges] = await Promise.all([
-    getAllSubCategories(),
-    getAllColors(),
-    getAllLengths(),
-    getAllWidths(),
-    getAllGauges(),
+    GetAllSubCategories(),
+    GetAllColors(),
+    GetAllLengths(),
+    GetAllWidths(),
+    GetAllGauges(),
   ]);
 
   return (

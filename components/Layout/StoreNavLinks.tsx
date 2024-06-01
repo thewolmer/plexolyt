@@ -4,7 +4,6 @@ import { Category } from '@prisma/client';
 import Link from 'next/link';
 import * as React from 'react';
 
-import { getAllCategories } from '@/actions/categories.client';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +13,7 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import { GetAllCategories } from '@/lib/PlexolytAPI/categories';
 import { cn } from '@/lib/utils';
 
 export function StoreNavLinks() {
@@ -21,7 +21,7 @@ export function StoreNavLinks() {
 
   React.useEffect(() => {
     async function fetchData() {
-      const categories = await getAllCategories();
+      const categories = await GetAllCategories();
       setCategories(categories.data);
     }
     fetchData();

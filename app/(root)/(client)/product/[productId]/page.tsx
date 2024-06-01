@@ -1,12 +1,11 @@
-import { unstable_cache as cache } from 'next/cache';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react';
 
-import { getProductById } from '@/actions/products.client';
 import { Image } from '@/components/Image';
 import { RelatedProductsLoader } from '@/components/Loaders';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
+import { GetProductById } from '@/lib/PlexolytAPI/products';
 
 import { ProductActions } from './components/ProductActions';
 import { RelatedProducts } from './components/RelatedCarousel';
@@ -21,18 +20,12 @@ interface ProductPageProps {
 const page = async ({ params, searchParams }: ProductPageProps) => {
   const { productId } = params;
 
-  const fetchProduct = cache(
-    async () => {
-      const response = await getProductById(productId);
-      return response;
-    },
-    ['getProductsById:', productId],
-    { revalidate: 3600 },
-  );
-
-  const data = await fetchProduct();
-  if (data?.status !== 200 || !data?.data) {
+  const data = await GetProductById({ productId });
+  if (data.status === 404) {
     return notFound();
+  }
+  if (data.status === 500) {
+    throw new Error(`Error while fetching data ${data.message}`);
   }
   const product = data.data;
 
