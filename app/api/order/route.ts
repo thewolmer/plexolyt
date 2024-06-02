@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 // import { OrderConfirmationEmail } from '@/actions/emails';
+import { env } from '@/env';
 import db from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRET);
   } catch (err: unknown) {
     return new NextResponse(`Webhook Error: ${(err as Error).message}`, { status: 400 });
   }

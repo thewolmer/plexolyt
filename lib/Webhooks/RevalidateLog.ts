@@ -2,7 +2,9 @@
 
 import { formatDate } from 'date-fns';
 
-const webhookUrl = process.env.REVALIDATION_LOG_WEBHOOK_URL;
+import { env } from '@/env';
+
+const webhookUrl = env.REVALIDATION_LOG_WEBHOOK_URL;
 
 export const sendRevalidationLog = async (reqUrl: string) => {
   try {

@@ -3,9 +3,10 @@ import React from 'react';
 import { Resend } from 'resend';
 
 import OrderConfirmation from '@/emails/OrderConfirmation';
+import { env } from '@/env';
 import db from '@/lib/db';
 
-const resend = new Resend(process.env.RESEND_KEY);
+const resend = new Resend(env.RESEND_KEY);
 
 export const OrderConfirmationEmail = async ({ orderId }: { orderId: string }) => {
   const order = await db.order.findUnique({

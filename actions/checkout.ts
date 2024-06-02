@@ -2,6 +2,7 @@
 import Stripe from 'stripe';
 import { z } from 'zod';
 
+import { env } from '@/env';
 import { CartItem } from '@/hooks/use-cart';
 import db from '@/lib/db';
 import { stripe } from '@/lib/stripe';
@@ -94,8 +95,8 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
       line_items,
       mode: 'payment',
       payment_method_types: ['card'],
-      success_url: `${process.env.AUTH_TRUST_HOST}/checkout?success=1`,
-      cancel_url: `${process.env.AUTH_TRUST_HOST}/checkout?failed=1`,
+      success_url: `${env.NEXT_PUBLIC_APP_URL}/checkout?success=1`,
+      cancel_url: `${env.NEXT_PUBLIC_APP_URL}/checkout?failed=1`,
       phone_number_collection: {
         enabled: true,
       },

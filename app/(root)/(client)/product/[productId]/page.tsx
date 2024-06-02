@@ -6,6 +6,7 @@ import { RelatedProductsLoader } from '@/components/Loaders';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
 import { GetProductById } from '@/lib/PlexolytAPI/products';
+import { generateSeo } from '@/utils/generateSeo';
 
 import { ProductActions } from './components/ProductActions';
 import { RelatedProducts } from './components/RelatedCarousel';
@@ -16,6 +17,24 @@ interface ProductPageProps {
   };
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+export const generateMetadata = async ({ params }: ProductPageProps) => {
+  const { productId } = params;
+
+  const { data } = await GetProductById({ productId });
+  if (data) {
+    generateSeo({
+      title: `${data.name} - Plexolyt`,
+      description: data.description,
+      url: `/product/${productId}`,
+      image: {
+        url: data.images[0].imageUrl,
+        width: 675,
+        height: 675,
+      },
+    });
+  }
+};
 
 const page = async ({ params, searchParams }: ProductPageProps) => {
   const { productId } = params;

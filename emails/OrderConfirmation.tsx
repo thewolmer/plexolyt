@@ -15,11 +15,12 @@ import {
 } from '@react-email/components';
 import * as React from 'react';
 
+import { env } from '@/env';
 import { formatCurrency, formatDate } from '@/utils/formatter';
 
 import { OrderWithPayLoad } from '@/types/order/OrderWithProducts';
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.AUTH_TRUST_HOST}` : '';
+const baseUrl = process.env.VERCEL_URL ? `https://${env.NEXT_PUBLIC_APP_URL}` : '';
 
 export const OrderConfirmationEmail = ({ order }: { order: OrderWithPayLoad }) => (
   <Tailwind

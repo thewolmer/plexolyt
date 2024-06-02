@@ -1,6 +1,8 @@
+import { env } from '@/env';
+
 const headers = { 'Content-Type': 'application/json' };
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+const baseUrl = env.NEXT_PUBLIC_APP_URL;
 interface Props {
   tags?: string[];
   revalidate?: number;

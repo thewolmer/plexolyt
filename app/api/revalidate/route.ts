@@ -1,6 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { env } from '@/env';
 import { sendRevalidationLog } from '@/lib/Webhooks/RevalidateLog';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -8,7 +9,7 @@ import { sendRevalidationLog } from '@/lib/Webhooks/RevalidateLog';
 export const POST = (req: NextRequest) => {
   const authorization = req.headers.get('Authorization');
   const reqUrl = req.headers.get('Referer');
-  const secret = process.env.AUTH_SECRET;
+  const secret = env.AUTH_SECRET;
   if (!authorization || !reqUrl || !secret) {
     return NextResponse.json({ status: 401, message: 'Unauthorized' }, { status: 401 });
   }
