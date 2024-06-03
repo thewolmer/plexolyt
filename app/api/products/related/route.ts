@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import db from '@/lib/db';
 
-export const revalidate = 0;
+export const revalidate = 3600;
 export async function GET(request: NextRequest) {
   const categoryId = request.nextUrl.searchParams.get('category') || undefined;
   const product = request.nextUrl.searchParams.get('product') || undefined;
