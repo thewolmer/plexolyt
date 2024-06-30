@@ -1,4 +1,5 @@
 'use server';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { auth } from '@/auth';
@@ -56,6 +57,7 @@ export const createWidth = async (formData: z.infer<typeof formSchema>) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Width created successfully!', data: width };
   } catch (e) {
     console.log('[action:createWidth]', e);
@@ -76,6 +78,7 @@ export const deleteWidth = async (widthID: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Width deleted successfully!', data: width };
   } catch (e) {
     console.log('[action:deleteWidth]', e);
@@ -102,6 +105,7 @@ export const updateWidth = async (widthID: string, formData: z.infer<typeof form
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Width updated successfully!', data: width };
   } catch (e) {
     console.log('[action:updateWidth]', e);
