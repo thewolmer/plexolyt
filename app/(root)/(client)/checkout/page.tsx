@@ -1,8 +1,8 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
+import Script from 'next/script';
 import React from 'react';
 
-// import { getCheckoutProducts } from '@/actions/products.client';
 import { Image } from '@/components/Image';
 import { Separator } from '@/components/ui/separator';
 import { SVGSkeleton, Skeleton } from '@/components/ui/skeleton';
@@ -20,15 +20,6 @@ const CheckoutPage = () => {
   const isMounted = useMounted();
   const success = searchParams.get('success');
   const failed = searchParams.get('failed');
-  // const [products, setProducts] = useState<Product[]>([]);
-
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     const products = await getCheckoutProducts(cart.items);
-  //     setProducts(products as Product[]);
-  //   };
-  //   fetchProducts();
-  // }, [cart]);
 
   if (success === '1') {
     if (isMounted) {
@@ -54,81 +45,85 @@ const CheckoutPage = () => {
   }
 
   return (
-    <main>
-      <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>
-      <Separator />
-      <section className="flex w-full flex-col gap-5 md:flex-row md:justify-between">
-        <div className="space-y-4 p-10 md:w-1/2">
-          <h2 className="text-2xl font-bold">Order Summary</h2>
-          <Separator />
-          {isMounted ? (
-            <div className="flex flex-col gap-5">
-              {cart.items.map((item) => (
-                <div key={item.id} className="flex justify-between">
+    <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="beforeInteractive" />
+      <main>
+        <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>
+        <Separator />
+        <section className="flex w-full flex-col gap-5 md:flex-row md:justify-between">
+          <div className="space-y-4 p-10 md:w-1/2">
+            <h2 className="text-2xl font-bold">Order Summary</h2>
+            <Separator />
+            {isMounted ? (
+              <div className="flex flex-col gap-5">
+                {cart.items.map((item) => (
+                  <div key={item.id} className="flex justify-between">
+                    <div className="flex gap-5">
+                      <Image
+                        src={item.images[0].imageUrl}
+                        alt={item.name}
+                        className="h-20 w-20 rounded-2xl border object-cover shadow-xl"
+                        height={250}
+                        width={250}
+                      />
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-lg font-bold">{item.name}</h3>
+                        <div>
+                          <p className="text-sm">
+                            Color: {item.color?.name} | Length: {item.length?.name} | Width: {item.length?.name} |
+                            Gauge:
+                            {item.gauge?.name}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className=" text-lg font-bold">{formatCurrency(item.price)}</p>
+                      <p className="text-sm">Qty: {item.quantity}</p>
+                    </div>
+                  </div>
+                ))}
+
+                <Separator />
+                <div className="flex justify-between">
+                  <h3 className="text-lg font-bold">Total</h3>
+                  <p className="text-lg font-bold">{formatCurrency(total)}</p>
+                </div>
+              </div>
+            ) : (
+              [1, 2].map((i) => (
+                <div key={i} className="flex justify-between">
                   <div className="flex gap-5">
-                    <Image
-                      src={item.images[0].imageUrl}
-                      alt={item.name}
-                      className="h-20 w-20 rounded-2xl border object-cover shadow-xl"
-                      height={250}
-                      width={250}
-                    />
+                    <SVGSkeleton className="h-20 w-20 rounded-2xl border object-cover shadow-xl" />
                     <div className="flex flex-col gap-2">
-                      <h3 className="text-lg font-bold">{item.name}</h3>
+                      <h3>
+                        <Skeleton className="w-[416px] max-w-full" />
+                      </h3>
                       <div>
-                        <p className="text-sm">
-                          Color: {item.color?.name} | Length: {item.length?.name} | Width: {item.length?.name} | Gauge:
-                          {item.gauge?.name}
-                        </p>
+                        <div>
+                          <Skeleton className="w-[400px] max-w-full" />
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className=" text-lg font-bold">{formatCurrency(item.price)}</p>
-                    <p className="text-sm">Qty: {item.quantity}</p>
-                  </div>
-                </div>
-              ))}
-
-              <Separator />
-              <div className="flex justify-between">
-                <h3 className="text-lg font-bold">Total</h3>
-                <p className="text-lg font-bold">{formatCurrency(total)}</p>
-              </div>
-            </div>
-          ) : (
-            [1, 2].map((i) => (
-              <div key={i} className="flex justify-between">
-                <div className="flex gap-5">
-                  <SVGSkeleton className="h-20 w-20 rounded-2xl border object-cover shadow-xl" />
-                  <div className="flex flex-col gap-2">
-                    <h3>
-                      <Skeleton className="w-[416px] max-w-full" />
-                    </h3>
                     <div>
-                      <div>
-                        <Skeleton className="w-[400px] max-w-full" />
-                      </div>
+                      <Skeleton className="w-[72px] max-w-full" />
+                    </div>
+                    <div>
+                      <Skeleton className="w-[48px] max-w-full" />
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div>
-                    <Skeleton className="w-[72px] max-w-full" />
-                  </div>
-                  <div>
-                    <Skeleton className="w-[48px] max-w-full" />
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-        <div className="p-10 md:w-1/2">
-          <CheckoutForm items={cart.items} />
-        </div>
-      </section>
-    </main>
+              ))
+            )}
+          </div>
+          <div className="p-10 md:w-1/2">
+            <CheckoutForm items={cart.items} />
+          </div>
+        </section>
+      </main>
+    </>
   );
 };
 

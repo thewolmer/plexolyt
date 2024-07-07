@@ -13,6 +13,8 @@ const envSchema = z.object({
   RESEND_KEY: z.string(),
   NEXT_PUBLIC_GITHUB_TOKEN: z.string(),
   REVALIDATION_LOG_WEBHOOK_URL: z.string(),
+  RAZORPAY_API_ID: z.string(),
+  RAZORPAY_API_SECRET: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

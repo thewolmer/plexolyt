@@ -1,14 +1,19 @@
 'use server';
-import Stripe from 'stripe';
+import Razorpay from 'razorpay';
+import { Orders } from 'razorpay/dist/types/orders';
 import { z } from 'zod';
 
 import { env } from '@/env';
 import { CartItem } from '@/hooks/use-cart';
 import db from '@/lib/db';
-import { stripe } from '@/lib/stripe';
 import { CheckOutFormSchema } from '@/prisma/form-schema.client';
 
-export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof CheckOutFormSchema>) => {
+export const OrderCreate = async (cartItems: CartItem[], values: z.infer<typeof CheckOutFormSchema>) => {
+  const razorpay = new Razorpay({
+    key_id: env.RAZORPAY_API_ID,
+    key_secret: env.RAZORPAY_API_SECRET,
+  });
+
   try {
     if (!cartItems || cartItems.length === 0) {
       throw new Error('No Item found in cart');
@@ -26,24 +31,11 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
       const cartItem = cartItems.find((item) => item.id === product.id);
       return {
         ...product,
-        quantity: cartItem?.quantity,
+        quantity: cartItem?.quantity || 1,
       };
     });
 
-    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
-    checkoutProducts.forEach((checkoutProducts) => {
-      line_items.push({
-        price_data: {
-          currency: 'INR',
-          product_data: {
-            name: checkoutProducts.name,
-          },
-          unit_amount: checkoutProducts.price * 100,
-        },
-        quantity: checkoutProducts.quantity || 1,
-      });
-    });
+    const amount = checkoutProducts.reduce((total, product) => total + (product.price * product.quantity || 1), 0);
 
     const order = await db.order.create({
       data: {
@@ -56,7 +48,7 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
         state: values.state,
         postal_code: values.postal_code,
         country: values.country,
-        amount: 0,
+        amount: amount,
         order_status: 'PENDING',
         orderItems: {
           create: cartItems.map((item) => ({
@@ -91,22 +83,18 @@ export const Checkout = async (cartItems: CartItem[], values: z.infer<typeof Che
       },
     });
 
-    const session = await stripe.checkout.sessions.create({
-      line_items,
-      mode: 'payment',
-      payment_method_types: ['card'],
-      success_url: `${env.NEXT_PUBLIC_APP_URL}/checkout?success=1`,
-      cancel_url: `${env.NEXT_PUBLIC_APP_URL}/checkout?failed=1`,
-      phone_number_collection: {
-        enabled: true,
-      },
-      metadata: {
+    const options = {
+      amount: order.amount * 100,
+      currency: 'INR',
+      receipt: order.id.toString(),
+      payment_capture: 1,
+      notes: {
         orderId: order.id,
       },
-    });
+    };
 
-    console.log(session);
-    return session;
+    const paymentResponse = await razorpay.orders.create(options);
+    return paymentResponse as Orders.RazorpayOrder;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error);

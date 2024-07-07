@@ -50,6 +50,7 @@
     "next-themes": "^0.3.0",
     "prisma": "^5.13.0",
     "query-string": "^9.0.0",
+    "razorpay": "^2.9.4",
     "react": "^18",
     "react-dom": "^18",
     "react-email": "2.1.4",
