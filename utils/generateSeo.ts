@@ -6,7 +6,11 @@ interface Props {
   title: string;
   description: string;
   url: string;
-  image?: string;
+  image?: {
+    url?: string;
+    width?: number;
+    height?: number;
+  };
 }
 
 export const generateSeo = ({ title, description, url, image }: Props): Metadata => ({
@@ -22,9 +26,9 @@ export const generateSeo = ({ title, description, url, image }: Props): Metadata
     type: 'website',
     images: [
       {
-        url: image ? image : siteConfig.ogImage,
-        width: 1200,
-        height: 675,
+        url: image?.url ? image.url : siteConfig.ogImage,
+        width: image?.width ? image.width : 1200,
+        height: image?.height ? image.height : 675,
       },
     ],
   },
@@ -35,9 +39,9 @@ export const generateSeo = ({ title, description, url, image }: Props): Metadata
     description,
     images: [
       {
-        url: image ? image : siteConfig.ogImage,
-        width: 1200,
-        height: 675,
+        url: image?.url ? image.url : siteConfig.ogImage,
+        width: image?.width ? image.width : 1200,
+        height: image?.height ? image.height : 675,
       },
     ],
   },

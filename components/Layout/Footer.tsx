@@ -27,26 +27,26 @@ const Social = [
 const Legal = [
   {
     name: 'Terms of Service',
-    href: '/tos',
+    href: '/legal/tos',
   },
   {
     name: 'Privacy Policy',
-    href: '/privacy-policy',
+    href: '/legal/privacy-policy',
   },
   {
     name: 'Refund Policy',
-    href: '/refund-policy',
+    href: '/legal/refund-policy',
   },
   {
     name: 'Shipping Policy',
-    href: '/shipping-policy',
+    href: '/legal/shipping-policy',
   },
 ];
 
 const Contact = [
   {
-    name: 'email@something.com',
-    href: 'mailto:',
+    name: siteConfig.email,
+    href: `mailto:${siteConfig.email}`,
     icon: MailIcon,
   },
   {
@@ -55,8 +55,8 @@ const Contact = [
     icon: PhoneIcon,
   },
   {
-    name: siteConfig.location,
-    href: '#',
+    name: siteConfig.location.address,
+    href: `https://www.google.com/maps?q=${siteConfig.location.lat},${siteConfig.location.lng}`,
     icon: LocationPinIcon,
   },
 ];
@@ -111,13 +111,15 @@ export const Footer = () => (
             <ul className="mt-8 space-y-4 text-sm">
               {Contact.map((item) => (
                 <li key={item.name}>
-                  <Link
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex flex-col items-center justify-center gap-1.5 md:flex-row md:items-start "
                     href={item.href}
                   >
                     <item.icon className="size-5 shrink-0 text-foreground" />
                     <span className="flex-1 text-muted-foreground">{item.name}</span>
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

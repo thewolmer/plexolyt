@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.2](https://github.com/thewolmer/plexolyt/branches/compare/v0.1.2..v0.1.1) (2024-06-01)
+
+
+### Others
+
+* Update DropdownMenuContent width to 40 in DashboardNavLinks ([10c1e46](https://github.com/thewolmer/plexolyt/commits/10c1e46ea5580d8926d60327ad6b7f6a31e2f3b8))
+
+
+### Features
+
+* Add Change Log & categories on Home page ([5fb0cb5](https://github.com/thewolmer/plexolyt/commits/5fb0cb5cdb4c858f60e42feabfc16bee804929d5))
+* Add gauge information to product details ([589e8ce](https://github.com/thewolmer/plexolyt/commits/589e8ce7dea9340e6034b82b09cde547490bdb3a))
+* Add gauge to product columns and filters ([b1d7ca7](https://github.com/thewolmer/plexolyt/commits/b1d7ca71624a2238f4a1fd13c3161871c932ff56))
+* Add radio selection of color, length, width and gauge on product page. Add new formSchema in products fetch action. ([a47165d](https://github.com/thewolmer/plexolyt/commits/a47165d871a956c764614baea20a847ac7beb1df))
+* Add Related Products Carousel component for displaying related products ([cdd94e6](https://github.com/thewolmer/plexolyt/commits/cdd94e6701007453e4ecef5bddc698b3484424f7))
+* Add subcategory to product form ([a8c1534](https://github.com/thewolmer/plexolyt/commits/a8c153424c090186e39452266bfd1a3b21ae39a6))
+* Add textColor field to Category model and update Billboard component ([2ee6424](https://github.com/thewolmer/plexolyt/commits/2ee6424f91253a575d9616cc974e1cf6522f992a))
+* Overall Optimization of Filters and Multiselect URL params, Add Loading state UI. ([b8bc3ae](https://github.com/thewolmer/plexolyt/commits/b8bc3ae1900854a1d3ab9edc31494eed3caef118))
+* Update DashboardNavBar to include sign out functionality on Mobile ([5043879](https://github.com/thewolmer/plexolyt/commits/5043879a2ecd5352316800ced0701f9db2237f12))
+* Update Database Schema to have multiple colors, lengths, widths and gauges associated with them. Add gauge entity. Update Products data table on dashboard. Update products fetch server action to work with new schema. ([b84e30c](https://github.com/thewolmer/plexolyt/commits/b84e30c3dd2f2b038b23eaa9adc55fc8ba8b6c95))
+* Update GitHub token in getCommits function ([de7aa08](https://github.com/thewolmer/plexolyt/commits/de7aa087282d732251bfe94af5e0d43b7f80eeb9))
+
+
+### Bug Fixes
+
+* dashboard and commit data is now fetched on server side, changed auth token to environment variable ([e7058d7](https://github.com/thewolmer/plexolyt/commits/e7058d71454ba7f33446103223824581bee4a3db))
+* Dashboard cache issue, Add separate actions for client - Replace CreatedAt with UpdatedAt Relative date - Add flex-wrap wherever needed. ([b42c9e2](https://github.com/thewolmer/plexolyt/commits/b42c9e2b8ca7d1b54b9a88714a8b0627e4aa1a24))
+* Rename the variable `searchParams.subCategory` to `searchParams.type` for improved clarity and consistency with the naming convention used in the codebase. ([cd4aaac](https://github.com/thewolmer/plexolyt/commits/cd4aaace110cfb38629a1ca365fb7713a3848d01))
+
+
+### Code Refactoring
+
+* Add `unstable_cache` caching on Server and Client requests ([85abc06](https://github.com/thewolmer/plexolyt/commits/85abc06ee6f3572a04609eec516cc7db8c9fc071))
+* Add client queries to route handles in api. - Add cache ([f1fab93](https://github.com/thewolmer/plexolyt/commits/f1fab93b71dfe0fa3ad6862a7a26716b62194cbb))
+* revalidateTag ([cfca1b5](https://github.com/thewolmer/plexolyt/commits/cfca1b55cb7af2265c9b2e19221f6fba822862b2))
+* Update baseUrl to use NEXT_PUBLIC_APP_URL ([145018d](https://github.com/thewolmer/plexolyt/commits/145018d61c57cca3fd474d63493acb28156cb258))
+* Update CardHeader styling for responsive layout ([1f6b3dd](https://github.com/thewolmer/plexolyt/commits/1f6b3dd033e165a70dbbda46bfd9387305c3f3fa))
+* Update Cart component to remove item by object instead of ID ([d0454fb](https://github.com/thewolmer/plexolyt/commits/d0454fb95816160b8ac0243063ecd95fde0ec9f9))
+* Update data properties to be optional in response interfaces ([c7b436e](https://github.com/thewolmer/plexolyt/commits/c7b436e9136a6e5f6b23f1fe8486e0c7d7d660f8))
+* Update page content and component names for PVC Insulated Wire and Cable ([2aa741a](https://github.com/thewolmer/plexolyt/commits/2aa741ac2ec9e2f7c496719b3dbd1c255e93e0ef))
+* Update StoreNavBar link to "/for-wholesalers" ([560f685](https://github.com/thewolmer/plexolyt/commits/560f6854a6c759ceb162e3ac25c235f1b2da67c1))
+* Update token with NEXT_PUBLIC ([daa0eaf](https://github.com/thewolmer/plexolyt/commits/daa0eafa6e366d2e1fcc61fc5bcf09e399fe6069))
+
 ## 0.1.1 (2024-05-28)
 
 

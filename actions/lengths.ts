@@ -79,6 +79,7 @@ export const deleteLength = async (lengthID: string) => {
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Length deleted successfully!', data: length };
   } catch (e) {
     console.log('[action:deleteLength]', e);
@@ -105,6 +106,7 @@ export const updateLength = async (lengthID: string, formData: z.infer<typeof fo
       },
     });
     revalidatePath('/');
+    revalidateTag('entities');
     return { status: 200, message: 'Length updated successfully!', data: length };
   } catch (e) {
     console.log('[action:updateLength]', e);

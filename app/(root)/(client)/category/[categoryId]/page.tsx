@@ -2,6 +2,8 @@ import React, { Suspense } from 'react';
 
 import { ProductListLoader } from '@/components/Loaders';
 import { FiltersLoader } from '@/components/Loaders/FiltersLoader';
+import { GetCategoryById } from '@/lib/PlexolytAPI/categories';
+import { generateSeo } from '@/utils/generateSeo';
 
 import { Billboard } from './components/Billboard';
 import { Filters } from './components/Filters';
@@ -13,6 +15,24 @@ interface Props {
   };
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+export const generateMetadata = async ({ params }: Props) => {
+  const { data } = await GetCategoryById(params);
+
+  if (data) {
+    generateSeo({
+      title: `${data.name} - Plexolyt`,
+      description: data.description,
+      url: `/category/${params.categoryId}`,
+      image: {
+        url: data.billboard.imageUrl,
+        width: 1200,
+        height: 675,
+      },
+    });
+  }
+};
+
 const CategoryPage = async ({ params, searchParams }: Props) => (
   <div className="min-h-screen w-full">
     <Billboard id={params.categoryId} />

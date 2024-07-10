@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: siteConfig.name,
     url: '/',
-    locale: 'en_GB',
+    locale: 'en_IN',
     type: 'website',
     images: [
       {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     creator: siteConfig.twitterHandle,
-    title: `NFT Marketplace – Buy, Sell & Support Web3 | ${siteConfig.name}`,
+    title: `${siteConfig.name}`,
     description: siteConfig.description,
     images: [
       {

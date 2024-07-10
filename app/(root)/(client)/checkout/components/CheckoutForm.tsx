@@ -5,13 +5,15 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { Checkout } from '@/actions/checkout';
+import { OrderCreate } from '@/actions/checkout';
 import { LoadingSpinner } from '@/components/Icons';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { CartItem } from '@/hooks/use-cart';
 import { CheckOutFormSchema } from '@/prisma/form-schema.client';
+
+import { Checkout } from './Checkout';
 
 interface CheckoutFormProps {
   items: CartItem[];
@@ -38,11 +40,9 @@ export const CheckoutForm = ({ items }: CheckoutFormProps) => {
   async function onSubmit(values: z.infer<typeof CheckOutFormSchema>) {
     setLoading(true);
     try {
-      const checkout = await Checkout(items, values);
-      if (!checkout.url) {
-        throw new Error('Failed to create checkout session');
-      }
-      window.location.href = checkout.url;
+      const session = await OrderCreate(items, values);
+      await Checkout(session, values);
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);

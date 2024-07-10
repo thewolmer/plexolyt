@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: 'https://localhost:3000/',
+  siteUrl: 'https://plexolyt.com/',
   generateRobotsTxt: true,
   exclude: ['/api*'],
 };

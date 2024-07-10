@@ -3,6 +3,7 @@ import { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 import { admins } from '@/admins';
+import { env } from '@/env';
 
 export const authOptions: NextAuthConfig = {
   providers: [
@@ -31,5 +32,5 @@ export const authOptions: NextAuthConfig = {
     }),
   ],
   basePath: '/api/auth',
-  secret: process.env.AUTH_SECRET,
+  secret: env.AUTH_SECRET,
 };

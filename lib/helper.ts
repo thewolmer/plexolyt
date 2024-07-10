@@ -1,6 +1,8 @@
-// const headers = { 'X-Api-Key': env.ARMOBOT_API_KEY as string, 'Content-Type': 'application/json' };
+import { env } from '@/env';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+const headers = { 'Content-Type': 'application/json' };
+
+const baseUrl = env.NEXT_PUBLIC_APP_URL;
 interface Props {
   tags?: string[];
   revalidate?: number;
@@ -17,7 +19,7 @@ export const Get = async (uri: string, { tags, revalidate = 3600, searchParams }
     }
   }
   return await fetch(url.toString(), {
-    // headers,
+    headers,
     next: { revalidate, tags },
   });
 };

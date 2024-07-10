@@ -3,8 +3,13 @@ export type SiteConfig = {
   description: string;
   url: string;
   ogImage: string;
+  email: string;
   twitterHandle: string;
-  location: string;
+  location: {
+    address: string;
+    lat: number;
+    lng: number;
+  };
   links: {
     twitter: string;
     facebook: string;
