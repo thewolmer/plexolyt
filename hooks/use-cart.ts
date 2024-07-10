@@ -19,7 +19,7 @@ interface CartStore {
   addItem: (item: CartItem) => void;
   removeItem: (item: CartItem) => void;
   clearCart: () => void;
-  calculateItemTotal: (id: string) => number;
+  calculateItemTotal: (item: CartItem) => number;
   totalAmount: () => number;
 }
 export const useCart = create(
@@ -67,8 +67,15 @@ export const useCart = create(
         localStorage.removeItem('plexolyt-cart');
         toast.success('Cart cleared');
       },
-      calculateItemTotal: (id: string) => {
-        const item = get().items.find((i) => i.id === id);
+      calculateItemTotal: (cartItem: CartItem) => {
+        const item = get().items.find(
+          (i) =>
+            i.id === cartItem.id &&
+            i.color === cartItem.color &&
+            i.length === cartItem.length &&
+            i.width === cartItem.width &&
+            i.gauge === cartItem.gauge,
+        );
         if (!item || !item.quantity) return 0;
         return Number(item.price) * item.quantity;
       },

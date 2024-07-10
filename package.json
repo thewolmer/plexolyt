@@ -11,7 +11,8 @@
     "release": "commit-and-tag-version",
     "push": "git push --follow-tags origin main",
     "lint": "next lint",
-    "dev:email": "email dev"
+    "dev:email": "email dev",
+    "download:secrets": "doppler secrets download --project=work-plexolyt-website --config=dev --no-file --format=env > .env"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
