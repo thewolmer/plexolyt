@@ -45,7 +45,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="beforeInteractive" />
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <main>
         <h1 className="px-10 py-5 text-4xl font-extrabold">Checkout</h1>
         <Separator />
