@@ -31,8 +31,13 @@ export const Checkout = async (session: Orders.RazorpayOrder, values: CheckoutVa
       callback_url: '/api/order',
     };
 
-    const rzp = new (window as any).Razorpay(options);
-    rzp.open();
+    // Ensure the Razorpay script is loaded
+    if (typeof window.Razorpay === 'function') {
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } else {
+      console.error('Razorpay is not available');
+    }
   } catch (error) {
     console.error('Error in payment process', error);
   }
