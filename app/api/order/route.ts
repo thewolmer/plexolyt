@@ -1,63 +1,75 @@
-import { headers } from 'next/headers';
-import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import crypto from 'crypto';
 
-// import { OrderConfirmationEmail } from '@/actions/emails';
+import { NextResponse } from 'next/server';
+
 import { env } from '@/env';
 import db from '@/lib/db';
-import { stripe } from '@/lib/stripe';
+import { razorpay } from '@/lib/razorpay';
 
 export async function POST(req: Request) {
-  const body = await req.text();
-  const signature = headers().get('Stripe-Signature') as string;
-
-  let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRET);
-  } catch (err: unknown) {
-    return new NextResponse(`Webhook Error: ${(err as Error).message}`, { status: 400 });
-  }
+    const bodyText = await req.text();
+    const params = new URLSearchParams(bodyText);
+    const razorpay_payment_id = params.get('razorpay_payment_id');
+    const razorpay_order_id = params.get('razorpay_order_id');
+    const razorpay_signature = params.get('razorpay_signature');
 
-  if (event.type !== 'checkout.session.completed') {
-    return new NextResponse(null, { status: 200 });
-  }
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+      return new NextResponse(null, { status: 400, statusText: 'Missing required fields' });
+    }
 
-  const session = event.data.object as Stripe.Checkout.Session;
-  const id = session?.metadata?.orderId;
-  const paymentStatus = session.payment_status!;
-  const stripeId = session.id;
-  const total = session.amount_total! / 100;
-  const line_items = session.line_items?.data;
-  console.log('line_items', line_items);
+    const payment = await razorpay.orders.fetchPayments(razorpay_order_id);
+    const expectedSignature = crypto
+      .createHmac('sha256', env.RAZORPAY_API_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
 
-  await db.order.update({
-    where: {
-      id,
-    },
-    include: {
-      orderItems: {
-        select: {
-          product: {
-            select: {
-              id: true,
+    if (expectedSignature !== razorpay_signature) {
+      return new NextResponse(null, { status: 400, statusText: 'Invalid signature' });
+    }
+
+    if (payment.items.length === 0) {
+      return new NextResponse(null, { status: 400, statusText: 'No payments found for this order' });
+    }
+
+    const lastPayment = payment.items[payment.items.length - 1];
+    const id = lastPayment.notes.order;
+
+    await db.order.update({
+      where: { id },
+      include: {
+        orderItems: {
+          select: {
+            product: {
+              select: {
+                id: true,
+              },
             },
           },
         },
       },
-    },
-    data: {
-      payment_status: paymentStatus,
-      stripeId,
-      amount: total,
-      order_status: 'CONFIRMED',
-    },
-  });
+      data: {
+        payment_status: lastPayment.status,
+        payment_id: razorpay_payment_id,
+        payment_method: lastPayment.method,
+        payment_signature: razorpay_signature,
+        transaction_id:
+          lastPayment.acquirer_data.upi_transaction_id || lastPayment.acquirer_data.bank_transaction_id || 'Unknown',
+        vpa: lastPayment.vpa || 'Unknown',
+        amount: Number(lastPayment.amount) / 100,
+        bank: lastPayment.bank || 'Unknown',
+        order_status: 'CONFIRMED',
+      },
+    });
 
-  // TODO: FIX EMAIL CONFIRMATION
-  // await OrderConfirmationEmail({ orderId: order.id });
+    // TODO: FIX EMAIL CONFIRMATION
+    // await OrderConfirmationEmail({ orderId: updatedOrder.id });
 
-  // TODO: LOGIC TO UPDATE PRODUCT QUANTITY
-  // const productIds = order.orderItems.map((item) => item.product.id);
+    // TODO: LOGIC TO UPDATE PRODUCT QUANTITY
+    // const productIds = updatedOrder.orderItems.map((item) => item.product.id);
 
-  return new NextResponse(null, { status: 200 });
+    return NextResponse.redirect(new URL(`/checkout?success=true&order=${id}`, env.NEXT_PUBLIC_APP_URL.toString()));
+  } catch (error) {
+    return NextResponse.redirect(new URL(`/checkout?success=false&order=false`, env.NEXT_PUBLIC_APP_URL.toString()));
+  }
 }

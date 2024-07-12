@@ -18,6 +18,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Copy } from '@/utils/Copy';
+import { truncateId } from '@/utils/truncateId';
 
 import { OrderColumn } from './columns';
 import { OrderStatusForm } from './OrderStatusForm';
@@ -66,15 +67,6 @@ export const CellActions = ({ data }: CellActionsProps) => {
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Payment Id</TableCell>
-                    <TableCell
-                      onClick={() => Copy(order?.stripeId as string)}
-                      className=" max-w-[200px] truncate text-right"
-                    >
-                      {order?.stripeId && `${order.stripeId.slice(0, 11)}...${order.stripeId.slice(-11)}`}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
                     <TableCell className="font-medium">Name</TableCell>
                     <TableCell className="text-right">{order?.name}</TableCell>
                   </TableRow>
@@ -98,9 +90,49 @@ export const CellActions = ({ data }: CellActionsProps) => {
                     <TableCell className="font-medium">Amount</TableCell>
                     <TableCell className="text-right">{order?.amount}</TableCell>
                   </TableRow>
+
                   <TableRow>
                     <TableCell className="font-medium">Payment Status</TableCell>
                     <TableCell className="text-right">{order?.payment_status}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">RazporPay Payment Id</TableCell>
+                    <TableCell
+                      onClick={() => Copy(order?.payment_id as string)}
+                      className=" max-w-[200px] truncate text-right"
+                    >
+                      {truncateId(order?.payment_id)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">RazporPay Order Id</TableCell>
+                    <TableCell
+                      onClick={() => Copy(order?.razorpay_order_id as string)}
+                      className=" max-w-[200px] truncate text-right"
+                    >
+                      {truncateId(order?.razorpay_order_id)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Payment Method</TableCell>
+                    <TableCell className="text-right">{order?.payment_method}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Bank</TableCell>
+                    <TableCell className="text-right">{order?.bank}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">VPA</TableCell>
+                    <TableCell className="text-right">{order?.vpa}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">UPI/ Bank Transaction Id</TableCell>
+                    <TableCell
+                      onClick={() => Copy(order?.transaction_id as string)}
+                      className=" max-w-[200px] truncate text-right"
+                    >
+                      {truncateId(order?.transaction_id)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Order Created At</TableCell>
@@ -113,10 +145,6 @@ export const CellActions = ({ data }: CellActionsProps) => {
                     <TableCell className="text-right">
                       {order?.updatedAt ? format(new Date(order.updatedAt), 'PPpp') : 'N/A'}
                     </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Products Count</TableCell>
-                    <TableCell className="text-right">{order?.orderItems.length}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

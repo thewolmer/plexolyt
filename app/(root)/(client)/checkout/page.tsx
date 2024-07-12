@@ -19,23 +19,22 @@ const CheckoutPage = () => {
   const total = cart.items.reduce((acc, item) => acc + Number(item.price) * (item.quantity || 1), 0);
   const isMounted = useMounted();
   const success = searchParams.get('success');
-  const failed = searchParams.get('failed');
+  const order = searchParams.get('order');
 
-  if (success === '1') {
+  if (success === 'true' && order) {
     if (isMounted) {
       cart.clearCart();
     }
     return (
       <main className="flex h-[90vh] flex-col items-center justify-center p-10">
         <h1 className="text-center text-4xl font-bold">Thank you for your order.</h1>
+        <h2 className="text-center text-xl font-bold opacity-70"> Order Id: {order}</h2>
         <p className="text-center">
           Your order has been placed successfully, You will receive a confirmation email shortly.
         </p>
       </main>
     );
-  }
-
-  if (failed === '1') {
+  } else if (success === 'false' && order) {
     return (
       <main className="flex h-[90vh] flex-col items-center justify-center p-10">
         <h1 className="text-center text-4xl font-bold text-destructive">Order failed.</h1>

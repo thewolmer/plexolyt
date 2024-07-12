@@ -45,7 +45,7 @@ const OrdersPage = async ({ searchParams }: { searchParams: searchParams }) => {
     payment_status: order.payment_status,
     order_status: order.order_status,
     amount: order.amount,
-    stripeId: order.stripeId,
+    stripeId: order.payment_id,
     updatedAt: format(order.updatedAt, 'PPpp'),
     createdAt: format(order.createdAt, 'PPpp'),
   }));
