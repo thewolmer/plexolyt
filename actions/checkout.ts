@@ -1,19 +1,13 @@
 'use server';
-import Razorpay from 'razorpay';
 import { Orders } from 'razorpay/dist/types/orders';
 import { z } from 'zod';
 
-import { env } from '@/env';
 import { CartItem } from '@/hooks/use-cart';
 import db from '@/lib/db';
+import { razorpay } from '@/lib/razorpay';
 import { CheckOutFormSchema } from '@/prisma/form-schema.client';
 
 export const OrderCreate = async (cartItems: CartItem[], values: z.infer<typeof CheckOutFormSchema>) => {
-  const razorpay = new Razorpay({
-    key_id: env.RAZORPAY_API_ID,
-    key_secret: env.RAZORPAY_API_SECRET,
-  });
-
   try {
     if (!cartItems || cartItems.length === 0) {
       throw new Error('No Item found in cart');
@@ -84,17 +78,16 @@ export const OrderCreate = async (cartItems: CartItem[], values: z.infer<typeof 
     });
 
     const options = {
-      amount: order.amount * 100,
+      amount: amount * 100,
       currency: 'INR',
-      receipt: order.id.toString(),
       payment_capture: 1,
       notes: {
-        orderId: order.id,
+        order: order.id,
       },
     };
 
-    const paymentResponse = await razorpay.orders.create(options);
-    return paymentResponse as Orders.RazorpayOrder;
+    const paymentResponse: Orders.RazorpayOrder = await razorpay.orders.create(options);
+    return paymentResponse;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error);

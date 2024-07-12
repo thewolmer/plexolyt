@@ -10,9 +10,7 @@ import { OrderStatusBadge } from './OrderStatusBadge';
 
 export type OrderColumn = {
   id: string;
-  stripeId: string;
   name: string;
-  postal_code: string;
   orderItemNames: string;
   payment_status: string;
   amount: number;

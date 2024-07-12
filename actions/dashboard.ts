@@ -4,7 +4,7 @@ import db from '@/lib/db';
 export const getTotalRevenue = async () => {
   const paidOrders = await db.order.findMany({
     where: {
-      payment_status: 'paid',
+      payment_status: 'captured',
     },
     include: {
       orderItems: {
@@ -24,7 +24,7 @@ export const getTotalRevenue = async () => {
 export const getSalesCount = async () => {
   const paidOrders = await db.order.count({
     where: {
-      payment_status: 'paid',
+      payment_status: 'captured',
     },
   });
 
