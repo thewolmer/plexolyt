@@ -1,30 +1,36 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'query-string';
+import { useCallback } from 'react';
 
 type Key = 'color' | 'length' | 'width' | 'gauge' | 'type';
+
+const debounce = (func: Function, delay: number) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
 
 export const useUpdateSearchParams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const updateSearchParams = (key: Key, value: string) => {
+  const updateSearchParams = useCallback( async (key: Key, value: string, setLoading: (loading: boolean) => void) => {
+    setLoading(true); 
     const current = qs.parse(searchParams.toString());
     const query: { [key in Key]?: string | string[] } = { ...current };
 
     if (current[key] !== undefined) {
-      // If the key already exists
       if (Array.isArray(current[key])) {
         const existingValues = current[key] as string[];
         if (existingValues.includes(value)) {
-          // If the value is already present, remove it
           query[key] = existingValues.filter((v) => v !== value);
         } else {
-          // If the value is not already present, add it
           query[key] = [...existingValues, value];
         }
       } else {
-        // If it's not an array (i.e., a single value), toggle its presence
         query[key] = current[key] === value ? undefined : [current[key] as string, value];
       }
     } else {
@@ -41,8 +47,12 @@ export const useUpdateSearchParams = () => {
 
     router.push(url, {
       scroll: false,
-    });
-  };
+    })
+    setLoading(false); 
 
-  return updateSearchParams;
+  }, [router, searchParams]);
+
+  const debouncedUpdateSearchParams = useCallback(debounce(updateSearchParams, 300), [updateSearchParams]);
+
+  return debouncedUpdateSearchParams;
 };
