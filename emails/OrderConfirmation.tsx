@@ -98,9 +98,9 @@ export const OrderConfirmationEmail = ({ order }: { order: OrderWithPayLoad }) =
                 <Column style={{ paddingLeft: '22px' }}>
                   <Text style={productTitle}>{item.product.name}</Text>
                   <Text style={productDescription}>
-                    {item.product.category.name} <span style={divisor}>|</span> {item.product.color}{' '}
-                    <span style={divisor}>|</span> {item.product.length} <span style={divisor}>|</span>{' '}
-                    {item.product.width}
+                    {item.product.category.name} <span style={divisor}>|</span> {item.product.color.name}{' '}
+                    <span style={divisor}>|</span> {item.product.length.name} <span style={divisor}>|</span>{' '}
+                    {item.product.width.name}
                   </Text>
                 </Column>
 

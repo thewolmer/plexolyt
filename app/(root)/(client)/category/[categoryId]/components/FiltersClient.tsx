@@ -3,7 +3,7 @@ import { Color, Gauge, Length, SubCategory, Width } from '@prisma/client';
 import { FilterIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import qs from 'query-string';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -87,7 +87,6 @@ export const FiltersClient = ({ colors, lengths, widths, gauges, subCategories }
 function FilterAccordions({ colors, lengths, widths, gauges, subCategories }: Props) {
   const accordionValues = [subCategories, colors, lengths, widths, gauges];
   const accordionLabels = ['type', 'color', 'length', 'width', 'Gauge'];
-  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const updateSearchParams = useUpdateSearchParams();
   const current = qs.parse(searchParams.toString());
@@ -107,16 +106,14 @@ function FilterAccordions({ colors, lengths, widths, gauges, subCategories }: Pr
                     <Button
                       key={item.id}
                       variant={isSelected ? 'default' : 'outline'}
-                      disabled={loading}
                       onClick={() =>
                         updateSearchParams(
                           accordionLabels[index] as 'type' | 'color' | 'length' | 'width' | 'gauge',
                           item.id,
-                          setLoading
                         )
                       }
                     >
-                   {item.name}
+                      {item.name}
                     </Button>
                   );
                 })}
